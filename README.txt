@@ -1,0 +1,3 @@
+
+This script builds functions for deleting and reblogging old posts, but 
+I'm still in the process of building a program which does interesting things...
