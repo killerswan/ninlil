@@ -13,11 +13,11 @@ open System.Drawing
 
 
 // command line args
-let cmdline = System.Environment.GetCommandLineArgs()
-let blog = cmdline.[1]
-let api = "http://" + blog + ".tumblr.com/api" 
-let email = cmdline.[2]
-let password = cmdline.[3]
+let cmdline    = System.Environment.GetCommandLineArgs()
+let blog       = cmdline.[1]
+let api        = "http://" + blog + ".tumblr.com/api" 
+let email      = cmdline.[2]
+let password   = cmdline.[3]
 
 
 
@@ -29,9 +29,9 @@ let getDocRaw (url:string) =
    let getpage (url:string) = 
       async {
          // see Expert F# at 383, etc.
-         let req = WebRequest.Create(url, Timeout=5)
-         use! response = req.AsyncGetResponse()
-         use reader = new StreamReader(response.GetResponseStream())
+         let req        = WebRequest.Create(url, Timeout=5)
+         use! response  = req.AsyncGetResponse()
+         use reader     = new StreamReader(response.GetResponseStream())
          return reader.ReadToEnd()
       }
 
@@ -52,11 +52,11 @@ let getDoc (url:string) =
 ///////////////////////////////////////////////
 // get data
 let getPosts start num =
-   let urlbase = api + "/read"
+   let cmd = api + "/read"
    //let start = 2345
    //let num = 7
    let urltype = "photo"
-   let url = sprintf "%s?start=%d&num=%d&type=%s" urlbase start num urltype 
+   let url = sprintf "%s?start=%d&num=%d&type=%s" cmd start num urltype 
 
    let doc = getDoc url
 
@@ -65,24 +65,24 @@ let getPosts start num =
 
    // process the data
    let tumblr = doc.ChildNodes.Item(1)
-   let posts = tumblr.ChildNodes.Item(1)
+   let posts  = tumblr.ChildNodes.Item(1)
 
-   // stats
-   let start  = posts.Attributes.GetNamedItem("start").Value
+   // overall statistics
+   let start = posts.Attributes.GetNamedItem("start").Value
    let total = posts.Attributes.GetNamedItem("total").Value
 
    let postsFound = 
       [
          for ii in 0..(num-1) do
-            let post = posts.ChildNodes.Item(ii)
-            let id = post.Attributes.GetNamedItem("id").Value
-            let reblogkey = post.Attributes.GetNamedItem("reblog-key").Value
-            let date = post.Attributes.GetNamedItem("date-gmt").Value
+            let post       = posts.ChildNodes.Item(ii)
+            let id         = post.Attributes.GetNamedItem("id").Value
+            let reblogkey  = post.Attributes.GetNamedItem("reblog-key").Value
+            let date       = post.Attributes.GetNamedItem("date-gmt").Value
             yield (id, reblogkey, date, post)
       ]
 
-   // print one, including clickable URL
-   let y (id, reblogkey, date, post:XmlNode) = 
+   // display a post tuple
+   let display (id, reblogkey, date, post:XmlNode) = 
       let pic = post.ChildNodes.Item(1).InnerText
       printfn "id: %s, %s, %s -> %s" id reblogkey date pic
 
@@ -90,19 +90,19 @@ let getPosts start num =
    printfn "start: %s/%s" start total
 
    // print all
-   postsFound |> List.map y |> ignore
+   postsFound |> List.map display |> ignore
 
    (start, total, postsFound)
 
 
 ///////////////////////////////////////////////
 let delid id = 
-   let urlbase = api + "/delete"
-   let url = sprintf "%s?email=%s&password=%s&post-id=%s" urlbase email password id
+   let cmd = api + "/delete"
+   let url = sprintf "%s?email=%s&password=%s&post-id=%s" cmd email password id
    getDocRaw url
 
 let reblog id rkey =
-   let urlbase = api + "/reblog"
-   let url = sprintf "%s?email=%s&password=%s&post-id=%s&reblog-key=%s" urlbase email password id rkey
+   let cmd = api + "/reblog"
+   let url = sprintf "%s?email=%s&password=%s&post-id=%s&reblog-key=%s" cmd email password id rkey
    getDocRaw url
 
