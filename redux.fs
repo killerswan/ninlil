@@ -24,7 +24,8 @@ let password   = cmdline.[3]
 
 
 ///////////////////////////////////////////////
-// url -> page
+// FETCH A URL
+
 let getDocRaw (url:string) = 
    let getpage (url:string) = 
       async {
@@ -40,25 +41,39 @@ let getDocRaw (url:string) =
 
    (page)
 
-// url -> XML doc
-let getDoc (url:string) = 
-   let doc = new XmlDocument()
 
-   getDocRaw(url)
-   |> doc.LoadXml // so doc is mutable?
-
-   (doc)
 
 ///////////////////////////////////////////////
-// get data
-let getPosts start num =
-   let cmd = api + "/read"
-   //let start = 2345
-   //let num = 7
-   let urltype = "photo"
-   let url = sprintf "%s?start=%d&num=%d&type=%s" cmd start num urltype 
+// SIMPLE QUERIES
 
-   let doc = getDoc url
+// xml out
+let readPosts start num = getDocRaw <| api + "/read" +
+                                                   "?start=" + start + 
+                                                   "&num="   + num +
+                                                   "&type="  + "photo"
+
+// status out
+let deletePosts id       = getDocRaw <| api + "/delete" +
+                                                   "?email="      + email + 
+                                                   "&password="   + password + 
+                                                   "&post-id="    + id
+                     
+// new id out
+let reblogPosts id rkey  = getDocRaw <| api + "/reblog" + 
+                                                   "?email="      + email + 
+                                                   "&password="   + password + 
+                                                   "&post-id="    + id + 
+                                                   "&reblog-key=" + rkey
+
+
+
+///////////////////////////////////////////////
+// RESULT PROCESSING
+
+// after getPosts
+let processPosts postsXML =
+   let doc = new XmlDocument()
+   postsXML |> doc.LoadXml // so doc is mutable?
 
    // add prettier printing
    //fsi.AddPrinter( fun (x:XmlNode) -> x.OuterXml );;
@@ -94,15 +109,4 @@ let getPosts start num =
 
    (start, total, postsFound)
 
-
-///////////////////////////////////////////////
-let delid id = 
-   let cmd = api + "/delete"
-   let url = sprintf "%s?email=%s&password=%s&post-id=%s" cmd email password id
-   getDocRaw url
-
-let reblog id rkey =
-   let cmd = api + "/reblog"
-   let url = sprintf "%s?email=%s&password=%s&post-id=%s&reblog-key=%s" cmd email password id rkey
-   getDocRaw url
 
