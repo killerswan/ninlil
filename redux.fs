@@ -1,7 +1,10 @@
 // Copyright (c) Kevin Cantu <me@kevincantu.org>
 //
 // redux - manipulate old Tumblr posts
+
+
 ///////////////////////////////////////////////
+// dependencies
 
 open System.Collections.Generic
 open System.Net
@@ -12,15 +15,14 @@ open System.Xml
 open System.Drawing
 
 
+///////////////////////////////////////////////
 // command line args
+
 let cmdline    = System.Environment.GetCommandLineArgs()
 let blog       = cmdline.[1]
 let api        = "http://" + blog + ".tumblr.com/api" 
 let email      = cmdline.[2]
 let password   = cmdline.[3]
-
-
-
 
 
 ///////////////////////////////////////////////
@@ -40,7 +42,6 @@ let getDocRaw (url:string) =
    let page = Async.RunSynchronously(getpage url)
 
    (page)
-
 
 
 ///////////////////////////////////////////////
@@ -66,7 +67,6 @@ let reblogPost id rkey  = getDocRaw <| api + "/reblog" +
                                                    "&reblog-key=" + rkey
 
 
-
 ///////////////////////////////////////////////
 // RESULT PROCESSING
 
@@ -89,8 +89,7 @@ let processPosts postsXML =
    let num = posts.ChildNodes.Count
 
    let postsFound = 
-      if posts.HasChildNodes
-      then
+      if posts.HasChildNodes then
          [
                for ii in 0..(num-1) do
                   let post       = posts.ChildNodes.Item(ii)
@@ -99,7 +98,8 @@ let processPosts postsXML =
                   let date       = post.Attributes.GetNamedItem("date-gmt").Value
                   yield (id, reblogkey, date, post)
          ]
-      else []
+      else 
+         []
 
    // display a post tuple
    let display (id, reblogkey, date, post:XmlNode) = 
@@ -115,9 +115,10 @@ let processPosts postsXML =
    (start, total, postsFound)
 
 
-
 ///////////////////////////////////////////////
 // TEST
+
+printfn "demos begin..."
 
 // read some posts
 let (start, total, posts) = readPosts "6666" "4" |> processPosts
@@ -132,13 +133,9 @@ let ym (datestring:string) =
 // reblog those and delete original posts
 let yms = 
    posts 
-   |> Array.ofSeq
-   |> Array.map (fun (id, rkey, datestring, post) ->   // because this is a Seq, it is very lazy
+   |> List.map (fun (id, rkey, datestring, post) ->
       reblogPost id rkey   |> ignore
       deletePost id        |> ignore
       ym datestring
    )
-
-
-
 
