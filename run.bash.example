@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Where your Tumblr is BLOG.tumblr.com...
 
 mono redux.exe "$BLOG" "$MAIL" "$PASSWD"
