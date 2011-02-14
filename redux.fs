@@ -137,16 +137,13 @@ let test() =
 ///////////////////////////////////////////////
 // agents
 
-type Message = 
-   | Message0 of int * int
-   
 let reader = 
    MailboxProcessor.Start(
       fun inbox ->
          let rec loop() = 
             inbox.Scan(
                function 
-               | Message0 (start, count) -> 
+               | ((start: int), (count: int)) -> 
                   Some(async { 
                                  readPosts start count 
                                  |> processPosts 
@@ -158,4 +155,4 @@ let reader =
          loop()
       )
 
-reader.Post(Message0 (1, 5))
+reader.Post (1,5)
