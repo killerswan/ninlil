@@ -18,17 +18,17 @@ open System.Drawing
 ///////////////////////////////////////////////
 // command line args
 
-let cmdline    = System.Environment.GetCommandLineArgs()
-let blog       = cmdline.[1]
-let api        = "http://" + blog + ".tumblr.com/api" 
-let email      = cmdline.[2]
-let password   = cmdline.[3]
+let ( api, email, password ) = match System.Environment.GetCommandLineArgs() with
+                                 | [| _; blog; email; password |] -> 
+                                    ( ("http://" + blog + ".tumblr.com/api"), email, password )
+                                 | _ -> 
+                                    failwithf "Usage: mono exe BLOG EMAIL PASSWORD"
 
 
 ///////////////////////////////////////////////
 // FETCH A URL
 
-let getDocRaw (url:string) = 
+let getDocRaw (url:string) : string = 
    let getpage (url:string) = 
       async {
          // see Expert F# at 383, etc.
@@ -38,10 +38,8 @@ let getDocRaw (url:string) =
          return reader.ReadToEnd()
       }
 
-   // get data as XML
-   let page = Async.RunSynchronously(getpage url)
-
-   (page)
+   // get data as XML, return it
+   Async.RunSynchronously(getpage url)
 
 
 ///////////////////////////////////////////////
@@ -85,21 +83,18 @@ let processPosts postsXML =
    // overall statistics
    let start = posts.Attributes.GetNamedItem("start").Value
    let total = posts.Attributes.GetNamedItem("total").Value
+   let num   = posts.ChildNodes.Count
 
-   let num = posts.ChildNodes.Count
-
+   // posts.HasChildNodes
    let postsFound = 
-      if posts.HasChildNodes then
-         [
-               for ii in 0..(num-1) do
-                  let post       = posts.ChildNodes.Item(ii)
-                  let id         = post.Attributes.GetNamedItem("id").Value
-                  let reblogkey  = post.Attributes.GetNamedItem("reblog-key").Value
-                  let date       = post.Attributes.GetNamedItem("date-gmt").Value
-                  yield (id, reblogkey, date, post)
-         ]
-      else 
-         []
+      [
+         for ii in 0..(num-1) do
+            let post       = posts.ChildNodes.Item(ii)
+            let id         = post.Attributes.GetNamedItem("id").Value
+            let reblogkey  = post.Attributes.GetNamedItem("reblog-key").Value
+            let date       = post.Attributes.GetNamedItem("date-gmt").Value
+            yield (id, reblogkey, date, post)
+      ]
 
    // display a post tuple
    let display (id, reblogkey, date, post:XmlNode) = 
@@ -118,24 +113,26 @@ let processPosts postsXML =
 ///////////////////////////////////////////////
 // TEST
 
-printfn "demos begin..."
+let test() = 
 
-// read some posts
-let (start, total, posts) = readPosts "6666" "4" |> processPosts
+   printfn "demos begin..."
 
-// parses a datestring into integer (year, month)
-let ym (datestring:string) = 
-   // e.g., "2010-11-24 05:57:26 GMT"
-   // ignore everything after the yyyy-MM-dd
-   let datetime = System.DateTime.ParseExact( (datestring.Split [| ' ' |]).[0], "yyyy-MM-dd", null )
-   (datetime.Year, datetime.Month)
+   // read some posts
+   let (start, total, posts) = readPosts "6666" "4" |> processPosts
 
-// reblog those and delete original posts
-let yms = 
+   // parses a datestring into integer (year, month)
+   let ym (datestring:string) = 
+      // e.g., "2010-11-24 05:57:26 GMT"
+      // ignore everything after the yyyy-MM-dd
+      let datetime = System.DateTime.ParseExact( (datestring.Split [| ' ' |]).[0], "yyyy-MM-dd", null )
+      (datetime.Year, datetime.Month)
+
+   // reblog those and delete original posts
    posts 
-   |> List.map (fun (id, rkey, datestring, post) ->
-      reblogPost id rkey   |> ignore
-      deletePost id        |> ignore
-      ym datestring
+   |> List.map (
+      fun (id, rkey, datestring, post) ->
+         reblogPost id rkey   |> ignore
+         deletePost id        |> ignore
+         ym datestring
    )
 
