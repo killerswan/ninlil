@@ -3,8 +3,7 @@
 // redux - manipulate old Tumblr posts
 
 
-///////////////////////////////////////////////
-// dependencies
+// dependencies /////////////////////////////////////////////
 
 open System.Collections.Generic
 open System.Net
@@ -15,8 +14,7 @@ open System.Xml
 open System.Drawing
 
 
-///////////////////////////////////////////////
-// command line args
+// command line args /////////////////////////////////////////////
 
 let ( api, email, password ) = match System.Environment.GetCommandLineArgs() with
                                  | [| _; blog; email; password |] -> 
@@ -25,8 +23,7 @@ let ( api, email, password ) = match System.Environment.GetCommandLineArgs() wit
                                     failwithf "Usage: mono exe BLOG EMAIL PASSWORD"
 
 
-///////////////////////////////////////////////
-// FETCH A URL
+// fetch a URL /////////////////////////////////////////////
 
 let getDocRaw (url:string) : string = 
    // This function doesn't return, at all, if the URL is wrong 
@@ -45,8 +42,7 @@ let getDocRaw (url:string) : string =
    (Async.RunSynchronously(getpage url))
 
 
-///////////////////////////////////////////////
-// SIMPLE QUERIES
+// simple queries /////////////////////////////////////////////
 
 // xml out
 let readPosts (start:int) (num:int)       = getDocRaw <| api + "/read" +
@@ -68,8 +64,7 @@ let reblogPost (id:string) (rkey:string)  = getDocRaw <| api + "/reblog" +
                                                          "&reblog-key=" + rkey
 
 
-///////////////////////////////////////////////
-// RESULT PROCESSING
+// process XML results /////////////////////////////////////////////
 
 // after getPosts
 let processPosts postsXML =
@@ -113,8 +108,7 @@ let processPosts postsXML =
    (start, total, postsFound)
 
 
-///////////////////////////////////////////////
-// TEST
+// test /////////////////////////////////////////////
 
 let test() = 
    // read some posts
@@ -134,8 +128,7 @@ let test() =
          ym datestring))
 
 
-///////////////////////////////////////////////
-// agents
+// agents /////////////////////////////////////////////
 
 let reader = 
    MailboxProcessor.Start(
