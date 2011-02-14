@@ -136,3 +136,27 @@ let test() =
          ym datestring
    )
 
+
+///////////////////////////////////////////////
+// agents
+
+type Message = 
+   | Message0 of int * int
+   
+let reader = 
+   MailboxProcessor.Start(
+      fun inbox ->
+         let rec loop() = 
+            inbox.Scan(
+               function 
+               | Message0 (start,count) -> 
+                  Some(async {
+                     readPosts (sprintf "%d" start) (sprintf "%d" count) |> processPosts |> ignore
+                  })
+               //| _ -> 
+               //   None
+            )
+         loop()
+      )
+
+reader.Post(Message0 (1, 5))
