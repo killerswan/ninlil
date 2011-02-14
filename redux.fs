@@ -29,6 +29,9 @@ let ( api, email, password ) = match System.Environment.GetCommandLineArgs() wit
 // FETCH A URL
 
 let getDocRaw (url:string) : string = 
+   // This function doesn't return, at all, if the URL is wrong 
+   // in some ways. TODO: fix. 
+
    let getpage (url:string) = 
       async {
          // see Expert F# at 383, etc.
@@ -39,30 +42,30 @@ let getDocRaw (url:string) : string =
       }
 
    // get data as XML, return it
-   Async.RunSynchronously(getpage url)
+   (Async.RunSynchronously(getpage url))
 
 
 ///////////////////////////////////////////////
 // SIMPLE QUERIES
 
 // xml out
-let readPosts start num = getDocRaw <| api + "/read" +
-                                                   "?start=" + start + 
-                                                   "&num="   + num +
-                                                   "&type="  + "photo"
+let readPosts (start:int) (num:int)       = getDocRaw <| api + "/read" +
+                                                         "?start=" + (sprintf "%d" start) + 
+                                                         "&num="   + (sprintf "%d" num) +
+                                                         "&type="  + "photo"
 
 // status out
-let deletePost id       = getDocRaw <| api + "/delete" +
-                                                   "?email="      + email + 
-                                                   "&password="   + password + 
-                                                   "&post-id="    + id
+let deletePost (id:string)                = getDocRaw <| api + "/delete" +
+                                                         "?email="      + email + 
+                                                         "&password="   + password + 
+                                                         "&post-id="    + id
                      
 // new id out
-let reblogPost id rkey  = getDocRaw <| api + "/reblog" + 
-                                                   "?email="      + email + 
-                                                   "&password="   + password + 
-                                                   "&post-id="    + id + 
-                                                   "&reblog-key=" + rkey
+let reblogPost (id:string) (rkey:string)  = getDocRaw <| api + "/reblog" + 
+                                                         "?email="      + email + 
+                                                         "&password="   + password + 
+                                                         "&post-id="    + id + 
+                                                         "&reblog-key=" + rkey
 
 
 ///////////////////////////////////////////////
@@ -81,8 +84,8 @@ let processPosts postsXML =
    let posts  = tumblr.ChildNodes.Item(1)
 
    // overall statistics
-   let start = posts.Attributes.GetNamedItem("start").Value
-   let total = posts.Attributes.GetNamedItem("total").Value
+   let start = System.Convert.ToInt32(posts.Attributes.GetNamedItem("start").Value)
+   let total = System.Convert.ToInt32(posts.Attributes.GetNamedItem("total").Value)
    let num   = posts.ChildNodes.Count
 
    // posts.HasChildNodes
@@ -102,7 +105,7 @@ let processPosts postsXML =
       printfn "id: %s, %s, %s -> %s" id reblogkey date pic
 
    // print stats
-   printfn "%d of %s, starting at %s" num total start // should probably coerce all to integers
+   printfn "%d of %d, starting at %d" num total start
 
    // print all
    postsFound |> List.map display |> ignore
@@ -114,11 +117,8 @@ let processPosts postsXML =
 // TEST
 
 let test() = 
-
-   printfn "demos begin..."
-
    // read some posts
-   let (start, total, posts) = readPosts "6666" "4" |> processPosts
+   let (start, total, posts) = readPosts 6666 4 |> processPosts
 
    // parses a datestring into integer (year, month)
    let ym (datestring:string) = 
@@ -128,13 +128,10 @@ let test() =
       (datetime.Year, datetime.Month)
 
    // reblog those and delete original posts
-   posts 
-   |> List.map (
-      fun (id, rkey, datestring, post) ->
+   (posts |> List.map (fun (id, rkey, datestring, post) ->
          reblogPost id rkey   |> ignore
          deletePost id        |> ignore
-         ym datestring
-   )
+         ym datestring))
 
 
 ///////////////////////////////////////////////
@@ -149,12 +146,14 @@ let reader =
          let rec loop() = 
             inbox.Scan(
                function 
-               | Message0 (start,count) -> 
-                  Some(async {
-                     readPosts (sprintf "%d" start) (sprintf "%d" count) |> processPosts |> ignore
+               | Message0 (start, count) -> 
+                  Some(async { 
+                                 readPosts start count 
+                                 |> processPosts 
+                                 |> ignore
+                                 return! loop() 
                   })
-               //| _ -> 
-               //   None
+               //| _ -> None
             )
          loop()
       )
