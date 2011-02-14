@@ -110,22 +110,25 @@ let processPosts postsXML =
 
 // test /////////////////////////////////////////////
 
+// "2010-11-24 05:57:26 GMT" -> System.DateTime
+let processDate (datestring: string) =
+   (System.DateTime.ParseExact( (datestring.Split [| ' ' |]).[0], "yyyy-MM-dd", null )) 
+   // methods, e.g.:
+   // .Month, 
+   // .Year
+
 let test() = 
    // read some posts
    let (start, total, posts) = readPosts 6666 4 |> processPosts
-
-   // parses a datestring into integer (year, month)
-   let ym (datestring:string) = 
-      // e.g., "2010-11-24 05:57:26 GMT"
-      // ignore everything after the yyyy-MM-dd
-      let datetime = System.DateTime.ParseExact( (datestring.Split [| ' ' |]).[0], "yyyy-MM-dd", null )
-      (datetime.Year, datetime.Month)
 
    // reblog those and delete original posts
    (posts |> List.map (fun (id, rkey, datestring, post) ->
          reblogPost id rkey   |> ignore
          deletePost id        |> ignore
-         ym datestring))
+
+         let date = processDate datestring
+
+         (date.Year, date.Month)))
 
 
 // agents /////////////////////////////////////////////
@@ -149,3 +152,36 @@ let reader =
       )
 
 reader.Post (1,5)
+
+
+// find range to consider ////////////////////////////////
+
+// get the most recent post on a given date
+let cutoff (year: int) (month: int) : int = 
+   let dateOfPost (index: int) = 
+      let (start, total, posts) = readPosts index 1 |> processPosts
+
+      // srsly, TODO: make this post tuple a type
+      let (_,_,datestring,_) = posts |> List.head 
+      let date = processDate datestring
+
+      (date.Year, date.Month)
+
+   // start with latest post
+   let (start, total, posts) = readPosts 1 1 |> processPosts
+
+   // do a binary search on queries to the range of all posts 
+   // to find where the date we care about is
+   //
+   // binary search from 1 to total, testing via (dateOfPost i <= given month year)
+   0
+
+// TODO lots more stuff for posts earlier than that date
+let morestuff = 0
+
+
+
+
+
+
+
