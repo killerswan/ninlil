@@ -108,6 +108,10 @@ let processPosts postsXML =
    (start, total, postsFound)
 
 
+// compose read and process /////////////////////////////////////////////
+let readAndProcPosts a b = readPosts a b |> processPosts
+
+
 // test /////////////////////////////////////////////
 
 // "2010-11-24 05:57:26 GMT" -> System.DateTime
@@ -151,35 +155,86 @@ let reader =
          loop()
       )
 
-reader.Post (1,5)
+//reader.Post (1,5)
 
 
 // find range to consider ////////////////////////////////
 
+// date of post
+let dateOfPost (index: int) : int*int = 
+   let (start, total, posts) = readPosts index 1 |> processPosts
+
+   // srsly, TODO: make this post tuple a type
+   let (_,_,datestring,_) = posts |> List.head 
+   let date = processDate datestring
+
+   (date.Year, date.Month)
+
+
+
+// binsearch to find latest post before a given date
+let rec search (target: int*int) (newest: int) (oldest: int) : int option = 
+
+   // dates
+   // infix
+   let dateNewerThan (ya,ma) (yb,mb) : int =
+      match ((ya, ma), (yb, mb)) with
+      | _ when ya < yb -> -1
+      | _ when ya = yb && ma < mb -> -1
+      | _ when ya = yb && ma = mb -> 0
+      | _ when ya = yb && ma > mb -> 1
+      | _ when ya > yb -> 1
+      | _ -> 0 // humbug: silence warnings
+
+   // if we have a match, just step to the latest match
+   let rec walkToNewestMatch start =
+      match (dateNewerThan (dateOfPost (start-1)) target) with
+      | -1 -> None                        // if we're stepping backwards, oops
+      |  0 -> walkToNewestMatch (start-1)
+      |  1 -> Some(start)
+      |  _ -> None // humbug
+      
+   let middle = (newest + oldest) / 2   // overflow, but nobody has that many posts
+
+   if newest = oldest then
+      match (dateNewerThan (dateOfPost middle) target) with
+      | -1 -> Some(middle)
+      |  0 -> walkToNewestMatch middle
+      |  1 -> Some(middle+1)
+      |  _ -> None // humbug
+      (*
+      match (dateNewerThan (dateOfPost middle) target) with
+      | -1 -> match (dateNewerThan (dateOfPost (middle-1)) target) with
+              |  1 -> Some(middle)
+              |  _ -> None
+      |  0 -> walkToNewestMatch middle
+      |  1 -> match (dateNewerThan (dateOfPost (middle+1)) target) with
+              | -1 -> Some(middle+1)
+              |  _ -> None
+      |  _ -> None // humbug
+      *)
+   else
+      match (dateNewerThan (dateOfPost middle) target) with
+      | -1 -> search target newest (middle-1)
+      |  0 -> walkToNewestMatch middle
+      |  1 -> search target (middle+1) oldest
+      |  _ -> None // humbug
+
+
 // get the most recent post on a given date
-let cutoff (year: int) (month: int) : int = 
-   let dateOfPost (index: int) = 
-      let (start, total, posts) = readPosts index 1 |> processPosts
-
-      // srsly, TODO: make this post tuple a type
-      let (_,_,datestring,_) = posts |> List.head 
-      let date = processDate datestring
-
-      (date.Year, date.Month)
+let cutoff (year: int) (month: int) = 
 
    // start with latest post
    let (start, total, posts) = readPosts 1 1 |> processPosts
 
-   // do a binary search on queries to the range of all posts 
-   // to find where the date we care about is
-   //
-   // binary search from 1 to total, testing via (dateOfPost i <= given month year)
-   0
+   // find where the end of the date we care about is
+   let foundDatePostNum = search (year,month) start total
 
-// TODO lots more stuff for posts earlier than that date
-let morestuff = 0
+   foundDatePostNum
 
 
+cutoff 2010 12 |> ignore
+readPosts 847 2 |> processPosts |> ignore
 
 
 
