@@ -99,11 +99,13 @@ let processPosts postsXML =
       let pic = post.ChildNodes.Item(1).InnerText
       printfn "id: %s, %s, %s -> %s" id reblogkey date pic
 
+   (*
    // print stats
    printfn "%d of %d, starting at %d" num total start
 
    // print all
    postsFound |> List.map display |> ignore
+   *)
 
    (start, total, postsFound)
 
@@ -161,82 +163,57 @@ let reader =
 // find range to consider ////////////////////////////////
 
 // date of post
-let dateOfPost (index: int) : int*int = 
+let dateOfPost (index: int) : System.DateTime = 
    let (start, total, posts) = readPosts index 1 |> processPosts
 
    // srsly, TODO: make this post tuple a type
    let (_,_,datestring,_) = posts |> List.head 
-   let date = processDate datestring
 
-   (date.Year, date.Month)
-
+   (processDate datestring)
 
 
 // binsearch to find latest post before a given date
-let rec search (target: int*int) (newest: int) (oldest: int) : int option = 
+let rec search (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
-   // dates
-   // infix
-   let dateNewerThan (ya,ma) (yb,mb) : int =
-      match ((ya, ma), (yb, mb)) with
-      | _ when ya < yb -> -1
-      | _ when ya = yb && ma < mb -> -1
-      | _ when ya = yb && ma = mb -> 0
-      | _ when ya = yb && ma > mb -> 1
-      | _ when ya > yb -> 1
-      | _ -> 0 // humbug: silence warnings
-
-   // if we have a match, just step to the latest match
+   // if we have a match for the right date, step the the latest post on that date
    let rec walkToNewestMatch start =
-      match (dateNewerThan (dateOfPost (start-1)) target) with
-      | -1 -> None                        // if we're stepping backwards, oops
-      |  0 -> walkToNewestMatch (start-1)
-      |  1 -> Some(start)
-      |  _ -> None // humbug
+      let nextPostDate = dateOfPost (start-1)
+      match (nextPostDate > target) with
+      | true -> start
+      | false -> walkToNewestMatch (start-1)
       
-   let middle = (newest + oldest) / 2   // overflow, but nobody has that many posts
+   let middle = (newest + oldest) / 2
 
-   if newest = oldest then
-      match (dateNewerThan (dateOfPost middle) target) with
-      | -1 -> Some(middle)
-      |  0 -> walkToNewestMatch middle
-      |  1 -> Some(middle+1)
-      |  _ -> None // humbug
-      (*
-      match (dateNewerThan (dateOfPost middle) target) with
-      | -1 -> match (dateNewerThan (dateOfPost (middle-1)) target) with
-              |  1 -> Some(middle)
-              |  _ -> None
-      |  0 -> walkToNewestMatch middle
-      |  1 -> match (dateNewerThan (dateOfPost (middle+1)) target) with
-              | -1 -> Some(middle+1)
-              |  _ -> None
-      |  _ -> None // humbug
-      *)
-   else
-      match (dateNewerThan (dateOfPost middle) target) with
-      | -1 -> search target newest (middle-1)
-      |  0 -> walkToNewestMatch middle
-      |  1 -> search target (middle+1) oldest
-      |  _ -> None // humbug
+   let middleDate : System.DateTime = dateOfPost middle
+
+   match (middleDate, target) with
+   | a,b when newest =  oldest && a < b -> middle
+   | a,b when newest =  oldest && a = b -> walkToNewestMatch middle
+   | a,b when newest =  oldest && a > b -> middle+1
+   | a,b when newest <> oldest && a < b -> search target newest (middle-1)
+   | a,b when newest <> oldest && a = b -> walkToNewestMatch middle
+   | a,b when newest <> oldest && a > b -> search target (middle+1) oldest
 
 
 // get the most recent post on a given date
-let cutoff (year: int) (month: int) = 
+let cutoff (target: System.DateTime) = 
 
-   // start with latest post
+   // get the latest post
    let (start, total, posts) = readPosts 1 1 |> processPosts
 
    // find where the end of the date we care about is
-   let foundDatePostNum = search (year,month) start total
-
-   foundDatePostNum
+   (search target start total)
 
 
-cutoff 2010 12 |> ignore
-readPosts 847 2 |> processPosts |> ignore
+let p1 = cutoff (System.DateTime(2010,12,31))
+printfn "The latest post on or before that date is #%d" p1
 
+printfn ""
 
+let p2 = cutoff (System.DateTime(2011,7,8))
+printfn "The latest post on or before that date is #%d" p2
 
+printfn ""
 
+readPosts 1115 5 |> processPosts |> ignore
 
