@@ -151,11 +151,10 @@ let reader =
       )
 
 
-
-// find range to consider ////////////////////////////////
+// range to consider ////////////////////////////////
 
 // get the most recent post on a given date
-let cutoff (target: System.DateTime) = 
+let rangeEndingIn (targetDate: System.DateTime) : int*int = 
 
    // if we have a match for the right date, step the the latest post on that date
    let rec walkToNewestMatch (start: int) (target: System.DateTime) : int =
@@ -165,7 +164,7 @@ let cutoff (target: System.DateTime) =
       | false -> walkToNewestMatch (start-1) target
       
    // binsearch to find latest post before a given date
-   let rec search (target: System.DateTime) (newest: int) (oldest: int) : int = 
+   let rec cutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
       let middle = (newest + oldest) / 2
 
@@ -180,10 +179,13 @@ let cutoff (target: System.DateTime) =
       | a,b when newest <> oldest && a > b -> search target (middle+1) oldest
 
    // get the latest post
-   let (start, total, posts) = readPosts 1 1 |> processPosts
+   let (startingPostNumber, total, posts) = readPosts 1 1 |> processPosts
 
    // find where the end of the date we care about is
-   (search target start total)
+   let first = total
+   let last = cutoff targetDate startingPostNumber total
+
+   (first, last)
 
 
 // test /////////////////////////////////////////////
@@ -202,6 +204,7 @@ let testPostReblogging() =
          (date.Year, date.Month)))
 
 
+(*
 let testFindingCutoff() = 
    printfn ""
 
@@ -214,6 +217,7 @@ let testFindingCutoff() =
    printfn ""
 
    readPosts 1115 5 |> processPosts |> ignore
+*)
 
 
 let testReaderAgent() =
