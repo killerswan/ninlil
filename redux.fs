@@ -164,7 +164,7 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
       | false -> walkToNewestMatch (start-1) target
       
    // binsearch to find latest post before a given date
-   let rec cutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
+   let rec findCutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
       let middle = (newest + oldest) / 2
 
@@ -174,21 +174,21 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
       | a,b when newest =  oldest && a < b -> middle
       | a,b when newest =  oldest && a = b -> walkToNewestMatch middle target
       | a,b when newest =  oldest && a > b -> middle+1
-      | a,b when newest <> oldest && a < b -> search target newest (middle-1)
+      | a,b when newest <> oldest && a < b -> findCutoff target newest (middle-1)
       | a,b when newest <> oldest && a = b -> walkToNewestMatch middle target    // combine above
-      | a,b when newest <> oldest && a > b -> search target (middle+1) oldest
+      | a,b when newest <> oldest && a > b -> findCutoff target (middle+1) oldest
 
    // get the latest post
    let (startingPostNumber, total, posts) = readPosts 1 1 |> processPosts
 
    // find where the end of the date we care about is
    let first = total
-   let last = cutoff targetDate startingPostNumber total
+   let last = findCutoff targetDate startingPostNumber total
 
    (first, last)
 
 
-// test /////////////////////////////////////////////
+// tests /////////////////////////////////////////////
 
 let testPostReblogging() = 
    // read some posts
