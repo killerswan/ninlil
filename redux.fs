@@ -114,27 +114,20 @@ let processPosts postsXML =
 let readAndProcPosts a b = readPosts a b |> processPosts
 
 
-// test /////////////////////////////////////////////
+// dates /////////////////////////////////////////////
 
 // "2010-11-24 05:57:26 GMT" -> System.DateTime
 let processDate (datestring: string) =
    (System.DateTime.ParseExact( (datestring.Split [| ' ' |]).[0], "yyyy-MM-dd", null )) 
-   // methods, e.g.:
-   // .Month, 
-   // .Year
 
-let test() = 
-   // read some posts
-   let (start, total, posts) = readPosts 6666 4 |> processPosts
+// date of post
+let dateOfPost (index: int) : System.DateTime = 
+   let (start, total, posts) = readPosts index 1 |> processPosts
 
-   // reblog those and delete original posts
-   (posts |> List.map (fun (id, rkey, datestring, post) ->
-         reblogPost id rkey   |> ignore
-         deletePost id        |> ignore
+   // srsly, TODO: make this post tuple a type
+   let (_,_,datestring,_) = posts |> List.head 
 
-         let date = processDate datestring
-
-         (date.Year, date.Month)))
+   (processDate datestring)
 
 
 // agents /////////////////////////////////////////////
@@ -157,20 +150,9 @@ let reader =
          loop()
       )
 
-//reader.Post (1,5)
 
 
 // find range to consider ////////////////////////////////
-
-// date of post
-let dateOfPost (index: int) : System.DateTime = 
-   let (start, total, posts) = readPosts index 1 |> processPosts
-
-   // srsly, TODO: make this post tuple a type
-   let (_,_,datestring,_) = posts |> List.head 
-
-   (processDate datestring)
-
 
 // get the most recent post on a given date
 let cutoff (target: System.DateTime) = 
@@ -204,7 +186,23 @@ let cutoff (target: System.DateTime) =
    (search target start total)
 
 
-let test2() = 
+// test /////////////////////////////////////////////
+
+let testPostReblogging() = 
+   // read some posts
+   let (start, total, posts) = readPosts 6666 4 |> processPosts
+
+   // reblog those and delete original posts
+   (posts |> List.map (fun (id, rkey, datestring, post) ->
+         reblogPost id rkey   |> ignore
+         deletePost id        |> ignore
+
+         let date = processDate datestring
+
+         (date.Year, date.Month)))
+
+
+let testFindingCutoff() = 
    printfn ""
 
    let p1 = cutoff (System.DateTime(2010,12,31))
@@ -217,7 +215,11 @@ let test2() =
 
    readPosts 1115 5 |> processPosts |> ignore
 
-test2()
+
+let testReaderAgent() =
+   reader.Post (1,5) |> ignore
+
+
 
 
 
