@@ -17,9 +17,9 @@ open System.Drawing
 // command line args /////////////////////////////////////////////
 
 let ( api, email, password ) = match System.Environment.GetCommandLineArgs() with
-                                 | [| _; blog; email; password |] -> 
+                               | [| _; blog; email; password |] -> 
                                     ( ("http://" + blog + ".tumblr.com/api"), email, password )
-                                 | _ -> 
+                               | _ -> 
                                     failwithf "Usage: mono exe BLOG EMAIL PASSWORD"
 
 
@@ -172,31 +172,30 @@ let dateOfPost (index: int) : System.DateTime =
    (processDate datestring)
 
 
-// binsearch to find latest post before a given date
-let rec search (target: System.DateTime) (newest: int) (oldest: int) : int = 
-
-   // if we have a match for the right date, step the the latest post on that date
-   let rec walkToNewestMatch start =
-      let nextPostDate = dateOfPost (start-1)
-      match (nextPostDate > target) with
-      | true -> start
-      | false -> walkToNewestMatch (start-1)
-      
-   let middle = (newest + oldest) / 2
-
-   let middleDate : System.DateTime = dateOfPost middle
-
-   match (middleDate, target) with
-   | a,b when newest =  oldest && a < b -> middle
-   | a,b when newest =  oldest && a = b -> walkToNewestMatch middle
-   | a,b when newest =  oldest && a > b -> middle+1
-   | a,b when newest <> oldest && a < b -> search target newest (middle-1)
-   | a,b when newest <> oldest && a = b -> walkToNewestMatch middle
-   | a,b when newest <> oldest && a > b -> search target (middle+1) oldest
-
-
 // get the most recent post on a given date
 let cutoff (target: System.DateTime) = 
+
+   // if we have a match for the right date, step the the latest post on that date
+   let rec walkToNewestMatch (start: int) (target: System.DateTime) : int =
+      let nextPostDate = dateOfPost (start-1)
+      match (nextPostDate > target) with
+      | true  -> start
+      | false -> walkToNewestMatch (start-1) target
+      
+   // binsearch to find latest post before a given date
+   let rec search (target: System.DateTime) (newest: int) (oldest: int) : int = 
+
+      let middle = (newest + oldest) / 2
+
+      let middleDate : System.DateTime = dateOfPost middle
+
+      match (middleDate, target) with
+      | a,b when newest =  oldest && a < b -> middle
+      | a,b when newest =  oldest && a = b -> walkToNewestMatch middle target
+      | a,b when newest =  oldest && a > b -> middle+1
+      | a,b when newest <> oldest && a < b -> search target newest (middle-1)
+      | a,b when newest <> oldest && a = b -> walkToNewestMatch middle target    // combine above
+      | a,b when newest <> oldest && a > b -> search target (middle+1) oldest
 
    // get the latest post
    let (start, total, posts) = readPosts 1 1 |> processPosts
@@ -205,15 +204,21 @@ let cutoff (target: System.DateTime) =
    (search target start total)
 
 
-let p1 = cutoff (System.DateTime(2010,12,31))
-printfn "The latest post on or before that date is #%d" p1
+let test2() = 
+   printfn ""
 
-printfn ""
+   let p1 = cutoff (System.DateTime(2010,12,31))
+   printfn "The latest post on or before that date is #%d" p1
+   printfn ""
 
-let p2 = cutoff (System.DateTime(2011,7,8))
-printfn "The latest post on or before that date is #%d" p2
+   let p2 = cutoff (System.DateTime(2011,7,8))
+   printfn "The latest post on or before that date is #%d" p2
+   printfn ""
 
-printfn ""
+   readPosts 1115 5 |> processPosts |> ignore
 
-readPosts 1115 5 |> processPosts |> ignore
+test2()
+
+
+
 
