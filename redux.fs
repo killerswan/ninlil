@@ -92,6 +92,10 @@ let processPosts (postsXML) =
    let total = System.Convert.ToInt32(posts.Attributes.GetNamedItem("total").Value)
    let num   = posts.ChildNodes.Count
 
+   // "2010-11-24 05:57:26 GMT"
+   let processDate (datestring: string) : System.DateTime =
+      (System.DateTime.ParseExact( (datestring.Split [| ' ' |]).[0], "yyyy-MM-dd", null )) 
+
    // posts.HasChildNodes
    let postsFound = 
       [
@@ -99,14 +103,14 @@ let processPosts (postsXML) =
             let post       = posts.ChildNodes.Item(ii)
             let id         = post.Attributes.GetNamedItem("id").Value
             let reblogkey  = post.Attributes.GetNamedItem("reblog-key").Value
-            let date       = post.Attributes.GetNamedItem("date-gmt").Value
+            let date       = post.Attributes.GetNamedItem("date-gmt").Value |> processDate
             yield (id, reblogkey, date, post)
       ]
 
    // display a post tuple
    let display (id, reblogkey, date, post:XmlNode) = 
       let pic = post.ChildNodes.Item(1).InnerText
-      eprintfn "-> id: %s, %s, %s\n   %s" id reblogkey date pic
+      eprintfn "-> id: %s, %s, %s\n   %s" id reblogkey (date.ToString()) pic
 
    // print stats
    eprintfn "Got %d to %d of %d" start (start+num-1) total |> ignore
@@ -121,23 +125,13 @@ let processPosts (postsXML) =
 let readAndProcessPosts = readPosts >> processPosts
 
 
-// dates /////////////////////////////////////////////
+// agent /////////////////////////////////////////////
 
-// "2010-11-24 05:57:26 GMT" -> System.DateTime
-let processDate (datestring: string) =
-   (System.DateTime.ParseExact( (datestring.Split [| ' ' |]).[0], "yyyy-MM-dd", null )) 
+(* If I understand correctly: this agent reads and processes
+   one message at a time.
+*)
+   
 
-// date of post
-let dateOfPost (index: int) : System.DateTime = 
-   let (start, total, posts) = readAndProcessPosts (index, 1)
-
-   // srsly, TODO: make this post tuple a type
-   let (_,_,datestring,_) = posts |> List.head 
-
-   (processDate datestring)
-
-
-// agents /////////////////////////////////////////////
 
 // THE AGENT WORKS IN FSI o_O
 
@@ -149,23 +143,43 @@ let agent =
    MailboxProcessor.Start(
       fun inbox ->
          let rec loop() = 
+
+            // handle the next message
             inbox.Scan(
                function 
                | ToRead (start, count) -> Some(async { 
                      eprintfn "reading: (%d, %d)" start count
                      readAndProcessPosts (start, count) |> ignore
+
+                     // dither
+                     Async.RunSynchronously(Async.Sleep (10*1000)) |> ignore
+
+                     // during the time when we're asleep, the whole agent is so                  
+
                      return! loop() 
                  })
                | ToPrint (s) -> Some(async {
                      do eprintfn "printing: %s" s
+                     //agent.Post <| ToRead (570,1) // can't be called this way
+
+                     // dither
+                     Async.RunSynchronously(Async.Sleep (20*1000)) |> ignore
+
                      return! loop()
                  })
             )
+
+
          loop()
       )
 
-agent.Post <| ToRead (1, 5)
-agent.Post <| ToPrint "omfg"
+printfn "a"
+agent.Post <| ToRead (1, 5)  // this 
+printfn "b"
+agent.Post <| ToPrint "omfg" // this and
+printfn "c"
+agent.Post <| ToRead (47, 2) // this do not block
+printfn "d"
 
 
 
@@ -173,6 +187,14 @@ agent.Post <| ToPrint "omfg"
 
 // get the most recent post on a given date
 let rangeEndingIn (targetDate: System.DateTime) : int*int = 
+
+   // date of post /////////////////////////////////////////////
+   let dateOfPost (index: int) : System.DateTime = 
+      let (start, total, posts) = readAndProcessPosts (index, 1)
+
+      // srsly, TODO: make this post tuple a type
+      let (_,_,date,_) = posts |> List.head 
+      date
 
    // if we have a match for the right date, step the the latest post on that date
    let rec walkToNewestMatch (start: int) (target: System.DateTime) : int =
@@ -218,24 +240,26 @@ let testPostReblogging() =
          reblogPost id rkey   |> ignore
          deletePost id        |> ignore
 
+         (*
          let date = processDate datestring
 
-         (date.Year, date.Month)))
+         (date.Year, date.Month)
+         *)
 
-(*
+         () ))
+
 let testFindingCutoff() = 
    printfn ""
 
-   let p1 = cutoff (System.DateTime(2010,12,31))
+   let (_,p1) = rangeEndingIn (System.DateTime(2010,12,31))
    printfn "The latest post on or before that date is #%d" p1
    printfn ""
 
-   let p2 = cutoff (System.DateTime(2011,7,8))
+   let (_,p2) = rangeEndingIn (System.DateTime(2011,7,8))
    printfn "The latest post on or before that date is #%d" p2
    printfn ""
 
-   readAndProcessPosts 1115 5 |> ignore
-*)
+   readAndProcessPosts (1187,5) |> ignore
 
 
 
