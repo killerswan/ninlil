@@ -45,19 +45,19 @@ let getDocRaw (url:string) : string =
 // simple queries /////////////////////////////////////////////
 
 // xml out
-let readPosts (start:int) (num:int)       = getDocRaw <| api + "/read" +
+let readPosts ((start,num): int*int) : string      = getDocRaw <| api + "/read" +
                                                          "?start=" + (sprintf "%d" start) + 
                                                          "&num="   + (sprintf "%d" num) +
                                                          "&type="  + "photo"
 
 // status out
-let deletePost (id:string)                = getDocRaw <| api + "/delete" +
+let deletePost (id:string) : string                = getDocRaw <| api + "/delete" +
                                                          "?email="      + email + 
                                                          "&password="   + password + 
                                                          "&post-id="    + id
                      
 // new id out
-let reblogPost (id:string) (rkey:string)  = getDocRaw <| api + "/reblog" + 
+let reblogPost (id:string) (rkey:string) : string  = getDocRaw <| api + "/reblog" + 
                                                          "?email="      + email + 
                                                          "&password="   + password + 
                                                          "&post-id="    + id + 
@@ -67,7 +67,7 @@ let reblogPost (id:string) (rkey:string)  = getDocRaw <| api + "/reblog" +
 // process XML results /////////////////////////////////////////////
 
 // after getPosts
-let processPosts postsXML =
+let processPosts (postsXML) =
    let doc = new XmlDocument()
    postsXML |> doc.LoadXml // so doc is mutable?
 
@@ -97,21 +97,19 @@ let processPosts postsXML =
    // display a post tuple
    let display (id, reblogkey, date, post:XmlNode) = 
       let pic = post.ChildNodes.Item(1).InnerText
-      printfn "id: %s, %s, %s -> %s" id reblogkey date pic
+      eprintfn "-> id: %s, %s, %s\n   %s" id reblogkey date pic
 
-   (*
    // print stats
-   printfn "%d of %d, starting at %d" num total start
+   eprintfn "Got %d to %d of %d" start (start+num-1) total |> ignore
 
    // print all
    postsFound |> List.map display |> ignore
-   *)
 
    (start, total, postsFound)
 
 
 // compose read and process /////////////////////////////////////////////
-let readAndProcPosts a b = readPosts a b |> processPosts
+let readAndProcessPosts = readPosts >> processPosts
 
 
 // dates /////////////////////////////////////////////
@@ -122,7 +120,7 @@ let processDate (datestring: string) =
 
 // date of post
 let dateOfPost (index: int) : System.DateTime = 
-   let (start, total, posts) = readPosts index 1 |> processPosts
+   let (start, total, posts) = readAndProcessPosts (index, 1)
 
    // srsly, TODO: make this post tuple a type
    let (_,_,datestring,_) = posts |> List.head 
@@ -132,23 +130,34 @@ let dateOfPost (index: int) : System.DateTime =
 
 // agents /////////////////////////////////////////////
 
-let reader = 
+// THE AGENT WORKS IN FSI o_O
+
+type Message = 
+   | ToRead of int * int
+   | ToPrint of string
+   
+let agent = 
    MailboxProcessor.Start(
       fun inbox ->
          let rec loop() = 
             inbox.Scan(
                function 
-               | ((start: int), (count: int)) -> 
-                  Some(async { 
-                                 readPosts start count 
-                                 |> processPosts 
-                                 |> ignore
-                                 return! loop() 
-                  })
-               //| _ -> None
+               | ToRead (start, count) -> Some(async { 
+                     eprintfn "reading: (%d, %d)" start count
+                     readAndProcessPosts (start, count) |> ignore
+                     return! loop() 
+                 })
+               | ToPrint (s) -> Some(async {
+                     do eprintfn "printing: %s" s
+                     return! loop()
+                 })
             )
          loop()
       )
+
+agent.Post <| ToRead (1, 5)
+agent.Post <| ToPrint "omfg"
+
 
 
 // range to consider ////////////////////////////////
@@ -177,9 +186,10 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
       | a,b when newest <> oldest && a < b -> findCutoff target newest (middle-1)
       | a,b when newest <> oldest && a = b -> walkToNewestMatch middle target    // combine above
       | a,b when newest <> oldest && a > b -> findCutoff target (middle+1) oldest
+      | _                                  -> -1 // humbug
 
    // get the latest post
-   let (startingPostNumber, total, posts) = readPosts 1 1 |> processPosts
+   let (startingPostNumber, total, posts) = readAndProcessPosts (1, 1)
 
    // find where the end of the date we care about is
    let first = total
@@ -192,7 +202,7 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
 
 let testPostReblogging() = 
    // read some posts
-   let (start, total, posts) = readPosts 6666 4 |> processPosts
+   let (start, total, posts) = readAndProcessPosts (6666, 4)
 
    // reblog those and delete original posts
    (posts |> List.map (fun (id, rkey, datestring, post) ->
@@ -202,7 +212,6 @@ let testPostReblogging() =
          let date = processDate datestring
 
          (date.Year, date.Month)))
-
 
 (*
 let testFindingCutoff() = 
@@ -216,15 +225,12 @@ let testFindingCutoff() =
    printfn "The latest post on or before that date is #%d" p2
    printfn ""
 
-   readPosts 1115 5 |> processPosts |> ignore
+   readAndProcessPosts 1115 5 |> ignore
 *)
 
 
-let testReaderAgent() =
-   reader.Post (1,5) |> ignore
 
-
-
+//readAndProcessPosts (7, 2) |> ignore
 
 
 
