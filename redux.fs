@@ -66,6 +66,8 @@ let deletePost (id:string) : string                = getDocRaw <| api + "/delete
                                                          "&post-id="    + id
                      
 // new id out
+// TODO: CHANGE THIS TO POST NOT GET
+// maybe use stuff like this: http://www.debugging.com/bug/8530
 let reblogPost (id:string) (rkey:string) : string  = getDocRaw <| api + "/reblog" + 
                                                          "?email="      + email + 
                                                          "&password="   + password + 
@@ -127,14 +129,6 @@ let readAndProcessPosts = readPosts >> processPosts
 
 // agent /////////////////////////////////////////////
 
-(* If I understand correctly: this agent reads and processes
-   one message at a time.
-*)
-   
-
-
-// THE AGENT WORKS IN FSI o_O
-
 type Message = 
    | ToRead of int * int
    | ToPrint of string
@@ -143,44 +137,21 @@ let agent =
    MailboxProcessor.Start(
       fun inbox ->
          let rec loop() = 
-
-            // handle the next message
             inbox.Scan(
                function 
                | ToRead (start, count) -> Some(async { 
                      eprintfn "reading: (%d, %d)" start count
                      readAndProcessPosts (start, count) |> ignore
-
-                     // dither
-                     Async.RunSynchronously(Async.Sleep (10*1000)) |> ignore
-
-                     // during the time when we're asleep, the whole agent is so                  
-
                      return! loop() 
                  })
                | ToPrint (s) -> Some(async {
                      do eprintfn "printing: %s" s
-                     //agent.Post <| ToRead (570,1) // can't be called this way
-
-                     // dither
-                     Async.RunSynchronously(Async.Sleep (20*1000)) |> ignore
-
                      return! loop()
                  })
             )
 
-
          loop()
       )
-
-printfn "a"
-agent.Post <| ToRead (1, 5)  // this 
-printfn "b"
-agent.Post <| ToPrint "omfg" // this and
-printfn "c"
-agent.Post <| ToRead (47, 2) // this do not block
-printfn "d"
-
 
 
 // range to consider ////////////////////////////////
@@ -223,10 +194,10 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    let (startingPostNumber, total, posts) = readAndProcessPosts (1, 1)
 
    // find where the end of the date we care about is
-   let first = total
-   let last = findCutoff targetDate startingPostNumber total
+   let oldest = total - 1  // assuming Tumblr numbers from 0
+   let newest = findCutoff targetDate startingPostNumber total
 
-   (first, last)
+   (oldest, newest)
 
 
 // tests /////////////////////////////////////////////
@@ -248,6 +219,19 @@ let testPostReblogging() =
 
          () ))
 
+
+(*
+testReadAgent() = 
+   printfn "a"
+   agent.Post <| ToRead (1, 5)  // this 
+   printfn "b"
+   agent.Post <| ToPrint "omfg" // this and
+   printfn "c"
+   agent.Post <| ToRead (47, 2) // this do not block
+   printfn "d"
+*)
+
+
 let testFindingCutoff() = 
    printfn ""
 
@@ -261,9 +245,34 @@ let testFindingCutoff() =
 
    readAndProcessPosts (1187,5) |> ignore
 
-
-
 //readAndProcessPosts (7, 2) |> ignore
 
 
+
+let deleteOnOrBefore (date: System.DateTime) =
+      let (oldest, newest) = rangeEndingIn date
+   
+      let inc = 30
+
+      [newest..inc..oldest] 
+      |> List.map (fun jj -> readAndProcessPosts (jj, inc))
+      |> List.map (fun (start,total,posts) -> posts) 
+      |> List.concat
+      |> List.map (fun (id, rkey, datestring, post) -> 
+                     Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
+                     printfn "-* id='%s' rkey='%s'" id rkey
+                     printfn "   reblog..."
+                     reblogPost id rkey  |> ignore
+                     Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
+                     printfn "   delete..."
+                     deletePost id       |> ignore
+                  )
+
+                  (*
+                  *)
+
+            
+
+let testDeletion() =
+   deleteOnOrBefore (System.DateTime(2009,6,19))
 
