@@ -24,32 +24,31 @@ let ( api, email, password ) = match System.Environment.GetCommandLineArgs() wit
 
 
 // fetch a URL /////////////////////////////////////////////
+(*
+   With async, is it more reasonable to just let things fail early, here,
+   rather than continuing? 
+   
+   TODO: How can I see both the error and its type?
+
+   async {
+      try
+         ...
+      with
+         | :? System.UriFormatException -> return ""
+         | :? System.Net.WebException   -> return ""
+   }
+*)
 
 let getDocRaw (url:string) : string = 
 
-   let getpage (url:string) = 
-      async {
-         // see Expert F# at 383, etc.
-         let req        = WebRequest.Create(url, Timeout=5)
-         use! response  = req.AsyncGetResponse()
-         use reader     = new StreamReader(response.GetResponseStream())
-         return reader.ReadToEnd()
-(*
-         // With async, is it more reasonable to just let things fail early, here,
-         // rather than continuing? 
-         
-         // TODO: How can I see both the error and its type?
-
-         try
-            ...
-         with
-            | :? System.UriFormatException -> return ""
-            | :? System.Net.WebException   -> return ""
-*)
-      }
-
    // get data as XML, return it
-   (Async.RunSynchronously(getpage url))
+   // see Expert F# at 383, etc.
+   (Async.RunSynchronously(async {
+      let req        = WebRequest.Create(url, Timeout=5)
+      use! response  = req.AsyncGetResponse()
+      use reader     = new StreamReader(response.GetResponseStream())
+      return reader.ReadToEnd()
+   }))
 
 
 // simple queries /////////////////////////////////////////////
