@@ -26,8 +26,6 @@ let ( api, email, password ) = match System.Environment.GetCommandLineArgs() wit
 // fetch a URL /////////////////////////////////////////////
 
 let getDocRaw (url:string) : string = 
-   // This function doesn't return, at all, if the URL is wrong 
-   // in some ways. TODO: fix. 
 
    let getpage (url:string) = 
       async {
@@ -37,9 +35,11 @@ let getDocRaw (url:string) : string =
          use reader     = new StreamReader(response.GetResponseStream())
          return reader.ReadToEnd()
 (*
-         // With async, is it more reasonable to just let things fail here, rather than continuing? 
+         // With async, is it more reasonable to just let things fail early, here,
+         // rather than continuing? 
          
          // TODO: How can I see both the error and its type?
+
          try
             ...
          with
