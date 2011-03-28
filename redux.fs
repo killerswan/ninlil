@@ -39,16 +39,71 @@ let ( api, email, password ) = match System.Environment.GetCommandLineArgs() wit
    }
 *)
 
+(*
+   DRIVING ME NUTS WITH ASYNCHRONOUS postDocRaw: 
+
+   System.Net.WebException: The request timed out
+     at System.Net.HttpWebRequest.GetRequestStream () [0x00000] in <filename unknown>:0 
+     at FSI_0006+postDocRaw@149.Invoke (Microsoft.FSharp.Core.Unit unitVar) [0x00000] in <filename unknown>:0 
+     at Microsoft.FSharp.Control.AsyncBuilderImpl+callA@736[System.String,Microsoft.FSharp.Core.Unit].Invoke (Microsoft.FSharp.Control.AsyncParams`1 args) [0x00000] in <filename unknown>:0 
+   Stopped due to error
+
+
+   USING A SYNCHRONOUS postDocRaw:
+
+   System.Net.WebException: The remote server returned an error: (503) Service Temporarily Unavailable.
+     at System.Net.HttpWebRequest.CheckFinalStatus (System.Net.WebAsyncResult result) [0x00000] in <filename unknown>:0 
+     at System.Net.HttpWebRequest.SetResponseData (System.Net.WebConnectionData data) [0x00000] in <filename unknown>:0 
+   Stopped due to error
+*)
+
 let getDocRaw (url:string) : string = 
 
-   // get data as XML, return it
-   // see Expert F# at 383, etc.
    (Async.RunSynchronously(async {
       let req        = WebRequest.Create(url, Timeout=5)
       use! response  = req.AsyncGetResponse()
       use reader     = new StreamReader(response.GetResponseStream())
-      return reader.ReadToEnd()
+      let output = reader.ReadToEnd()
+
+(*
+      reader.Close()
+      response.Close()
+      req.Abort()
+*)
+
+      return output
    }))
+
+
+let postDocRaw (url:string) (data: string) : string =
+//
+      let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(data);
+
+//   (Async.RunSynchronously(async {
+      let req = WebRequest.Create(url)
+      req.Method        <- "GET"
+(*
+      req.ContentType   <- "application/x-www-form-urlencoded"
+      req.ContentLength <- (int64) data'.Length
+
+      use writer = new StreamWriter (req.GetRequestStream()) 
+      writer.Write(data')
+      writer.Flush()
+      writer.Close()
+*)
+
+//      use! response  = req.AsyncGetResponse()
+      let response  = req.GetResponse()
+      use reader     = new StreamReader(response.GetResponseStream())
+      let output = reader.ReadToEnd()
+
+      reader.Close()
+      response.Close()
+      req.Abort()
+
+      output
+//      return output
+//   }))
 
 
 // simple queries /////////////////////////////////////////////
@@ -68,11 +123,11 @@ let deletePost (id:string) : string                = getDocRaw <| api + "/delete
 // new id out
 // TODO: CHANGE THIS TO POST NOT GET
 // maybe use stuff like this: http://www.debugging.com/bug/8530
-let reblogPost (id:string) (rkey:string) : string  = getDocRaw <| api + "/reblog" + 
-                                                         "?email="      + email + 
-                                                         "&password="   + password + 
-                                                         "&post-id="    + id + 
-                                                         "&reblog-key=" + rkey
+let reblogPost (id:string) (rkey:string) : string  = 
+      postDocRaw (api + "/reblog") ("email="      + email + 
+                                   "&password="   + password + 
+                                   "&post-id="    + id + 
+                                   "&reblog-key=" + rkey)
 
 
 // process XML results /////////////////////////////////////////////
@@ -112,7 +167,7 @@ let processPosts (postsXML) =
    // display a post tuple
    let display (id, reblogkey, date, post:XmlNode) = 
       let pic = post.ChildNodes.Item(1).InnerText
-      eprintfn "-> id: %s, %s, %s\n   %s" id reblogkey (date.ToString()) pic
+      eprintfn "-> id: %s, rkey: %s, %s\n   %s" id reblogkey (date.ToString()) pic
 
    // print stats
    eprintfn "Got %d to %d of %d" start (start+num-1) total |> ignore
@@ -202,22 +257,18 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
 
 // tests /////////////////////////////////////////////
 
-let testPostReblogging() = 
+let testPostReblogging ii = 
    // read some posts
-   let (start, total, posts) = readAndProcessPosts (6666, 4)
+   let (start, total, posts) = readAndProcessPosts (ii, 1)
 
    // reblog those and delete original posts
    (posts |> List.map (fun (id, rkey, datestring, post) ->
          reblogPost id rkey   |> ignore
-         deletePost id        |> ignore
-
-         (*
-         let date = processDate datestring
-
-         (date.Year, date.Month)
-         *)
+         //deletePost id        |> ignore
 
          () ))
+
+testPostReblogging 6666;;
 
 
 (*
@@ -275,4 +326,6 @@ let deleteOnOrBefore (date: System.DateTime) =
 
 let testDeletion() =
    deleteOnOrBefore (System.DateTime(2009,6,19))
+
+
 
