@@ -92,10 +92,9 @@ let deletePost (id:string) : string                = getDocRaw <| api + "/delete
                                                          "&post-id="    + id
                      
 // new id out
+// although this often works but returns an error
 let reblogPost (id: string) (rkey: string) : string =
-//      let url = api + "/reblog"
       let url = "http://www.tumblr.com/api/reblog"
-
       let data = "email=" + email + "&password=" + password + "&post-id=" + id + "&reblog-key=" + rkey
 
       (postDocRaw url data)
@@ -239,12 +238,11 @@ let testPostReblogging ii =
 
    // reblog those and delete original posts
    (posts |> List.map (fun (id, rkey, datestring, post) ->
-         reblogPost id rkey   |> ignore
+         printfn "reblog returned: %s" (reblogPost id rkey)
          //deletePost id        |> ignore
+   ))
 
-         () ))
-
-testPostReblogging 57
+testPostReblogging 280 |> ignore
 
 
 (*
