@@ -2,6 +2,8 @@
 //
 // redux - manipulate old Tumblr posts
 
+#light
+
 
 // dependencies /////////////////////////////////////////////
 
