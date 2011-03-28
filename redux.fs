@@ -26,37 +26,6 @@ let ( api, email, password ) = match System.Environment.GetCommandLineArgs() wit
 
 
 // fetch a URL /////////////////////////////////////////////
-(*
-   With async, is it more reasonable to just let things fail early, here,
-   rather than continuing? 
-   
-   TODO: How can I see both the error and its type?
-
-   async {
-      try
-         ...
-      with
-         | :? System.UriFormatException -> return ""
-         | :? System.Net.WebException   -> return ""
-   }
-*)
-
-
-(*
-LATEST ERROR:
-
-   > testPostReblogging 6666;;
-   Got 6666 to 6666 of 9071
-   -> id: 371932796, rkey: CWTormwx, 2/5/2010 12:00:00 AM
-      http://highheel.tumblr.com/photo/1280/371932796/1/tumblr_kvhebhHzXt1qa355f
-   request.Method: POST
-   System.Net.WebException: The remote server returned an error: (403) Forbidden.
-     at System.Net.HttpWebRequest.CheckFinalStatus (System.Net.WebAsyncResult result) [0x00000] in <filename unknown>:0 
-     at System.Net.HttpWebRequest.SetResponseData (System.Net.WebConnectionData data) [0x00000] in <filename unknown>:0 
-   Stopped due to error
-
-   Wireshark reveals that this is sending an HTTP GET.  I am going crazy.
-*)
 
 let getDocRaw (url:string) : string = 
 
@@ -123,8 +92,6 @@ let deletePost (id:string) : string                = getDocRaw <| api + "/delete
                                                          "&post-id="    + id
                      
 // new id out
-// TODO: CHANGE THIS TO POST NOT GET
-// maybe use stuff like this: http://www.debugging.com/bug/8530
 let reblogPost (id:string) (rkey:string) : string  = 
       postDocRaw (api + "/reblog") ("email="      + email + 
                                    "&password="   + password + 
