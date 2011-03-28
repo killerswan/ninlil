@@ -92,11 +92,18 @@ let deletePost (id:string) : string                = getDocRaw <| api + "/delete
                                                          "&post-id="    + id
                      
 // new id out
-let reblogPost (id:string) (rkey:string) : string  = 
-      postDocRaw (api + "/reblog") ("email="      + email + 
-                                   "&password="   + password + 
-                                   "&post-id="    + id + 
-                                   "&reblog-key=" + rkey)
+let reblogPost (id: string) (rkey: string) : string =
+//      let url = api + "/reblog"
+      let url = "http://posttestserver.com/post.php"
+
+      let data = "email="      + email + "&password="   + password + "&post-id="    + id + "&reblog-key=" + rkey
+
+      (postDocRaw url data)
+
+(* DOES AN HTTP POST:
+let reblogPost (id: string) (rkey: string) : string =
+      (postDocRaw "http://posttestserver.com/post.php" "hello=data")
+*)
 
 
 // process XML results /////////////////////////////////////////////
