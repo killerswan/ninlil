@@ -2,10 +2,6 @@
 //
 // redux - manipulate old Tumblr posts
 
-#light
-
-
-// dependencies /////////////////////////////////////////////
 
 open System.Collections.Generic
 open System.Net
@@ -46,6 +42,7 @@ let getDocRaw (url:string) : string =
 
 
 let postDocRaw (url:string) (data: string) : string =
+   (Async.RunSynchronously(async {
       let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(data);
 
       let request = WebRequest.Create(url)
@@ -57,16 +54,8 @@ let postDocRaw (url:string) (data: string) : string =
       wstream.Write(data',0, (data'.Length))
       wstream.Flush()
       wstream.Close()
-(*
-      use writer = new StreamWriter (wstream) 
-      writer.Write(data')
-      writer.Flush()
-      writer.Close()
-*)
 
-      printfn "request.Method: %s" request.Method
-
-      let response  = request.GetResponse()
+      use! response  = request.AsyncGetResponse()
       use reader     = new StreamReader(response.GetResponseStream())
       let output = reader.ReadToEnd()
 
@@ -74,7 +63,8 @@ let postDocRaw (url:string) (data: string) : string =
       response.Close()
       request.Abort()
 
-      output
+      return output
+   }))
 
 
 // simple queries /////////////////////////////////////////////
@@ -86,17 +76,16 @@ let readPosts ((start,num): int*int) : string      = getDocRaw <| api + "/read" 
                                                          "&type="  + "photo"
 
 // status out
-let deletePost (id:string) : string                = getDocRaw <| api + "/delete" +
-                                                         "?email="      + email + 
-                                                         "&password="   + password + 
-                                                         "&post-id="    + id
+let deletePost (id:string) : string                =
+      let url = "http://www.tumblr.com/api/delete"
+      let data = "email=" + email + "&password=" + password + "&post-id=" + id
+      (postDocRaw url data)
                      
 // new id out
 // although this often works but returns an error
 let reblogPost (id: string) (rkey: string) : string =
       let url = "http://www.tumblr.com/api/reblog"
       let data = "email=" + email + "&password=" + password + "&post-id=" + id + "&reblog-key=" + rkey
-
       (postDocRaw url data)
 
 (* DOES AN HTTP POST:
@@ -207,6 +196,8 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    // binsearch to find latest post before a given date
    let rec findCutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
+      // TODO: fix case where date sought is earlier than oldest post
+
       let middle = (newest + oldest) / 2
 
       let middleDate : System.DateTime = dateOfPost middle
@@ -238,11 +229,11 @@ let testPostReblogging ii =
 
    // reblog those and delete original posts
    (posts |> List.map (fun (id, rkey, datestring, post) ->
-         printfn "reblog returned: %s" (reblogPost id rkey)
+         printfn "   reblog returned: %s" (reblogPost id rkey)
          //deletePost id        |> ignore
    ))
 
-testPostReblogging 280 |> ignore
+testPostReblogging 301 |> ignore
 
 
 (*
@@ -284,22 +275,23 @@ let deleteOnOrBefore (date: System.DateTime) =
       |> List.map (fun (start,total,posts) -> posts) 
       |> List.concat
       |> List.map (fun (id, rkey, datestring, post) -> 
-                     Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
-                     printfn "-* id='%s' rkey='%s'" id rkey
-                     printfn "   reblog..."
-                     reblogPost id rkey  |> ignore
-                     Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
-                     printfn "   delete..."
-                     deletePost id       |> ignore
-                  )
+(*
+            //TODO: this is throttled right now, I think
 
-                  (*
-                  *)
+            Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
 
-            
+            printfn "-* reblogging id='%s' rkey='%s'" id rkey
+            printfn "   newid='%s'" <| reblogPost id rkey
+*)
+
+            Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
+
+            printfn "-# deleting..."
+            printfn "   status='%s'" <| deletePost id
+         )
+   
 
 let testDeletion() =
    deleteOnOrBefore (System.DateTime(2009,6,19))
-
 
 
