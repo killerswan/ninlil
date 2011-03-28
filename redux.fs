@@ -39,22 +39,21 @@ let ( api, email, password ) = match System.Environment.GetCommandLineArgs() wit
    }
 *)
 
+
 (*
-   DRIVING ME NUTS WITH ASYNCHRONOUS postDocRaw: 
+LATEST ERROR:
 
-   System.Net.WebException: The request timed out
-     at System.Net.HttpWebRequest.GetRequestStream () [0x00000] in <filename unknown>:0 
-     at FSI_0006+postDocRaw@149.Invoke (Microsoft.FSharp.Core.Unit unitVar) [0x00000] in <filename unknown>:0 
-     at Microsoft.FSharp.Control.AsyncBuilderImpl+callA@736[System.String,Microsoft.FSharp.Core.Unit].Invoke (Microsoft.FSharp.Control.AsyncParams`1 args) [0x00000] in <filename unknown>:0 
-   Stopped due to error
-
-
-   USING A SYNCHRONOUS postDocRaw:
-
-   System.Net.WebException: The remote server returned an error: (503) Service Temporarily Unavailable.
+   > testPostReblogging 6666;;
+   Got 6666 to 6666 of 9071
+   -> id: 371932796, rkey: CWTormwx, 2/5/2010 12:00:00 AM
+      http://highheel.tumblr.com/photo/1280/371932796/1/tumblr_kvhebhHzXt1qa355f
+   request.Method: POST
+   System.Net.WebException: The remote server returned an error: (403) Forbidden.
      at System.Net.HttpWebRequest.CheckFinalStatus (System.Net.WebAsyncResult result) [0x00000] in <filename unknown>:0 
      at System.Net.HttpWebRequest.SetResponseData (System.Net.WebConnectionData data) [0x00000] in <filename unknown>:0 
    Stopped due to error
+
+   Wireshark reveals that this is sending an HTTP GET.  I am going crazy.
 *)
 
 let getDocRaw (url:string) : string = 
@@ -76,34 +75,35 @@ let getDocRaw (url:string) : string =
 
 
 let postDocRaw (url:string) (data: string) : string =
-//
       let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(data);
 
-//   (Async.RunSynchronously(async {
-      let req = WebRequest.Create(url)
-      req.Method        <- "POST"
-(*
-      req.ContentType   <- "application/x-www-form-urlencoded"
-      req.ContentLength <- (int64) data'.Length
+      let request = WebRequest.Create(url)
+      request.Method        <- "POST"
+      request.ContentType   <- "application/x-www-form-urlencoded"
+      request.ContentLength <- (int64) data'.Length
 
-      use writer = new StreamWriter (req.GetRequestStream()) 
+      use wstream = request.GetRequestStream() 
+      wstream.Write(data',0, (data'.Length))
+      wstream.Flush()
+      wstream.Close()
+(*
+      use writer = new StreamWriter (wstream) 
       writer.Write(data')
       writer.Flush()
       writer.Close()
 *)
 
-//      use! response  = req.AsyncGetResponse()
-      let response  = req.GetResponse()
+      printfn "request.Method: %s" request.Method
+
+      let response  = request.GetResponse()
       use reader     = new StreamReader(response.GetResponseStream())
       let output = reader.ReadToEnd()
 
       reader.Close()
       response.Close()
-      req.Abort()
+      request.Abort()
 
       output
-//      return output
-//   }))
 
 
 // simple queries /////////////////////////////////////////////
