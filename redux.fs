@@ -81,7 +81,7 @@ let postDocRaw (url:string) (data: string) : string =
 
 //   (Async.RunSynchronously(async {
       let req = WebRequest.Create(url)
-      req.Method        <- "GET"
+      req.Method        <- "POST"
 (*
       req.ContentType   <- "application/x-www-form-urlencoded"
       req.ContentLength <- (int64) data'.Length
