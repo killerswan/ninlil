@@ -94,9 +94,9 @@ let deletePost (id:string) : string                = getDocRaw <| api + "/delete
 // new id out
 let reblogPost (id: string) (rkey: string) : string =
 //      let url = api + "/reblog"
-      let url = "http://posttestserver.com/post.php"
+      let url = "http://www.tumblr.com/api/reblog"
 
-      let data = "email="      + email + "&password="   + password + "&post-id="    + id + "&reblog-key=" + rkey
+      let data = "email=" + email + "&password=" + password + "&post-id=" + id + "&reblog-key=" + rkey
 
       (postDocRaw url data)
 
@@ -244,7 +244,7 @@ let testPostReblogging ii =
 
          () ))
 
-testPostReblogging 6666;;
+testPostReblogging 57
 
 
 (*
