@@ -14,38 +14,50 @@ open System.Drawing
 
 // command line args /////////////////////////////////////////////
 
-let ( api, email, password ) = match System.Environment.GetCommandLineArgs() with
-                               | [| _; blog; email; password |] -> 
-                                    ( ("http://" + blog + ".tumblr.com/api"), email, password )
-                               | _ -> 
-                                    failwithf "Usage: mono exe BLOG EMAIL PASSWORD"
+let args = System.Environment.GetCommandLineArgs()
+if args.Length <> 4
+then
+   printfn "Usage: redux.exe BLOG EMAIL PASSWORD"
+   exit 1
+
+let [| _; (blog: string); (email: string); (password: string) |] = args
 
 
 // fetch a URL /////////////////////////////////////////////
 
-let getDocRaw (url:string) : string = 
+// utility, combines key/values into a string with = and &
+let combine (m: Map<string,string>) : string = 
+   Map.fold (fun state key v -> 
+                  let next = key + "=" + v
+                  match state with
+                  | "" ->               next
+                  | _  -> state + "&" + next) 
+            ""
+            m
 
-   (Async.RunSynchronously(async {
-      let req        = WebRequest.Create(url, Timeout=5)
+
+// HTTP GET
+let getDocRaw (url: string) (data: Map<string,string> ) : string = 
+
+   let url' = url + "?" + (combine data)
+
+   printfn "url': %s" url'
+
+   Async.RunSynchronously(async {
+      let req        = WebRequest.Create(url', Timeout=5000)
       use! response  = req.AsyncGetResponse()
       use reader     = new StreamReader(response.GetResponseStream())
       let output = reader.ReadToEnd()
-
-(*
-      reader.Close()
-      response.Close()
-      req.Abort()
-*)
-
       return output
-   }))
+   })
 
 
-let postDocRaw (url:string) (data: string) : string =
-   (Async.RunSynchronously(async {
-      let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(data);
+// HTTP POST
+let postDocRaw (url: string) (data: Map<string,string>) : string =
+   Async.RunSynchronously(async {
+      let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(combine data);
 
-      let request = WebRequest.Create(url)
+      let request = WebRequest.Create(url, Timeout=5000)
       request.Method        <- "POST"
       request.ContentType   <- "application/x-www-form-urlencoded"
       request.ContentLength <- (int64) data'.Length
@@ -55,43 +67,45 @@ let postDocRaw (url:string) (data: string) : string =
       wstream.Flush()
       wstream.Close()
 
-      use! response  = request.AsyncGetResponse()
-      use reader     = new StreamReader(response.GetResponseStream())
-      let output = reader.ReadToEnd()
+      use! response = request.AsyncGetResponse()
+      use reader    = new StreamReader(response.GetResponseStream())
+      let output    = reader.ReadToEnd()
 
       reader.Close()
       response.Close()
       request.Abort()
 
       return output
-   }))
+   })
 
 
 // simple queries /////////////////////////////////////////////
 
-// xml out
-let readPosts ((start,num): int*int) : string      = getDocRaw <| api + "/read" +
-                                                         "?start=" + (sprintf "%d" start) + 
-                                                         "&num="   + (sprintf "%d" num) +
-                                                         "&type="  + "photo"
+// returns XML
+let readPosts ((start,num): int*int) : string = 
+      let url  = "http://" + blog + ".tumblr.com/api/read"
+      let data = Map.ofList [ "start", (sprintf "%d" start);
+                              "num",   (sprintf "%d" num);
+                              "type",  "photo" ]
+      getDocRaw url data
 
-// status out
-let deletePost (id:string) : string                =
-      let url = "http://www.tumblr.com/api/delete"
-      let data = "email=" + email + "&password=" + password + "&post-id=" + id
-      (postDocRaw url data)
+
+// returns status
+let deletePost (id: string) : string =
+      let url  = "http://www.tumblr.com/api/delete"
+      let data = Map.ofList [ "email",    email;
+                              "password", password;
+                              "post-id",  id ]
+      postDocRaw url data
                      
-// new id out
-// although this often works but returns an error
+// returns new id; often works even though Tumblr returns an error
 let reblogPost (id: string) (rkey: string) : string =
-      let url = "http://www.tumblr.com/api/reblog"
-      let data = "email=" + email + "&password=" + password + "&post-id=" + id + "&reblog-key=" + rkey
-      (postDocRaw url data)
-
-(* DOES AN HTTP POST:
-let reblogPost (id: string) (rkey: string) : string =
-      (postDocRaw "http://posttestserver.com/post.php" "hello=data")
-*)
+      let url  = "http://www.tumblr.com/api/reblog"
+      let data = Map.ofList [ "email",      email; 
+                              "password",   password; 
+                              "post-id",    id; 
+                              "reblog-key", rkey ]
+      postDocRaw url data
 
 
 // process XML results /////////////////////////////////////////////
@@ -146,33 +160,6 @@ let processPosts (postsXML) =
 let readAndProcessPosts = readPosts >> processPosts
 
 
-// agent /////////////////////////////////////////////
-
-type Message = 
-   | ToRead of int * int
-   | ToPrint of string
-   
-let agent = 
-   MailboxProcessor.Start(
-      fun inbox ->
-         let rec loop() = 
-            inbox.Scan(
-               function 
-               | ToRead (start, count) -> Some(async { 
-                     eprintfn "reading: (%d, %d)" start count
-                     readAndProcessPosts (start, count) |> ignore
-                     return! loop() 
-                 })
-               | ToPrint (s) -> Some(async {
-                     do eprintfn "printing: %s" s
-                     return! loop()
-                 })
-            )
-
-         loop()
-      )
-
-
 // range to consider ////////////////////////////////
 
 // get the most recent post on a given date
@@ -221,48 +208,17 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    (oldest, newest)
 
 
-// tests /////////////////////////////////////////////
+// RUN /////////////////////////////////////////////
 
 let testPostReblogging ii = 
    // read some posts
    let (start, total, posts) = readAndProcessPosts (ii, 1)
 
    // reblog those and delete original posts
-   (posts |> List.map (fun (id, rkey, datestring, post) ->
+   posts |> List.map (fun (id, rkey, datestring, post) ->
          printfn "   reblog returned: %s" (reblogPost id rkey)
-         //deletePost id        |> ignore
-   ))
-
-testPostReblogging 301 |> ignore
-
-
-(*
-testReadAgent() = 
-   printfn "a"
-   agent.Post <| ToRead (1, 5)  // this 
-   printfn "b"
-   agent.Post <| ToPrint "omfg" // this and
-   printfn "c"
-   agent.Post <| ToRead (47, 2) // this do not block
-   printfn "d"
-*)
-
-
-let testFindingCutoff() = 
-   printfn ""
-
-   let (_,p1) = rangeEndingIn (System.DateTime(2010,12,31))
-   printfn "The latest post on or before that date is #%d" p1
-   printfn ""
-
-   let (_,p2) = rangeEndingIn (System.DateTime(2011,7,8))
-   printfn "The latest post on or before that date is #%d" p2
-   printfn ""
-
-   readAndProcessPosts (1187,5) |> ignore
-
-//readAndProcessPosts (7, 2) |> ignore
-
+         deletePost id        |> ignore
+   )
 
 
 let deleteOnOrBefore (date: System.DateTime) =
@@ -275,14 +231,11 @@ let deleteOnOrBefore (date: System.DateTime) =
       |> List.map (fun (start,total,posts) -> posts) 
       |> List.concat
       |> List.map (fun (id, rkey, datestring, post) -> 
-(*
-            //TODO: this is throttled right now, I think
 
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
 
             printfn "-* reblogging id='%s' rkey='%s'" id rkey
             printfn "   newid='%s'" <| reblogPost id rkey
-*)
 
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
 
@@ -295,3 +248,4 @@ let testDeletion() =
    deleteOnOrBefore (System.DateTime(2009,6,19))
 
 
+testPostReblogging 270 |> ignore
