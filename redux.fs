@@ -23,7 +23,7 @@ then
 let [| _; (blog: string); (email: string); (password: string) |] = args
 
 
-// fetch a URL /////////////////////////////////////////////
+// misc /////////////////////////////////////////////
 
 // utility, combines key/values into a string with = and &
 let combine (m: Map<string,string>) : string = 
@@ -36,14 +36,13 @@ let combine (m: Map<string,string>) : string =
             m
 
 
+// fetch a URL /////////////////////////////////////////////
+
 // HTTP GET
 let getDocRaw (url: string) (data: Map<string,string> ) : string = 
-
-   let url' = url + "?" + (combine data)
-
-   printfn "url': %s" url'
-
    Async.RunSynchronously(async {
+      let url' = url + "?" + (combine data)
+
       let req        = WebRequest.Create(url', Timeout=5000)
       use! response  = req.AsyncGetResponse()
       use reader     = new StreamReader(response.GetResponseStream())
@@ -87,6 +86,9 @@ let readPosts ((start,num): int*int) : string =
       let data = Map.ofList [ "start", (sprintf "%d" start);
                               "num",   (sprintf "%d" num);
                               "type",  "photo" ]
+
+      printfn "-> reading..."
+
       getDocRaw url data
 
 
@@ -96,8 +98,16 @@ let deletePost (id: string) : string =
       let data = Map.ofList [ "email",    email;
                               "password", password;
                               "post-id",  id ]
-      postDocRaw url data
+
+      printfn "-# deleting..."
+
+      let status = postDocRaw url data
+
+      printfn "   status: '%s'" status
+
+      status
                      
+
 // returns new id; often works even though Tumblr returns an error
 let reblogPost (id: string) (rkey: string) : string =
       let url  = "http://www.tumblr.com/api/reblog"
@@ -105,7 +115,14 @@ let reblogPost (id: string) (rkey: string) : string =
                               "password",   password; 
                               "post-id",    id; 
                               "reblog-key", rkey ]
-      postDocRaw url data
+
+      printfn "-* reblogging id='%s' rkey='%s'" id rkey
+
+      let newid = postDocRaw url data
+
+      printfn "   newid: '%s'" newid
+
+      newid
 
 
 // process XML results /////////////////////////////////////////////
@@ -145,10 +162,10 @@ let processPosts (postsXML) =
    // display a post tuple
    let display (id, reblogkey, date, post:XmlNode) = 
       let pic = post.ChildNodes.Item(1).InnerText
-      eprintfn "-> id: %s, rkey: %s, %s\n   %s" id reblogkey (date.ToString()) pic
+      printfn "   id: '%s', rkey: '%s', '%s'\n   %s" id reblogkey (date.ToString()) pic
 
    // print stats
-   eprintfn "Got %d to %d of %d" start (start+num-1) total |> ignore
+   printfn "   read %d to %d of %d" start (start+num-1) total |> ignore
 
    // print all
    postsFound |> List.map display |> ignore
@@ -216,7 +233,7 @@ let testPostReblogging ii =
 
    // reblog those and delete original posts
    posts |> List.map (fun (id, rkey, datestring, post) ->
-         printfn "   reblog returned: %s" (reblogPost id rkey)
+         reblogPost id rkey   |> ignore
          deletePost id        |> ignore
    )
 
@@ -234,13 +251,11 @@ let deleteOnOrBefore (date: System.DateTime) =
 
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
 
-            printfn "-* reblogging id='%s' rkey='%s'" id rkey
-            printfn "   newid='%s'" <| reblogPost id rkey
+            reblogPost id rkey |> ignore
 
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
 
-            printfn "-# deleting..."
-            printfn "   status='%s'" <| deletePost id
+            deletePost id |> ignore
          )
    
 
