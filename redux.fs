@@ -46,7 +46,7 @@ let getDocRaw (url: string) (data: Map<string,string> ) : string =
    Async.RunSynchronously(async {
       let url' = url + "?" + (combine data)
 
-      let req        = WebRequest.Create(url', Timeout=5000)
+      let req        = WebRequest.Create(url', Timeout=15000)
       use! response  = req.AsyncGetResponse()
       use reader     = new StreamReader(response.GetResponseStream())
       let output = reader.ReadToEnd()
@@ -59,7 +59,7 @@ let postDocRaw (url: string) (data: Map<string,string>) : string =
    Async.RunSynchronously(async {
       let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(combine data);
 
-      let request = WebRequest.Create(url, Timeout=5000)  // sensitive to too short a delay
+      let request = WebRequest.Create(url, Timeout=15000)  // sensitive to too short a delay
       request.Method        <- "POST"
       request.ContentType   <- "application/x-www-form-urlencoded"
       request.ContentLength <- (int64) data'.Length
@@ -210,35 +210,40 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
 
 
    // if we have a match for the right date, step the the latest post on that date
-   let rec walkToNewestMatch (start: int) (target: System.DateTime) : int =
+   let rec walkToNewestMatch (target: System.DateTime) (start: int) : int =
       let nextPostDate = dateOfPost (start-1)
 
       printfn "   {%d, %d}" (start-1) start
 
       match (nextPostDate > target) with
       | true  -> start
-      | false -> walkToNewestMatch (start-1) target
+      | false -> walkToNewestMatch target (start-1)
       
 
    // binsearch to find latest post before a given date
    let rec findCutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
-      // TODO: fix bugs here...
+      if (newest + 1) = oldest then
+         if target < (dateOfPost oldest) then
+            oldest + 1
+         else
+            if target < (dateOfPost newest) then
+               oldest
+            else
+               newest
+      else
+         let middle = (newest + oldest) / 2
 
-      let middle = (newest + oldest) / 2
-      
-      printfn "   {%d, %d, %d}" newest middle oldest
+         printfn "   {%d, %d, %d}" newest middle oldest
 
-      let middleDate : System.DateTime = dateOfPost middle
+         let middleDate : System.DateTime = dateOfPost middle
 
-      match (middleDate, target) with
-      | a,b when newest =  oldest && a < b -> middle
-      | a,b when newest =  oldest && a = b -> walkToNewestMatch middle target
-      | a,b when newest =  oldest && a > b -> middle+1
-      | a,b when newest <> oldest && a < b -> findCutoff target newest (middle-1)
-      | a,b when newest <> oldest && a = b -> walkToNewestMatch middle target    // combine above
-      | a,b when newest <> oldest && a > b -> findCutoff target (middle+1) oldest
-      | _                                  -> -1 // humbug
+         match (middleDate, target) with
+         | a,b when a < b -> findCutoff        target newest (middle-1)
+         | a,b when a = b -> walkToNewestMatch target middle
+         | a,b when a > b -> findCutoff        target (middle+1) oldest
+         | _              -> -1 // humbug
+
 
    // get the latest post
    let (startingPostNumber, total, posts) = readAndProcessPosts (0, 1)
@@ -265,6 +270,7 @@ let deleteOnOrBefore (date: System.DateTime) =
       // concurrently.
       [newest..inc..oldest] 
       |> List.map (fun jj -> 
+            Async.RunSynchronously(Async.Sleep(10*1000)) |> ignore
             let (_, _, posts) = readAndProcessPosts (jj, inc)
             posts)
       |> List.concat  // condense our array of post arrays
@@ -273,7 +279,7 @@ let deleteOnOrBefore (date: System.DateTime) =
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore  // is there some obvious sleep command?
             reblogPost id rkey |> ignore
 *)
-            Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
+            Async.RunSynchronously(Async.Sleep(10*1000)) |> ignore
             deletePost id |> ignore)
    
 
