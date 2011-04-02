@@ -83,7 +83,7 @@ let postDocRaw (url: string) (data: Map<string,string>) : string =
 
 // simple queries /////////////////////////////////////////////
 
-// returns XML
+// read via personal Tumblr API
 let readPosts ((start,num): int*int) : string = 
       let url  = "http://" + blog + ".tumblr.com/api/read"
       let data = Map.ofList [ "start", (sprintf "%d" start);
@@ -92,10 +92,11 @@ let readPosts ((start,num): int*int) : string =
 
       printfn "-> reading..."
 
-      getDocRaw url data
+      let xml = getDocRaw url data
+      xml
 
 
-// returns status
+// delete using Tumblr API
 let deletePost (id: string) : string =
       let url  = "http://www.tumblr.com/api/delete"
       let data = Map.ofList [ "email",    email;
@@ -111,7 +112,8 @@ let deletePost (id: string) : string =
       status
                      
 
-// returns new id; often works even though Tumblr returns an error
+// reblog using Tumblr API
+// often works even though Tumblr returns an error
 let reblogPost (id: string) (rkey: string) : string =
       let url  = "http://www.tumblr.com/api/reblog"
       let data = Map.ofList [ "email",      email; 
