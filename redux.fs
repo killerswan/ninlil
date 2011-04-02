@@ -244,8 +244,12 @@ let deleteOnOrBefore (date: System.DateTime) =
       // arbitrarily do requests for 30 posts at a time
       let inc = 30
 
-      // we could make this parallel and very fast, but 
-      // let's be nice to Tumblr, we love them
+      // I could make this parallel and very fast, but 
+      // let's be nice to Tumblr, we love them.
+      //
+      // Note: reads are positional, but the id and reblog key
+      // would allow us to easily do deletions or reblogging after that
+      // concurrently.
       [newest..inc..oldest] 
       |> List.map (fun jj -> 
             let (_, _, posts) = readAndProcessPosts (jj, inc)
