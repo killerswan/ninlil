@@ -25,7 +25,8 @@ let [| _; (blog: string); (email: string); (password: string) |] = args
 
 // misc /////////////////////////////////////////////
 
-// utility, combines key/values into a string with = and &
+// combines key/values into a string with = and &
+// for use with HTTP GET and POST
 let combine (m: Map<string,string>) : string = 
    Map.fold (fun state key v -> 
                   let next = key + "=" + v
@@ -39,6 +40,8 @@ let combine (m: Map<string,string>) : string =
 // fetch a URL /////////////////////////////////////////////
 
 // HTTP GET
+// Note: the point of the async {} is to try not to block so much,
+// but in this program it is over-engineering. :D
 let getDocRaw (url: string) (data: Map<string,string> ) : string = 
    Async.RunSynchronously(async {
       let url' = url + "?" + (combine data)
@@ -56,7 +59,7 @@ let postDocRaw (url: string) (data: Map<string,string>) : string =
    Async.RunSynchronously(async {
       let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(combine data);
 
-      let request = WebRequest.Create(url, Timeout=5000)
+      let request = WebRequest.Create(url, Timeout=5000)  // sensitive to too short a delay
       request.Method        <- "POST"
       request.ContentType   <- "application/x-www-form-urlencoded"
       request.ContentLength <- (int64) data'.Length
@@ -173,11 +176,24 @@ let processPosts (postsXML) =
    (start, total, postsFound)
 
 
-// compose read and process /////////////////////////////////////////////
+// read and process /////////////////////////////////////////////
+
+// simplify
 let readAndProcessPosts = readPosts >> processPosts
 
+// test
+let testPostReblogging ii = 
+   // read a post (or list of posts)
+   let (start, total, posts) = readAndProcessPosts (ii, 1)
 
-// range to consider ////////////////////////////////
+   // reblog and delete that post (or list of posts)
+   posts |> List.map (fun (id, rkey, datestring, post) ->
+         reblogPost id rkey   |> ignore
+         deletePost id        |> ignore
+   )
+
+
+// dealing with a range ////////////////////////////////
 
 // get the most recent post on a given date
 let rangeEndingIn (targetDate: System.DateTime) : int*int = 
@@ -190,6 +206,7 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
       let (_,_,date,_) = posts |> List.head 
       date
 
+
    // if we have a match for the right date, step the the latest post on that date
    let rec walkToNewestMatch (start: int) (target: System.DateTime) : int =
       let nextPostDate = dateOfPost (start-1)
@@ -197,6 +214,7 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
       | true  -> start
       | false -> walkToNewestMatch (start-1) target
       
+
    // binsearch to find latest post before a given date
    let rec findCutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
@@ -225,19 +243,7 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    (oldest, newest)
 
 
-// RUN /////////////////////////////////////////////
-
-let testPostReblogging ii = 
-   // read some posts
-   let (start, total, posts) = readAndProcessPosts (ii, 1)
-
-   // reblog those and delete original posts
-   posts |> List.map (fun (id, rkey, datestring, post) ->
-         reblogPost id rkey   |> ignore
-         deletePost id        |> ignore
-   )
-
-
+// delete the range of posts on or before a given date
 let deleteOnOrBefore (date: System.DateTime) =
       let (oldest, newest) = rangeEndingIn date
    
@@ -254,19 +260,21 @@ let deleteOnOrBefore (date: System.DateTime) =
       |> List.map (fun jj -> 
             let (_, _, posts) = readAndProcessPosts (jj, inc)
             posts)
-      |> List.concat
+      |> List.concat  // condense our array of post arrays
       |> List.map (fun (id, rkey, _, _) -> 
-            Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
+(* 
+            Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore  // is there some obvious sleep command?
             reblogPost id rkey |> ignore
-
+*)
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
             deletePost id |> ignore)
    
 
-let testDeletion() =
-   deleteOnOrBefore (System.DateTime(2009,6,19))
+// run /////////////////////////////////////////////
+
+//testPostReblogging 270 |> ignore
+
+deleteOnOrBefore (System.DateTime(2010,1,1))
+|> ignore
 
 
-testPostReblogging 270 |> ignore
-
-testDeletion() |> ignore
