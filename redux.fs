@@ -214,8 +214,6 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    let rec walkToNewestMatch (target: System.DateTime) (start: int) : int =
       let nextPostDate = dateOfPost (start-1)
 
-      printfn "   {%d, %d}" (start-1) start
-
       match (nextPostDate > target) with
       | true  -> start
       | false -> walkToNewestMatch target (start-1)
@@ -224,24 +222,32 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    // binsearch to find latest post on a given date
    let rec findCutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
-      if (newest + 1) = oldest then
+      if (newest + 2) = oldest then
+
+         // maybe no match, but stop recursing
          if target < (dateOfPost oldest) then
             oldest + 1
+         elif target < (dateOfPost (newest + 1)) then
+            oldest
+         elif target < (dateOfPost newest) then
+            newest + 1
          else
-            if target < (dateOfPost newest) then
-               oldest
-            else
-               newest
+            newest
 
       else
          let middle = (newest + oldest) / 2
 
-         if target < (dateOfPost middle) then
-            findCutoff        target (middle+1) oldest
-         elif target > (dateOfPost middle) then
-            findCutoff        target newest (middle-1)
-         else 
+         // match
+         if target = (dateOfPost middle) then
             walkToNewestMatch target middle
+
+         // too new
+         elif target < (dateOfPost middle) then
+            findCutoff target        (middle+1) oldest
+
+         // too old
+         else 
+            findCutoff target newest (middle-1)
 
 
    // get the latest post
@@ -278,7 +284,7 @@ let deleteOnOrBefore (date: System.DateTime) =
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore  // is there some obvious sleep command?
             reblogPost id rkey |> ignore
 *)
-            Async.RunSynchronously(Async.Sleep(10*1000)) |> ignore
+            Async.RunSynchronously(Async.Sleep(3*1000)) |> ignore
             deletePost id |> ignore)
    
 
