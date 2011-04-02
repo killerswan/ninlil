@@ -18,6 +18,7 @@ let args = System.Environment.GetCommandLineArgs()
 if args.Length <> 4
 then
    printfn "Usage: redux.exe BLOG EMAIL PASSWORD"
+   // yes, this API needs some TLS, stat!
    exit 1
 
 let [| _; (blog: string); (email: string); (password: string) |] = args
@@ -197,7 +198,7 @@ let testPostReblogging ii =
 
 // dealing with a range ////////////////////////////////
 
-// get the most recent post on a given date
+// get the range from the oldest post to the most recent on a given date
 let rangeEndingIn (targetDate: System.DateTime) : int*int = 
 
    // date of post /////////////////////////////////////////////
