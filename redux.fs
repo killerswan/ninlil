@@ -116,7 +116,7 @@ let reblogPost (id: string) (rkey: string) : string =
                               "post-id",    id; 
                               "reblog-key", rkey ]
 
-      printfn "-* reblogging id='%s' rkey='%s'" id rkey
+      printfn "-* reblogging id='%s' rkey='%s'..." id rkey
 
       let newid = postDocRaw url data
 
@@ -216,11 +216,11 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
       | _                                  -> -1 // humbug
 
    // get the latest post
-   let (startingPostNumber, total, posts) = readAndProcessPosts (1, 1)
+   let (startingPostNumber, total, posts) = readAndProcessPosts (0, 1)
 
    // find where the end of the date we care about is
    let oldest = total - 1  // assuming Tumblr numbers from 0
-   let newest = findCutoff targetDate startingPostNumber total
+   let newest = findCutoff targetDate startingPostNumber oldest
 
    (oldest, newest)
 
@@ -241,22 +241,22 @@ let testPostReblogging ii =
 let deleteOnOrBefore (date: System.DateTime) =
       let (oldest, newest) = rangeEndingIn date
    
+      // arbitrarily do requests for 30 posts at a time
       let inc = 30
 
+      // we could make this parallel and very fast, but 
+      // let's be nice to Tumblr, we love them
       [newest..inc..oldest] 
-      |> List.map (fun jj -> readAndProcessPosts (jj, inc))
-      |> List.map (fun (start,total,posts) -> posts) 
+      |> List.map (fun jj -> 
+            let (_, _, posts) = readAndProcessPosts (jj, inc)
+            posts)
       |> List.concat
-      |> List.map (fun (id, rkey, datestring, post) -> 
-
+      |> List.map (fun (id, rkey, _, _) -> 
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
-
             reblogPost id rkey |> ignore
 
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore
-
-            deletePost id |> ignore
-         )
+            deletePost id |> ignore)
    
 
 let testDeletion() =
@@ -264,3 +264,5 @@ let testDeletion() =
 
 
 testPostReblogging 270 |> ignore
+
+testDeletion() |> ignore
