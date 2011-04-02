@@ -220,7 +220,7 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
       | false -> walkToNewestMatch target (start-1)
       
 
-   // binsearch to find latest post before a given date
+   // binsearch to find latest post on a given date
    let rec findCutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
       if (newest + 1) = oldest then
@@ -231,18 +231,16 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
                oldest
             else
                newest
+
       else
          let middle = (newest + oldest) / 2
 
-         printfn "   {%d, %d, %d}" newest middle oldest
-
-         let middleDate : System.DateTime = dateOfPost middle
-
-         match (middleDate, target) with
-         | a,b when a < b -> findCutoff        target newest (middle-1)
-         | a,b when a = b -> walkToNewestMatch target middle
-         | a,b when a > b -> findCutoff        target (middle+1) oldest
-         | _              -> -1 // humbug
+         if target < (dateOfPost middle) then
+            findCutoff        target (middle+1) oldest
+         elif target > (dateOfPost middle) then
+            findCutoff        target newest (middle-1)
+         else 
+            walkToNewestMatch target middle
 
 
    // get the latest post
