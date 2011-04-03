@@ -13,7 +13,66 @@ open System.Drawing
 
 
 
-// post type /////////////////////////////////////////////
+
+// fetch a URL /////////////////////////////////////////////
+
+// combines key/values into a string with = and &
+// for use with HTTP GET and POST
+let combine (m: Map<string,string>) : string = 
+   Map.fold (fun state key v -> 
+                  let next = key + "=" + v
+                  match state with
+                  | "" ->               next
+                  | _  -> state + "&" + next) 
+            ""
+            m
+
+// HTTP GET
+// Note: the point of the async {} is to try not to block so much,
+// but in this program it is over-engineering. :D
+let httpget (url: string) (data: Map<string,string> ) : string = 
+   Async.RunSynchronously(async {
+      let url' = url + "?" + (combine data)
+
+      let req        = WebRequest.Create(url', Timeout=15000)
+      use! response  = req.AsyncGetResponse()
+      use reader     = new StreamReader(response.GetResponseStream())
+      let output = reader.ReadToEnd()
+      return output
+   })
+
+
+// HTTP POST
+let httppost (url: string) (data: Map<string,string>) : string =
+   Async.RunSynchronously(async {
+      let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(combine data);
+
+      let request = WebRequest.Create(url, Timeout=15000)  // sensitive to too short a delay
+      request.Method        <- "POST"
+      request.ContentType   <- "application/x-www-form-urlencoded"
+      request.ContentLength <- (int64) data'.Length
+
+      use wstream = request.GetRequestStream() 
+      wstream.Write(data',0, (data'.Length))
+      wstream.Flush()
+      wstream.Close()
+
+      use! response = request.AsyncGetResponse()
+      use reader    = new StreamReader(response.GetResponseStream())
+      let output    = reader.ReadToEnd()
+
+      reader.Close()
+      response.Close()
+      request.Abort()
+
+      return output
+   })
+
+
+
+
+
+// Tumblr /////////////////////////////////////////////
 
 // one Tumblr post
 // This could be expanded to include more of the properties present
@@ -32,65 +91,10 @@ type Post(postxml: XmlNode) =
    member p.display : string        = sprintf "id: '%s', rkey: '%s', '%s'\n   %s" p.id p.rkey (p.date.ToString()) p.picURL
 
 
-// fetch a URL /////////////////////////////////////////////
 // objects, and how!
-
-type TumblrAPI(blog: string, email: string, password: string) =
-
-   // combines key/values into a string with = and &
-   // for use with HTTP GET and POST
-   let combine (m: Map<string,string>) : string = 
-      Map.fold (fun state key v -> 
-                     let next = key + "=" + v
-                     match state with
-                     | "" ->               next
-                     | _  -> state + "&" + next) 
-               ""
-               m
-
-   // HTTP GET
-   // Note: the point of the async {} is to try not to block so much,
-   // but in this program it is over-engineering. :D
-   let httpget (url: string) (data: Map<string,string> ) : string = 
-      Async.RunSynchronously(async {
-         let url' = url + "?" + (combine data)
-
-         let req        = WebRequest.Create(url', Timeout=15000)
-         use! response  = req.AsyncGetResponse()
-         use reader     = new StreamReader(response.GetResponseStream())
-         let output = reader.ReadToEnd()
-         return output
-      })
-
-
-   // HTTP POST
-   let httppost (url: string) (data: Map<string,string>) : string =
-      Async.RunSynchronously(async {
-         let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(combine data);
-
-         let request = WebRequest.Create(url, Timeout=15000)  // sensitive to too short a delay
-         request.Method        <- "POST"
-         request.ContentType   <- "application/x-www-form-urlencoded"
-         request.ContentLength <- (int64) data'.Length
-
-         use wstream = request.GetRequestStream() 
-         wstream.Write(data',0, (data'.Length))
-         wstream.Flush()
-         wstream.Close()
-
-         use! response = request.AsyncGetResponse()
-         use reader    = new StreamReader(response.GetResponseStream())
-         let output    = reader.ReadToEnd()
-
-         reader.Close()
-         response.Close()
-         request.Abort()
-
-         return output
-      })
-
-
-   // simple queries /////////////////////////////////////////////
+type TumblrAPI(blog: string, 
+               email: string, 
+               password: string) =
 
    // read via personal Tumblr API
    let readPosts ((start,num): int*int) : string = 
@@ -179,7 +183,7 @@ type TumblrAPI(blog: string, email: string, password: string) =
    // members
    member tumblr.delete = deletePost
    member tumblr.reblog = reblogPost
-   member tumblr.read = readPosts
+   member tumblr.read   = readPosts
    member tumblr.readAndProcess = readPosts >> processPosts
 
 
