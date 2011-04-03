@@ -53,40 +53,37 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    // binsearch to find latest post on a given date
    let rec findCutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
-      if (newest + 2) = oldest then
+      let middle = (newest + oldest) / 2
 
-         // maybe no match, but stop recursing
-         if target < (dateOfPost oldest) then
-            oldest + 1
-         elif target < (dateOfPost (newest + 1)) then
-            oldest
-         elif target < (dateOfPost newest) then
-            newest + 1
+      // match
+      if target = (dateOfPost middle) then
+         walkToNewestMatch target middle
+
+      // too new
+      elif target < (dateOfPost middle) then
+         if (middle+1) <= oldest then
+            findCutoff target (middle+1) oldest
+         else
+            oldest+1 // may be an overflow
+
+      // too old
+      else 
+         if newest <= (middle-1) then
+            findCutoff target newest (middle-1)
          else
             newest
-
-      else
-         let middle = (newest + oldest) / 2
-
-         // match
-         if target = (dateOfPost middle) then
-            walkToNewestMatch target middle
-
-         // too new
-         elif target < (dateOfPost middle) then
-            findCutoff target        (middle+1) oldest
-
-         // too old
-         else 
-            findCutoff target newest (middle-1)
 
 
    // get the latest post
    let (startingPostNumber, total, posts) = api.readAndProcess (0, 1)
 
    // find where the end of the date we care about is
-   let oldest = total - 1  // assuming Tumblr numbers from 0
+   let oldest = if total > 0 then total - 1 else 0  // assuming Tumblr numbers from 0
    let newest = findCutoff targetDate startingPostNumber oldest
+
+   if newest > oldest then
+      printfn "No range matches that requirement.  Exiting..."
+      exit 0
 
    (oldest, newest)
 
@@ -94,17 +91,16 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
 // delete the range of posts on or before a given date
 let deleteOnOrBefore (date: System.DateTime) =
       let (oldest, newest) = rangeEndingIn date
-   
-      // arbitrarily do requests for 30 posts at a time
-      let inc = 30
+
+      let inc = 30 // arbitrary: 30 posts at a time
 
       // I could make this parallel and very fast, but 
       // let's be nice to Tumblr, we love them.
       //
       // Note: reads are positional, but 
       // the deletions and/or reblogging could be concurrent.
-
-      [newest..inc..oldest] 
+   
+      [newest..inc..oldest]
       |> List.map (fun jj -> 
             Async.RunSynchronously(Async.Sleep(10*1000)) |> ignore
             let (_, _, posts) = api.readAndProcess (jj, inc)
@@ -121,6 +117,6 @@ let deleteOnOrBefore (date: System.DateTime) =
    
 
 // run
-deleteOnOrBefore (System.DateTime(2010,4,2)) |> ignore
+deleteOnOrBefore (System.DateTime(2010,6,13)) |> ignore
 
 
