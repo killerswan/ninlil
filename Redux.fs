@@ -6,8 +6,7 @@
 open Tumblr
 
 
-// command line args /////////////////////////////////////////////
-
+// init
 let args = System.Environment.GetCommandLineArgs()
 if args.Length <> 4
 then
@@ -15,24 +14,9 @@ then
    // yes, this API needs some TLS, stat!
    exit 1
 
-let [| _; (blog: string); (email: string); (password: string) |] = args
-
+let [| _; blog; email; password |] = args
 let api = Tumblr.API(blog, email, password)
 
-
-// test
-let testPostReblogging ii = 
-   // read a post (or list of posts)
-   let (start, total, posts) = api.readAndProcess (ii, 1)
-
-   // reblog and delete that post (or list of posts)
-   posts |> List.map (fun post ->
-         api.reblog post.id post.rkey  |> ignore
-         api.delete post.id            |> ignore
-   )
-
-
-// dealing with a range ////////////////////////////////
 
 // get the range from the oldest post to the most recent on a given date
 let rangeEndingIn (targetDate: System.DateTime) : int*int = 
@@ -105,9 +89,9 @@ let deleteOnOrBefore (date: System.DateTime) =
       // I could make this parallel and very fast, but 
       // let's be nice to Tumblr, we love them.
       //
-      // Note: reads are positional, but the id and reblog key
-      // would allow us to easily do deletions or reblogging after that
-      // concurrently.
+      // Note: reads are positional, but 
+      // the deletions and/or reblogging could be concurrent.
+
       [newest..inc..oldest] 
       |> List.map (fun jj -> 
             Async.RunSynchronously(Async.Sleep(10*1000)) |> ignore
@@ -124,8 +108,7 @@ let deleteOnOrBefore (date: System.DateTime) =
             api.delete post.id |> ignore)
    
 
-//testPostReblogging 270 |> ignore
-
-deleteOnOrBefore (System.DateTime(2010,4,1)) |> ignore
+// run
+deleteOnOrBefore (System.DateTime(2010,4,2)) |> ignore
 
 
