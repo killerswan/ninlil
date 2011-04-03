@@ -133,9 +133,24 @@ let reblogPost (id: string) (rkey: string) : string =
 
 // process XML results /////////////////////////////////////////////
 
+// one postnode
+type Post(postxml: XmlNode) =
+   // "2010-11-24 05:57:26 GMT"
+   let processDate (datestring: string) : System.DateTime =
+      (System.DateTime.ParseExact( (datestring.Split [| ' ' |]).[0], "yyyy-MM-dd", null )) 
+
+   member p.id : string = postxml.Attributes.GetNamedItem("id").Value
+   member p.rkey : string = postxml.Attributes.GetNamedItem("reblog-key").Value
+   member p.date : System.DateTime = postxml.Attributes.GetNamedItem("date-gmt").Value |> processDate
+   member p.XML : XmlNode = postxml
+   member p.picURL : string = postxml.ChildNodes.Item(1).InnerText
+
+   member p.display : string = sprintf "id: '%s', rkey: '%s', '%s'\n   %s" p.id p.rkey (p.date.ToString()) p.picURL
+
+   
 // after getPosts
 let processPosts (postsXML) =
-   let doc = new XmlDocument()
+   let doc = XmlDocument()
    postsXML |> doc.LoadXml // so doc is mutable?
 
    // add prettier printing
@@ -150,25 +165,14 @@ let processPosts (postsXML) =
    let total = System.Convert.ToInt32(posts.Attributes.GetNamedItem("total").Value)
    let num   = posts.ChildNodes.Count
 
-   // "2010-11-24 05:57:26 GMT"
-   let processDate (datestring: string) : System.DateTime =
-      (System.DateTime.ParseExact( (datestring.Split [| ' ' |]).[0], "yyyy-MM-dd", null )) 
-
    // posts.HasChildNodes
-   let postsFound = 
-      [
-         for ii in 0..(num-1) do
-            let post       = posts.ChildNodes.Item(ii)
-            let id         = post.Attributes.GetNamedItem("id").Value
-            let reblogkey  = post.Attributes.GetNamedItem("reblog-key").Value
-            let date       = post.Attributes.GetNamedItem("date-gmt").Value |> processDate
-            yield (id, reblogkey, date, post)
-      ]
+   let postsFound = [ for kk in 0..(num-1) do
+                      let postxml = posts.ChildNodes.Item(kk)
+                      yield Post(postxml) ]
 
    // display a post tuple
-   let display (id, reblogkey, date, post:XmlNode) = 
-      let pic = post.ChildNodes.Item(1).InnerText
-      printfn "   id: '%s', rkey: '%s', '%s'\n   %s" id reblogkey (date.ToString()) pic
+   let display (post: Post) = 
+      printfn "   %s" (post.display)
 
    // print stats
    printfn "   read %d to %d of %d" start (start+num-1) total |> ignore
@@ -190,9 +194,9 @@ let testPostReblogging ii =
    let (start, total, posts) = readAndProcessPosts (ii, 1)
 
    // reblog and delete that post (or list of posts)
-   posts |> List.map (fun (id, rkey, datestring, post) ->
-         reblogPost id rkey   |> ignore
-         deletePost id        |> ignore
+   posts |> List.map (fun post ->
+         reblogPost post.id post.rkey  |> ignore
+         deletePost post.id            |> ignore
    )
 
 
@@ -205,9 +209,8 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    let dateOfPost (index: int) : System.DateTime = 
       let (start, total, posts) = readAndProcessPosts (index, 1)
 
-      // srsly, TODO: make this post tuple a type
-      let (_,_,date,_) = posts |> List.head 
-      date
+      let post1 = List.head posts
+      post1.date
 
 
    // if we have a match for the right date, step the the latest post on that date
@@ -279,20 +282,19 @@ let deleteOnOrBefore (date: System.DateTime) =
             let (_, _, posts) = readAndProcessPosts (jj, inc)
             posts)
       |> List.concat  // condense our array of post arrays
-      |> List.map (fun (id, rkey, _, _) -> 
-(* 
+      |> List.map (fun post ->
+(*
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore  // is there some obvious sleep command?
-            reblogPost id rkey |> ignore
+            reblogPost post.id post.rkey |> ignore
 *)
             Async.RunSynchronously(Async.Sleep(3*1000)) |> ignore
-            deletePost id |> ignore)
+            deletePost post.id |> ignore)
    
 
 // run /////////////////////////////////////////////
 
 //testPostReblogging 270 |> ignore
 
-deleteOnOrBefore (System.DateTime(2010,1,1))
-|> ignore
+deleteOnOrBefore (System.DateTime(2010,1,2)) |> ignore
 
 
