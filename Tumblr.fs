@@ -1,9 +1,25 @@
-(* Copyright (c) Kevin Cantu <me@kevincantu.org>
+// Copyright (c) 2011, Kevin Cantu <me@kevincantu.org>
+//
+// Permission to use, copy, modify, and/or distribute this software for any
+// purpose with or without fee is hereby granted, provided that the above
+// copyright notice and this permission notice appear in all copies.
+//
+// The software is provided "as is" and the author disclaims all warranties
+// with regard to this software including all implied warranties of
+// merchantability and fitness.  In no event shall the author be liable for
+// any special, direct, indirect, or consequential damanges or any damages
+// whatsoever resulting from loss of use, data, your immortal soul, or 
+// profits, whether in an action of contract, negligence, or other 
+// tortious action, arising out of or in connection with the use or 
+// performance of this software.
 
-   Tumblr - 
-      This module provides tools which can be used
-      to manipulate existing Tumblr posts,
-      (given the blog name, email, and password).
+(* 
+   Ninlil.Tumblr can be used to simplify calls to the Tumblr API
+   for a given account, like so:
+
+   let api = Tumblr.API(blog, email, password)
+   api.reblog POST-ID POST-REBLOGKEY
+   api.delete POST-ID
 *)
 
 module Ninlil.Tumblr
