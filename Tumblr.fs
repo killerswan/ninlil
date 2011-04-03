@@ -1,9 +1,12 @@
-// Copyright (c) Kevin Cantu <me@kevincantu.org>
-//
-// redux - manipulate old Tumblr posts
+(* Copyright (c) Kevin Cantu <me@kevincantu.org>
+
+   Tumblr - 
+      This module provides tools which can be used
+      to manipulate existing Tumblr posts,
+      (given the blog name, email, and password).
+*)
 
 module Tumblr
-
 
 open System.Collections.Generic
 open System.Net
@@ -14,10 +17,7 @@ open System.Xml
 open System.Drawing
 
 
-
-
-
-// fetch a URL /////////////////////////////////////////////
+// HTTP utility functions /////////////////////////////////////
 
 // combines key/values into a string with = and &
 // for use with HTTP GET and POST
@@ -29,6 +29,7 @@ let combine (m: Map<string,string>) : string =
                   | _  -> state + "&" + next) 
             ""
             m
+
 
 // HTTP GET
 // Note: the point of the async {} is to try not to block so much,
@@ -72,10 +73,7 @@ let httppost (url: string) (data: Map<string,string>) : string =
    })
 
 
-
-
-
-
+// Tumblr /////////////////////////////////////
 
 // one Tumblr post
 // This could be expanded to include more of the properties present
@@ -91,14 +89,12 @@ type Post(postxml: XmlNode) =
    member p.date : System.DateTime  = postxml.Attributes.GetNamedItem("date-gmt").Value |> processDate
    member p.picURL : string         = postxml.ChildNodes.Item(1).InnerText
 
-   member p.display : string        = sprintf "id: '%s', rkey: '%s', '%s'\n   %s" p.id p.rkey (p.date.ToString()) p.picURL
+   member p.display : string        = 
+      sprintf "id: '%s', rkey: '%s', '%s'\n   %s" p.id p.rkey (p.date.ToString()) p.picURL
 
 
 // API for a given account
-// objects, and how!
-type API(blog: string, 
-          email: string, 
-          password: string) =
+type API(blog: string, email: string, password: string) =
 
    // read via personal Tumblr API
    let readPosts ((start,num): int*int) : string = 
@@ -108,7 +104,6 @@ type API(blog: string,
                                  "type",  "photo" ]
 
          printfn "-> reading..."
-
          let xml = httpget url data
          xml
 
@@ -121,9 +116,7 @@ type API(blog: string,
                                  "post-id",  id ]
 
          printfn "-# deleting..."
-
          let status = httppost url data
-
          printfn "   status: '%s'" status
 
          status
@@ -139,17 +132,13 @@ type API(blog: string,
                                  "reblog-key", rkey ]
 
          printfn "-* reblogging id='%s' rkey='%s'..." id rkey
-
          let newid = httppost url data
-
          printfn "   newid: '%s'" newid
 
          newid
 
 
-   // process XML results /////////////////////////////////////////////
-   
-   // after getPosts
+   // process XML results
    let processPosts (postsXML) =
       let doc = XmlDocument()
       postsXML |> doc.LoadXml // so doc is mutable?
@@ -184,7 +173,7 @@ type API(blog: string,
       (start, total, postsFound)
 
 
-   // members
+   // members /////////////////////////////////////
    member tumblr.delete = deletePost
    member tumblr.reblog = reblogPost
    member tumblr.read   = readPosts

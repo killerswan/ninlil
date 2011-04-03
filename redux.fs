@@ -1,22 +1,9 @@
-// Copyright (c) Kevin Cantu <me@kevincantu.org>
-//
-// redux - manipulate old Tumblr posts
+(* Copyright (c) Kevin Cantu <me@kevincantu.org>
 
-
-(*
-open System.Collections.Generic
-open System.Net
-open System.IO
-open System.Threading
-open System.Text.RegularExpressions
-open System.Xml
-open System.Drawing
+   redux - manipulate old Tumblr posts
 *)
 
 open Tumblr
-
-
-
 
 
 // command line args /////////////////////////////////////////////
@@ -31,8 +18,6 @@ then
 let [| _; (blog: string); (email: string); (password: string) |] = args
 
 let api = Tumblr.API(blog, email, password)
-
-
 
 
 // test
@@ -131,17 +116,16 @@ let deleteOnOrBefore (date: System.DateTime) =
       |> List.concat  // condense our array of post arrays
       |> List.map (fun post ->
 (*
-            Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore  // is there some obvious sleep command?
+            Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore  
+            // is there a better sleep command?
             api.reblog post.id post.rkey |> ignore
 *)
             Async.RunSynchronously(Async.Sleep(3*1000)) |> ignore
             api.delete post.id |> ignore)
    
 
-// run /////////////////////////////////////////////
-
 //testPostReblogging 270 |> ignore
 
-deleteOnOrBefore (System.DateTime(2010,1,3)) |> ignore
+deleteOnOrBefore (System.DateTime(2010,1,4)) |> ignore
 
 
