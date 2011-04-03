@@ -13,12 +13,14 @@ open System.Drawing
 
 
 
+module Tumblr =
 
-// fetch a URL /////////////////////////////////////////////
 
-// combines key/values into a string with = and &
-// for use with HTTP GET and POST
-let combine (m: Map<string,string>) : string = 
+ // fetch a URL /////////////////////////////////////////////
+
+ // combines key/values into a string with = and &
+ // for use with HTTP GET and POST
+ let combine (m: Map<string,string>) : string = 
    Map.fold (fun state key v -> 
                   let next = key + "=" + v
                   match state with
@@ -27,10 +29,10 @@ let combine (m: Map<string,string>) : string =
             ""
             m
 
-// HTTP GET
-// Note: the point of the async {} is to try not to block so much,
-// but in this program it is over-engineering. :D
-let httpget (url: string) (data: Map<string,string> ) : string = 
+ // HTTP GET
+ // Note: the point of the async {} is to try not to block so much,
+ // but in this program it is over-engineering. :D
+ let httpget (url: string) (data: Map<string,string> ) : string = 
    Async.RunSynchronously(async {
       let url' = url + "?" + (combine data)
 
@@ -42,8 +44,8 @@ let httpget (url: string) (data: Map<string,string> ) : string =
    })
 
 
-// HTTP POST
-let httppost (url: string) (data: Map<string,string>) : string =
+ // HTTP POST
+ let httppost (url: string) (data: Map<string,string>) : string =
    Async.RunSynchronously(async {
       let data' : byte[] = System.Text.Encoding.ASCII.GetBytes(combine data);
 
@@ -72,9 +74,7 @@ let httppost (url: string) (data: Map<string,string>) : string =
 
 
 
-// Tumblr /////////////////////////////////////////////
 
-module Tumblr
 
  // one Tumblr post
  // This could be expanded to include more of the properties present
