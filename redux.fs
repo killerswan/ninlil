@@ -74,9 +74,11 @@ let httppost (url: string) (data: Map<string,string>) : string =
 
 // Tumblr /////////////////////////////////////////////
 
-// one Tumblr post
-// This could be expanded to include more of the properties present
-type Post(postxml: XmlNode) =
+module Tumblr
+
+ // one Tumblr post
+ // This could be expanded to include more of the properties present
+ type Post(postxml: XmlNode) =
 
    // "2010-11-24 05:57:26 GMT"
    let processDate (datestring: string) : System.DateTime =
@@ -91,10 +93,11 @@ type Post(postxml: XmlNode) =
    member p.display : string        = sprintf "id: '%s', rkey: '%s', '%s'\n   %s" p.id p.rkey (p.date.ToString()) p.picURL
 
 
-// objects, and how!
-type TumblrAPI(blog: string, 
-               email: string, 
-               password: string) =
+ // API for a given account
+ // objects, and how!
+ type API(blog: string, 
+          email: string, 
+          password: string) =
 
    // read via personal Tumblr API
    let readPosts ((start,num): int*int) : string = 
