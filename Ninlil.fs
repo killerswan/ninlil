@@ -3,7 +3,9 @@
    redux - manipulate old Tumblr posts
 *)
 
-open Tumblr
+module Ninlil.Main
+
+open Ninlil.Tumblr
 
 
 // init

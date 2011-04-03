@@ -1,4 +1,4 @@
 *.swp
-*.sh
-*.bash
+run.bash
 *.exe
+*.old

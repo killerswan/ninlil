@@ -6,7 +6,7 @@
       (given the blog name, email, and password).
 *)
 
-module Tumblr
+module Ninlil.Tumblr
 
 open System.Collections.Generic
 open System.Net
