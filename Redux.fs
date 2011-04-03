@@ -126,6 +126,6 @@ let deleteOnOrBefore (date: System.DateTime) =
 
 //testPostReblogging 270 |> ignore
 
-deleteOnOrBefore (System.DateTime(2010,1,4)) |> ignore
+deleteOnOrBefore (System.DateTime(2010,4,1)) |> ignore
 
 
