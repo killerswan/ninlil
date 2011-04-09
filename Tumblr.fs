@@ -20,6 +20,9 @@
    let api = Tumblr.API(blog, email, password)
    api.reblog POST-ID POST-REBLOGKEY
    api.delete POST-ID
+
+   Also, remember that until Tumblr starts using HTTPS,
+   this could all be dangerously insecure.
 *)
 
 module Ninlil.Tumblr

@@ -22,8 +22,7 @@ open   Ninlil.Tumblr
 let args = System.Environment.GetCommandLineArgs()
 if args.Length <> 4
 then
-   printfn "Usage: redux.exe BLOG EMAIL PASSWORD"
-   // yes, this API needs some TLS, stat!
+   printfn "Usage: Ninlil.exe BLOG EMAIL PASSWORD"
    exit 1
 
 let [| _; blog; email; password |] = args
@@ -36,6 +35,10 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    // date of post /////////////////////////////////////////////
    let dateOfPost (index: int) : System.DateTime = 
       let (start, total, posts) = api.readAndProcess (index, 1)
+
+      // I have a very strong urge to hide additional plumbing like this
+      // in another API routine.
+      // Soon my kitchen sink will be in the cupboard, too.
 
       let post1 = List.head posts
       post1.date
