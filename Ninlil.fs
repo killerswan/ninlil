@@ -34,13 +34,7 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
 
    // date of post /////////////////////////////////////////////
    let dateOfPost (index: int) : System.DateTime = 
-      let (_, _, posts) = api.read (index, 1)
-
-      // I have a very strong urge to hide additional plumbing like this
-      // in another API routine.
-      // Soon my kitchen sink will be in the cupboard, too.
-
-      let post1 = List.head posts
+      let post1 = api.read (index, 1) |> List.head
       post1.date
 
 
@@ -105,7 +99,7 @@ let deleteOnOrBefore (date: System.DateTime) =
       [newest..inc..oldest]
       |> List.map (fun jj -> 
             Async.RunSynchronously(Async.Sleep(10*1000)) |> ignore
-            let (_, _, posts) = api.read (jj, inc)
+            let posts = api.read (jj, inc)
             posts)
       |> List.concat  // condense our array of post arrays
       |> List.map (fun post ->

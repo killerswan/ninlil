@@ -196,11 +196,17 @@ type API(blog: string, email: string, password: string) =
       let (starting, total, posts) = (readPostsXML >> processPosts) (0, 1)
       total
 
+   
+   let simpleRead (a,b) = 
+      let read = readPostsXML >> processPosts
+      let (_,_,posts) = read (a,b)
+      posts
+
 
    // members /////////////////////////////////////
    member tumblr.delete = deletePost
    member tumblr.reblog = reblogPost
-   member tumblr.read = readPostsXML >> processPosts
+   member tumblr.read = simpleRead
    member tumblr.totalPosts = numberOfTotalPosts
 
 
