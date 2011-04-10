@@ -116,7 +116,7 @@ type Post(postxml: XmlNode) =
 type API(blog: string, email: string, password: string) =
 
    // read via personal Tumblr API
-   let readPosts ((start,num): int*int) : string = 
+   let readPostsXML ((start,num): int*int) : string = 
          let url  = "http://" + blog + ".tumblr.com/api/read"
          let data = Map.ofList [ "start", (sprintf "%d" start);
                                  "num",   (sprintf "%d" num);
@@ -191,11 +191,16 @@ type API(blog: string, email: string, password: string) =
 
       (start, total, postsFound)
 
+   
+   let numberOfTotalPosts() = 
+      let (starting, total, posts) = (readPostsXML >> processPosts) (0, 1)
+      total
+
 
    // members /////////////////////////////////////
    member tumblr.delete = deletePost
    member tumblr.reblog = reblogPost
-   member tumblr.read   = readPosts
-   member tumblr.readAndProcess = readPosts >> processPosts
+   member tumblr.read = readPostsXML >> processPosts
+   member tumblr.totalPosts = numberOfTotalPosts
 
 

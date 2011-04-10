@@ -34,7 +34,7 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
 
    // date of post /////////////////////////////////////////////
    let dateOfPost (index: int) : System.DateTime = 
-      let (start, total, posts) = api.readAndProcess (index, 1)
+      let (_, _, posts) = api.read (index, 1)
 
       // I have a very strong urge to hide additional plumbing like this
       // in another API routine.
@@ -77,12 +77,11 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
             newest
 
 
-   // get the latest post
-   let (startingPostNumber, total, posts) = api.readAndProcess (0, 1)
+   let total = api.totalPosts()
 
    // find where the end of the date we care about is
    let oldest = if total > 0 then total - 1 else 0  // assuming Tumblr numbers from 0
-   let newest = findCutoff targetDate startingPostNumber oldest
+   let newest = findCutoff targetDate 0 oldest
 
    if newest > oldest then
       printfn "No range matches that requirement.  Exiting..."
@@ -106,7 +105,7 @@ let deleteOnOrBefore (date: System.DateTime) =
       [newest..inc..oldest]
       |> List.map (fun jj -> 
             Async.RunSynchronously(Async.Sleep(10*1000)) |> ignore
-            let (_, _, posts) = api.readAndProcess (jj, inc)
+            let (_, _, posts) = api.read (jj, inc)
             posts)
       |> List.concat  // condense our array of post arrays
       |> List.map (fun post ->
