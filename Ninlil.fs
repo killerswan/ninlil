@@ -105,7 +105,6 @@ let deleteOnOrBefore (date: System.DateTime) =
       |> List.map (fun post ->
 (*
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore  
-            // is there a better sleep command?
             api.reblog post.id post.rkey |> ignore
 *)
             Async.RunSynchronously(Async.Sleep(3*1000)) |> ignore
