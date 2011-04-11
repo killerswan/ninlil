@@ -34,7 +34,7 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
 
    // date of post /////////////////////////////////////////////
    let dateOfPost (index: int) : System.DateTime = 
-      let post1 = api.read (index, 1) |> List.head
+      let post1 = api.reads (index, 1) |> List.head
       post1.date
 
 
@@ -99,8 +99,7 @@ let deleteOnOrBefore (date: System.DateTime) =
       [newest..inc..oldest]
       |> List.map (fun jj -> 
             Async.RunSynchronously(Async.Sleep(10*1000)) |> ignore
-            let posts = api.read (jj, inc)
-            posts)
+            api.reads (jj, inc))
       |> List.concat  // condense our array of post arrays
       |> List.map (fun post ->
 (*

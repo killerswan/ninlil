@@ -202,11 +202,16 @@ type API(blog: string, email: string, password: string) =
       let (_,_,posts) = read (a,b)
       posts
 
+   let readOnePost a = 
+      simpleRead (a, 1)
+      |> List.head
+
 
    // members /////////////////////////////////////
    member tumblr.delete = deletePost
    member tumblr.reblog = reblogPost
-   member tumblr.read = simpleRead
+   member tumblr.reads = simpleRead
+   member tumblr.read = readOnePost
    member tumblr.totalPosts = numberOfTotalPosts
 
 
