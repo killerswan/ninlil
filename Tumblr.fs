@@ -20,6 +20,8 @@
    let api = Tumblr.API(blog, email, password)
    api.reblog POST-ID POST-REBLOGKEY
    api.delete POST-ID
+   api.read INDEX
+   api.reads (INDEX,COUNT)
 
    Also, remember that until Tumblr starts using HTTPS,
    this could all be dangerously insecure.
@@ -116,7 +118,7 @@ type Post(postxml: XmlNode) =
 type API(blog: string, email: string, password: string) =
 
    // read via personal Tumblr API
-   let readPostsXML ((start,num): int*int) : string = 
+   let readPostsXML (start: int) (num: int) : string = 
          let url  = "http://" + blog + ".tumblr.com/api/read"
          let data = Map.ofList [ "start", (sprintf "%d" start);
                                  "num",   (sprintf "%d" num);
@@ -189,21 +191,21 @@ type API(blog: string, email: string, password: string) =
       // print all
       postsFound |> List.map display |> ignore
 
-      (start, total, postsFound)
+      (total, postsFound)
 
    
    let numberOfTotalPosts() = 
-      let (starting, total, posts) = (readPostsXML >> processPosts) (0, 1)
+      let (total, posts) = readPostsXML 0 1 |> processPosts
       total
 
    
-   let simpleRead (a,b) = 
-      let read = readPostsXML >> processPosts
-      let (_,_,posts) = read (a,b)
+   let simpleRead a b  = 
+      let read a b = readPostsXML a b |> processPosts
+      let (_,posts) = read a b
       posts
 
    let readOnePost a = 
-      simpleRead (a, 1)
+      simpleRead a 1
       |> List.head
 
 
