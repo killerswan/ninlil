@@ -15,7 +15,7 @@
 
 module Ninlil.Main
 
-open   Ninlil.Tumblr
+open Ninlil.Tumblr
 
 
 // init
@@ -32,7 +32,7 @@ let api = Tumblr.API(blog, email, password)
 // get the range from the oldest post to the most recent on a given date
 let rangeEndingIn (targetDate: System.DateTime) : int*int = 
 
-   // date of post /////////////////////////////////////////////
+   // date of post at index
    let dateOfPost (index: int) : System.DateTime = 
       let post = api.read index
       post.date
