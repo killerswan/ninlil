@@ -187,11 +187,12 @@ type API(blog: string, email: string, password: string) =
 
       // print all
       postsFound |> List.map display |> ignore
+
       postsFound
 
 
    // request a post, then find the total posts
-   let totalPosts() =
+   let numOfTotalPosts() =
       let doc = XmlDocument()
       readPostsXML 0 1 |> doc.LoadXml
 
@@ -206,7 +207,7 @@ type API(blog: string, email: string, password: string) =
    member tumblr.delete             = deletePost
    member tumblr.reblog             = reblogPost
    member tumblr.reads index count  = readPostsXML index count |> processPosts
-   member tumblr.read index         = readPostsXML index 1 |> processPosts |> List.head
-   member tumblr.totalPosts         = totalPosts
+   member tumblr.read index         = tumblr.reads index 1 |> List.head
+   member tumblr.totalPosts         = numOfTotalPosts
 
 
