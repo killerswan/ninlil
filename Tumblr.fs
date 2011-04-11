@@ -159,7 +159,7 @@ type API(blog: string, email: string, password: string) =
          newid
 
 
-   // process XML results
+   // process XML for Posts
    let processPosts (postsXML) =
       let doc = XmlDocument()
       postsXML |> doc.LoadXml // so doc is mutable?
@@ -170,10 +170,6 @@ type API(blog: string, email: string, password: string) =
       // process the data
       let tumblr = doc.ChildNodes.Item(1)
       let posts  = tumblr.ChildNodes.Item(1)
-
-      // overall statistics
-      let start = System.Convert.ToInt32(posts.Attributes.GetNamedItem("start").Value)
-      let total = System.Convert.ToInt32(posts.Attributes.GetNamedItem("total").Value)
       let num   = posts.ChildNodes.Count
 
       // posts.HasChildNodes
@@ -186,34 +182,31 @@ type API(blog: string, email: string, password: string) =
          printfn "   %s" (post.display) |> ignore
 
       // print stats
-      printfn "   read %d to %d of %d" start (start+num-1) total |> ignore
+      let start = System.Convert.ToInt32(posts.Attributes.GetNamedItem("start").Value)
+      printfn "   read %d to %d" start (start+num-1) |> ignore
 
       // print all
       postsFound |> List.map display |> ignore
+      postsFound
 
-      (total, postsFound)
 
-   
-   let numberOfTotalPosts() = 
-      let (total, posts) = readPostsXML 0 1 |> processPosts
+   // request a post, then find the total posts
+   let totalPosts() =
+      let doc = XmlDocument()
+      readPostsXML 0 1 |> doc.LoadXml
+
+      // process the data
+      let tumblr = doc.ChildNodes.Item(1)
+      let posts  = tumblr.ChildNodes.Item(1)
+      let total = System.Convert.ToInt32(posts.Attributes.GetNamedItem("total").Value)
       total
-
-   
-   let simpleRead a b  = 
-      let read a b = readPostsXML a b |> processPosts
-      let (_,posts) = read a b
-      posts
-
-   let readOnePost a = 
-      simpleRead a 1
-      |> List.head
-
+      
 
    // members /////////////////////////////////////
-   member tumblr.delete = deletePost
-   member tumblr.reblog = reblogPost
-   member tumblr.reads = simpleRead
-   member tumblr.read = readOnePost
-   member tumblr.totalPosts = numberOfTotalPosts
+   member tumblr.delete             = deletePost
+   member tumblr.reblog             = reblogPost
+   member tumblr.reads index count  = readPostsXML index count |> processPosts
+   member tumblr.read index         = readPostsXML index 1 |> processPosts |> List.head
+   member tumblr.totalPosts         = totalPosts
 
 
