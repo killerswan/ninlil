@@ -13,6 +13,16 @@
 // tortious action, arising out of or in connection with the use or 
 // performance of this software.
 
+module Ninlil.Tumblr
+
+open System.Collections.Generic
+open System.Net
+open System.IO
+open System.Threading
+open System.Text.RegularExpressions
+open System.Xml
+open System.Drawing
+
 (* 
    Ninlil.Tumblr can be used to simplify calls to the Tumblr API
    for a given account, like so:
@@ -26,16 +36,6 @@
    Also, remember that until Tumblr starts using HTTPS,
    this could all be dangerously insecure.
 *)
-
-module Ninlil.Tumblr
-
-open System.Collections.Generic
-open System.Net
-open System.IO
-open System.Threading
-open System.Text.RegularExpressions
-open System.Xml
-open System.Drawing
 
 
 // HTTP utility functions /////////////////////////////////////
@@ -118,7 +118,7 @@ type Post(postxml: XmlNode) =
 type API(blog: string, email: string, password: string) =
 
    // read via personal Tumblr API
-   let readPostsXML (start: int) (num: int) : string = 
+   member public x.readXML (start: int) (num: int) : string = 
          let url  = "http://" + blog + ".tumblr.com/api/read"
          let data = Map.ofList [ "start", (sprintf "%d" start);
                                  "num",   (sprintf "%d" num);
@@ -130,7 +130,7 @@ type API(blog: string, email: string, password: string) =
 
 
    // delete using Tumblr API
-   let deletePost (id: string) : string =
+   member public x.delete (id: string) : string =
          let url  = "http://www.tumblr.com/api/delete"
          let data = Map.ofList [ "email",    email;
                                  "password", password;
@@ -145,7 +145,7 @@ type API(blog: string, email: string, password: string) =
 
    // reblog using Tumblr API
    // often works even though Tumblr returns an error
-   let reblogPost (id: string) (rkey: string) : string =
+   member public x.reblog (id: string) (rkey: string) : string =
          let url  = "http://www.tumblr.com/api/reblog"
          let data = Map.ofList [ "email",      email; 
                                  "password",   password; 
@@ -160,7 +160,7 @@ type API(blog: string, email: string, password: string) =
 
 
    // process XML for Posts
-   let processPosts (postsXML) =
+   member private x.processPosts (postsXML) =
       let doc = XmlDocument()
       postsXML |> doc.LoadXml // so doc is mutable?
 
@@ -186,31 +186,25 @@ type API(blog: string, email: string, password: string) =
       printfn "   read %d to %d" start (start+num-1) |> ignore
 
       // print all
-      postsFound |> List.map display |> ignore
+      List.map display postsFound |> ignore
 
       postsFound
 
 
    // request a post, then find the total posts
-   member tumblr.totalPosts() =
+   member public x.totalPosts() =
       let doc = XmlDocument()
-      readPostsXML 0 1 |> doc.LoadXml
+      x.readXML 0 1 |> doc.LoadXml
 
       // process the data
       let tumblr = doc.ChildNodes.Item(1)
       let posts  = tumblr.ChildNodes.Item(1)
       let total = System.Convert.ToInt32(posts.Attributes.GetNamedItem("total").Value)
       total
-      
 
-   // DELETE
-   member tumblr.delete             = deletePost
 
-   // REBLOG
-   member tumblr.reblog             = reblogPost
-
-   // READ
-   member tumblr.reads index count  = readPostsXML index count |> processPosts
-   member tumblr.read index         = tumblr.reads index 1 |> List.head
+   // processed read
+   member public x.reads index count = x.readXML index count |> x.processPosts
+   member public x.read  index       = x.reads index 1       |> List.head
 
 

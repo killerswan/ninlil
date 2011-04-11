@@ -51,13 +51,14 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    let rec findCutoff (target: System.DateTime) (newest: int) (oldest: int) : int = 
 
       let middle = (newest + oldest) / 2
+      let middleDate = dateOfPost middle
 
       // match
-      if target = (dateOfPost middle) then
+      if target = middleDate then
          walkToNewestMatch target middle
 
       // too new
-      elif target < (dateOfPost middle) then
+      elif target < middleDate then
          if (middle+1) <= oldest then
             findCutoff target (middle+1) oldest
          else
