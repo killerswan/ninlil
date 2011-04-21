@@ -99,15 +99,15 @@ let deleteOnOrBefore (date: System.DateTime) =
    
       [newest..inc..oldest]
       |> List.map (fun jj -> 
-            Async.RunSynchronously(Async.Sleep(10*1000)) |> ignore
+            Async.RunSynchronously(Async.Sleep(1000)) |> ignore
             api.reads  jj  inc)
       |> List.concat  // condense our array of post arrays
       |> List.map (fun post ->
 (*
-            Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore  
+            Async.RunSynchronously(Async.Sleep(1000)) |> ignore  
             api.reblog post.id post.rkey |> ignore
 *)
-            Async.RunSynchronously(Async.Sleep(1*1000)) |> ignore
+            Async.RunSynchronously(Async.Sleep(1000)) |> ignore
             api.delete post.id |> ignore)
    
 
