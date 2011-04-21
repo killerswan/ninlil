@@ -65,7 +65,7 @@ type API(blog: string, email: string, password: string) =
                                  "num",   (sprintf "%d" num);
                                  "type",  "photo" ]
 
-         printfn "-> reading..."
+         //printfn "-> reading..."
          let xml = httpget url data
          xml
 
@@ -77,9 +77,9 @@ type API(blog: string, email: string, password: string) =
                                  "password", password;
                                  "post-id",  id ]
 
-         printfn "-# deleting..."
+         //printfn "-# deleting..."
          let status = httppost url data
-         printfn "   status: '%s'" status
+         //printfn "   status: '%s'" status
 
          status
                         
@@ -93,9 +93,9 @@ type API(blog: string, email: string, password: string) =
                                  "post-id",    id; 
                                  "reblog-key", rkey ]
 
-         printfn "-* reblogging id='%s' rkey='%s'..." id rkey
+         //printfn "-* reblogging id='%s' rkey='%s'..." id rkey
          let newid = httppost url data
-         printfn "   newid: '%s'" newid
+         //printfn "   newid: '%s'" newid
 
          newid
 
@@ -118,6 +118,7 @@ type API(blog: string, email: string, password: string) =
                          let postxml = posts.ChildNodes.Item(kk)
                          yield Post(postxml) ]
 
+(*
       // display a post tuple
       let display (post: Post) = 
          printfn "   %s" (post.display) |> ignore
@@ -128,7 +129,7 @@ type API(blog: string, email: string, password: string) =
 
       // print all
       List.map display postsFound |> ignore
-
+*)
       postsFound
 
 
