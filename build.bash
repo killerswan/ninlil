@@ -7,4 +7,5 @@ then
    mv "$EXE" "$EXE.old"
 fi
 
-fsharpc --nologo --optimize --out:"$EXE" HTTP.fs Tumblr.fs Ninlil.fs
+#fsharpc --nologo --optimize --out:"$EXE" HTTP.fs Tumblr.fs Ninlil.fs
+fsc --nologo --optimize --out:"$EXE" HTTP.fs Tumblr.fs Ninlil.fs

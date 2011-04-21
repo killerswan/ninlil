@@ -107,11 +107,11 @@ let deleteOnOrBefore (date: System.DateTime) =
             Async.RunSynchronously(Async.Sleep(5*1000)) |> ignore  
             api.reblog post.id post.rkey |> ignore
 *)
-            Async.RunSynchronously(Async.Sleep(3*1000)) |> ignore
+            Async.RunSynchronously(Async.Sleep(1*1000)) |> ignore
             api.delete post.id |> ignore)
    
 
 // run
-deleteOnOrBefore (System.DateTime(2010,8,13)) |> ignore
+deleteOnOrBefore (System.DateTime(2010,8,20)) |> ignore
 
 
