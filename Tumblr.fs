@@ -65,7 +65,7 @@ type API(blog: string, email: string, password: string) =
                                  "num",   (sprintf "%d" num);
                                  "type",  "photo" ]
 
-         //printfn "-> reading..."
+         printfn "-> reading..."
          let xml = httpget url data
          xml
 
@@ -77,7 +77,7 @@ type API(blog: string, email: string, password: string) =
                                  "password", password;
                                  "post-id",  id ]
 
-         //printfn "-# deleting..."
+         printfn "-# deleting..."
          let status = httppost url data
          //printfn "   status: '%s'" status
 
@@ -93,7 +93,7 @@ type API(blog: string, email: string, password: string) =
                                  "post-id",    id; 
                                  "reblog-key", rkey ]
 
-         //printfn "-* reblogging id='%s' rkey='%s'..." id rkey
+         printfn "-* reblogging id='%s' rkey='%s'..." id rkey
          let newid = httppost url data
          //printfn "   newid: '%s'" newid
 
