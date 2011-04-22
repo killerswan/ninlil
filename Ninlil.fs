@@ -96,18 +96,20 @@ let deleteOnOrBefore (date: System.DateTime) =
       //
       // Note: reads are positional, but 
       // the deletions and/or reblogging could be concurrent.
+
+      let sleep secs = Async.RunSynchronously(Async.Sleep(secs * 1000)) |> ignore
    
       [newest..inc..oldest]
       |> List.map (fun jj -> 
-            Async.RunSynchronously(Async.Sleep(1000)) |> ignore
+            sleep 1
             api.reads  jj  inc)
       |> List.concat  // condense our array of post arrays
       |> List.map (fun post ->
 (*
-            Async.RunSynchronously(Async.Sleep(1000)) |> ignore  
+            sleep 1
             api.reblog post.id post.rkey |> ignore
 *)
-            Async.RunSynchronously(Async.Sleep(1000)) |> ignore
+            sleep 1
             api.delete post.id |> ignore)
    
 
