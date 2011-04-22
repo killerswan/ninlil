@@ -81,6 +81,8 @@ let rangeEndingIn (targetDate: System.DateTime) : int*int =
    if newest > oldest then
       printfn "No range matches that requirement.  Exiting..."
       exit 0
+   else
+      printfn "Found posts from number %d to %d" oldest newest
 
    (oldest, newest)
 
@@ -98,7 +100,7 @@ let deleteOnOrBefore (date: System.DateTime) =
       // the deletions and/or reblogging could be concurrent.
 
       let sleep secs = Async.RunSynchronously(Async.Sleep(secs * 1000)) |> ignore
-   
+
       [newest..inc..oldest]
       |> List.map (fun jj -> 
             sleep 1
@@ -110,10 +112,11 @@ let deleteOnOrBefore (date: System.DateTime) =
             api.reblog post.id post.rkey |> ignore
 *)
             sleep 1
-            api.delete post.id |> ignore)
+            api.delete post.id)
+      |> (fun l -> printfn "Done deleting %d posts" l.Length) 
    
 
 // run
-deleteOnOrBefore (System.DateTime(2010,8,21)) |> ignore
+deleteOnOrBefore (System.DateTime(2010,8,23)) |> ignore
 
 

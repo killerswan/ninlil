@@ -146,7 +146,7 @@ type API(blog: string, email: string, password: string) =
       // process the data
       let tumblr = doc.ChildNodes.Item(1)
       let posts  = tumblr.ChildNodes.Item(1)
-      let total = System.Convert.ToInt32(posts.Attributes.GetNamedItem("total").Value)
+      let total  = System.Convert.ToInt32(posts.Attributes.GetNamedItem("total").Value)
       total
 
 
