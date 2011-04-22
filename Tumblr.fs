@@ -58,6 +58,11 @@ type Post(postxml: XmlNode) =
 // API for a given account
 type API(blog: string, email: string, password: string) =
 
+   // toggle debug messages
+   // all these printfns are primitive, i know :)
+   let debug = false
+
+
    // read via personal Tumblr API
    member public x.readXML (start: int) (num: int) : string = 
          let url  = "http://" + blog + ".tumblr.com/api/read"
@@ -65,7 +70,7 @@ type API(blog: string, email: string, password: string) =
                                  "num",   (sprintf "%d" num);
                                  "type",  "photo" ]
 
-         printfn "-> reading..."
+         if debug then printfn "-> reading XML..."
          let xml = httpget url data
          xml
 
@@ -77,9 +82,9 @@ type API(blog: string, email: string, password: string) =
                                  "password", password;
                                  "post-id",  id ]
 
-         printfn "-# deleting..."
+         if debug then printfn "-# deleting..."
          let status = httppost url data
-         //printfn "   status: '%s'" status
+         if debug then printfn "   status: '%s'" status
 
          status
                         
@@ -93,17 +98,19 @@ type API(blog: string, email: string, password: string) =
                                  "post-id",    id; 
                                  "reblog-key", rkey ]
 
-         printfn "-* reblogging id='%s' rkey='%s'..." id rkey
+         if debug then printfn "-* reblogging id='%s' rkey='%s'..." id rkey
          let newid = httppost url data
-         //printfn "   newid: '%s'" newid
+         if debug then printfn "   newid: '%s'" newid
 
          newid
 
 
    // process XML for Posts
    member private x.processPosts (postsXML) =
+      if debug then printfn "-& processing XML..."
+
       let doc = XmlDocument()
-      postsXML |> doc.LoadXml // so doc is mutable?
+      doc.LoadXml postsXML
 
       // add prettier printing
       //fsi.AddPrinter( fun (x:XmlNode) -> x.OuterXml );;
@@ -118,18 +125,16 @@ type API(blog: string, email: string, password: string) =
                          let postxml = posts.ChildNodes.Item(kk)
                          yield Post(postxml) ]
 
-(*
-      // display a post tuple
-      let display (post: Post) = 
-         printfn "   %s" (post.display) |> ignore
+      if debug then
+         // print stats
+         let start = System.Convert.ToInt32(posts.Attributes.GetNamedItem("start").Value)
+         printfn "   read %d to %d" start (start+num-1) |> ignore
 
-      // print stats
-      let start = System.Convert.ToInt32(posts.Attributes.GetNamedItem("start").Value)
-      printfn "   read %d to %d" start (start+num-1) |> ignore
+         // print post details
+         postsFound 
+         |> List.map (fun p -> printfn "   %s" p.display) 
+         |> ignore
 
-      // print all
-      List.map display postsFound |> ignore
-*)
       postsFound
 
 
