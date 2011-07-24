@@ -1,0 +1,3094 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+                                         
+        .                                 .o8       oooo
+      .o8                                "888       `888
+    .o888oo oooo  oooo  ooo. .oo.  .oo.   888oooo.   888  oooo d8b
+      888   `888  `888  `888P"Y88bP"Y88b  d88' `88b  888  `888""8P
+      888    888   888   888   888   888  888   888  888   888
+      888 .  888   888   888   888   888  888   888  888   888    .o.
+      "888"  `V88V"V8P' o888o o888o o888o `Y8bod8P' o888o d888b   Y8P
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <script type="text/javascript">var tinyMCE,_sf_startpt=(new Date()).getTime();</script>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                        
+        <meta name="viewport" content="width=960"/>
+        
+        <meta http-equiv="x-dns-prefetch-control" content="off"/>
+        
+        <title>API | Tumblr</title>
+        
+                
+        <link rel="icon" href="http://assets.tumblr.com/images/favicon.gif?2" type="image/gif"/>
+        <link rel="apple-touch-icon" href="http://assets.tumblr.com/images/apple_touch_icon.png"/>
+        
+                
+        <link rel="stylesheet" type="text/css"
+        href="http://assets.tumblr.com/stylesheets/compressed/global.css?621"/>
+        
+                
+                
+                
+                
+                
+        <script type="text/javascript" language="javascript"
+        src="http://assets.tumblr.com/languages/strings/en_US.js?621"></script>
+        
+                    <script type="text/javascript" language="javascript"
+            src="http://assets.tumblr.com/javascript/prototype_effects_application_tumblelog.js?621"></script>
+                
+                
+                
+            </head>
+    <body id="main_api_docs"
+    class="
+                    "
+    onclick="click_body();"
+        onload="
+                            ">    
+        
+                
+                
+                    <noscript>
+                <div style="
+                    height: 45px;
+                    text-align: center;
+                    background: #31546f url('http://assets.tumblr.com/images/site_notice_bg.png') bottom repeat-x;
+                    color: #fff;
+                    font:normal 17px 'Lucida Grande',Verdana,sans-serif;
+                    line-height:45px;
+                ">
+                    <a href="https://www.google.com/adsense/support/bin/answer.py?hl=en&amp;answer=12654" style="color:#fff;text-decoration: none;border-bottom: solid 1px #5E809C;">Javascript</a> is required to view this site.                </div>
+            </noscript>
+                
+                
+                
+        <div id="container">
+            <div id="header_container">                
+                <div id="header">
+                    
+                    <a href="/"><img
+                                            src="http://assets.tumblr.com/images/logo.png?alpha&6" width="196" height="44"
+                                        alt="Tumblr" id="logo"/></a>
+                    
+                    
+                                    <div id="nav">
+                <a href="http://staff.tumblr.com/" title="Tumblr Staff Blog" class="nav_item logged_out">
+                    <div>What's new</div>
+                    <div class="nav_item_nipple"><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                </a>
+                
+                                            
+                    <a href="/explore" class="nav_item logged_out ">
+                        <div>Explore</div>
+                        <div class="nav_item_nipple"><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                    </a>
+                                
+                <a href="/about" class="nav_item logged_out ">
+                    <div>About us</div>
+                    <div class="nav_item_nipple"><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                </a>
+                
+                <a href="/register" class="nav_item logged_out ">
+                    <div>Sign up</div>
+                    <div class="nav_item_nipple"><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                </a>
+                
+                <a href="/login" class="nav_item logged_out ">
+                    <div>Log in</div>
+                    <div class="nav_item_nipple"><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                </a>
+                </div>
+                
+                <div id="search_box">
+                    
+<form method="get" action="/search" id="search_form">
+    <input type="text" name="q" id="search_query" placeholder="Search Tags" value=""/>
+            <input type="hidden" name="scope" id="search_scope" value="all_of_tumblr"/>
+    
+    <div id="search_controls_wrapper">
+        <div id="search_controls_button" onclick="just_clicked_search_menu = true;">▾</div>
+        <div id="search_controls" style="display:none;">
+            <a name="all_of_tumblr" class="first">
+                Search Tags                <span class="check" style=""></span>
+            </a>
+                        <a name="help_docs" class="last">
+                Help Docs                <span class="check" style="display:none"></span>
+            </a>
+            <div class="arrow"></div>
+        </div>
+    </div>
+</form>                </div>
+
+    
+        </div>
+    </div>
+            
+                        
+            <img src="http://assets.tumblr.com/images/content_top.png?alpha" alt="" id="content_top"
+            /><div id="content">
+                
+<style type="text/css">
+    h1 {
+        font-size: 40px;
+    }
+    
+    h2 {
+        margin-top: 50px;
+        color: #333;
+        font-size: 28px;
+        border-bottom: solid 1px #ddd;
+        padding-bottom: 10px;
+    }
+    
+    h3 {
+        font-weight: bold;
+        color: #222;
+        font-size: 22px;
+        line-height: 28px;
+        margin: 30px 0px 10px 0px;
+    }
+    
+        h3.method {
+            margin-top: 40px;
+        }
+        
+            h3.method span {
+                font-family: Courier, Monaco, monospace;
+                background-color: #DCEDCE;
+                border: solid 1px #B6DB9A;
+                padding: 0px 4px;
+            }
+        
+    h4 {
+        color: #444;
+        margin: 20px 0px 0px 0px;
+    }
+
+    table {
+        width: 600px !important;
+        margin: 15px 0px;
+        border-collapse: collapse;
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+        th, td {
+            border: 1px solid #ddd !important;
+            padding: 5px 11px !important;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        tr.header {
+            border-width: 0px !important;
+        }
+
+            tr.header th {
+                border-width: 0px !important;
+                background: #fff;
+                padding: 0px 11px 3px 11px !important;
+                color: #666;
+                vertical-align: bottom;
+                white-space: nowrap;
+            }
+        
+        td {
+            background: #fff;
+        }
+        
+            td .note, th .note {
+                font-size: 11px;
+                color: #888;
+                line-height: 16px;
+            }
+            
+                td .note a, th .note a {
+                    color: #888 !important;
+                    text-decoration: underline !important;
+                }
+                
+            td code, th code {
+                border-width: 0px;
+                padding: 0px;
+                background-color: #fff;
+            }
+            
+            td ul, th ul {
+                padding-left: 25px;
+                margin: 5px 0px !important;
+            }
+            
+                td ul li, th ul li {
+                    margin: 5px 0px !important;
+                }
+                        
+    code {
+        font-family: Monaco;
+        background-color: #f2f2f2;
+        border: solid 1px #ddd;
+        padding: 1px 4px;
+    }
+    
+    #table_of_contents {
+        padding: 13px 0px 13px 20px;
+        width: 188px;
+        background-color: #f2f2f2;
+        border: solid 1px #ddd;
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        border-radius: 7px;
+    }
+    
+        #table_of_contents h2 {
+            padding: 0px;
+            margin: 0px 0px 7px 0px;
+            color: #444;
+            font-size: 16px;
+            border-width: 0px;
+        }
+        
+        #table_of_contents a {
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            color: #2A8BC7;
+            line-height: 24px;
+        }
+        
+            #table_of_contents a:hover {
+                text-decoration: underline;
+            }
+            
+    #left_column {
+        line-height: 22px;
+        color: #000;
+    }
+    
+        #left_column p {
+            margin: 15px 0px;
+        }
+    
+        #left_column a {
+            color: #2A8BC7;
+            text-decoration: none;
+        }
+        
+            #left_column a:hover {
+                text-decoration: underline;
+            }
+            
+        #left_column p.note {
+            margin: 20px 0px;
+            background-color: #f2f2f2;
+            border: solid 1px #ddd;
+            -webkit-border-radius: 7px;
+            -moz-border-radius: 7px;
+            border-radius: 7px;
+            padding: 8px 12px;
+            color: #333;
+        }
+    
+            #left_column p.note a {
+                text-decoration: underline;
+                color: #333;
+            }
+            
+            #left_column p.note code {
+                background-color: #fff;
+                border-width: 0px;
+            }
+        
+        #left_column ul {
+            list-style-type: square;
+            margin: 15px 0;
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+
+        #left_column ul ul, ol ul, ul.arrow {
+            list-style-type: disc;
+        }
+
+        #left_column li {
+            margin: 15px 0;
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+
+        #left_column ul.tight, #left_column ol.light,
+        #left_column ul.tight li, #left_column ol.light li {
+            margin: 10px 0px;
+            line-height: 20px;
+        }
+        
+        #left_column ul.tight li code, #left_column ol.light li code {
+            background-color: #eee;
+            border-width: 0px;
+        }
+            
+    .request {
+        background-color: #383838;
+        margin-bottom: -15px;
+        padding: 9px 12px;
+        font-family: Courier, Monaco, monospace;
+        -webkit-border-top-left-radius: 7px;
+        -webkit-border-top-right-radius: 7px;
+        -moz-border-radius-topleft: 7px;
+        -moz-border-radius-topright: 7px;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+        color: #fff;
+    }
+    
+        .request a {
+            color: #fff !important;
+        }
+            
+    pre {
+        color: #f8f8f8;
+        background-color: #111;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 10px 10px;
+        margin: 15px 0px;
+        overflow-x: auto;
+    }
+    
+        pre .string {
+            color: #65b042;
+        }
+    
+        pre .number {
+            color: #2b85cc;
+        }
+    
+    .see_this {
+        font-size: 11px;
+        font-style: italic;
+        color: #bbb;
+    }
+
+        .see_this a {
+            color: #bbb;
+        }
+</style>
+
+<div id="right_column" style="width:210px; float:right;">
+    <div id="table_of_contents">
+        <h2>Contents</h2>
+        
+        <a href="#what_you_need">What You Need</a><br/>
+        <a href="#overview">Overview</a><br/>
+        <a href="#auth">Authentication</a><br/>
+        <a href="#blog_methods">Blog Methods</a><br/>                    
+            &nbsp; &nbsp; &nbsp; <a href="#blog-info">Blog Info</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#blog-avatar">Avatar</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#blog-followers">Followers</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#posts">Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <a href="#text-posts">Text</a><br/>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <a href="#photo-posts">Photo</a><br/>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <a href="#quote-posts">Quote</a><br/>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <a href="#link-posts">Link</a><br/>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <a href="#chat-posts">Chat</a><br/>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <a href="#audio-posts">Audio</a><br/>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <a href="#video-posts">Video</a><br/>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <a href="#answer-posts">Answer</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#blog-queue">Queue</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#blog-drafts">Drafts</a><br/>				
+            &nbsp; &nbsp; &nbsp; <a href="#blog-submissions">Submissions</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#posting">Posting</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#editing">Editing Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#reblogging">Reblogging Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#deleting-posts">Deleting Posts</a><br/>                    
+        <a href="#user-methods">User Methods</a><br/>
+        <!-- <a href="#sample-scripts">Sample Scripts</a><br/> -->
+    </div>
+    
+    <script type="text/javascript">
+        var table_of_contents_static_top_offset = $('table_of_contents').positionedOffset().top;
+        
+        setInterval(function(){
+            if (
+                table_of_contents_static_top_offset -
+                document.viewport.getScrollOffsets().top <= 30
+            ) {
+                if ($('table_of_contents').style.position != 'fixed') {
+                    $('table_of_contents').style.position = 'fixed';
+                    $('table_of_contents').style.top = '30px';
+                }
+            } else if ($('table_of_contents').style.position == 'fixed') {
+                $('table_of_contents').style.position = 'static';
+                $('table_of_contents').style.top = 'auto';
+                
+            }                        
+        }, 50);
+    </script>
+</div>
+
+<div id="left_column" style="width:600px;">    
+    <h1>
+        Tumblr API
+        <!-- <span style="font-size:30px; color:#ccc; font-weight:normal; letter-spacing:2px;">v2</span> -->
+    </h1>
+
+    <p>
+    Welcome to the Tumblr API! There isn't anything we enjoy more than seeing talented designers and engineers using Tumblr to invent whole new forms of creative expression.&nbsp; We've put a tremendous amount of care into making this API functional and <i>flexible</i> enough for any projects you throw at it.&nbsp; Join us in our <a href="https://groups.google.com/group/tumblr-api/">discussion group</a> to talk about how to use it, what could be better, and all the amazing things you're going to build with it. Please use the API <a href="http://www.tumblr.com/policy/en/api">responsibly</a>, and <a href="mailto:api@tumblr.com">send us your feedback</a>.&nbsp; Enjoy!
+	</p>
+	
+	<p>
+	    If you're looking for documentation for the old API, you can find it
+	    <a href="/docs/en/api/v1">here</a>.
+	</p>
+	
+	<!-- WHAT YOU NEED -->
+	
+	<h2 id="what_you_need" style="margin-top:40px;">What You Need</h2>
+	
+	<p>Get an OAuth key: <a href="http://www.tumblr.com/oauth/apps">register an application</a></p>
+	
+	<p>You'll need this to get your API key, even if you don't ever need to use a fully signed OAuth request.</p>
+
+	<p class="note">For more details, see <a href="#auth">Authentication</a> below.</p>
+			
+	<!-- OVERVIEW -->
+		
+	<h2 id="overview">Overview</h2>
+	
+	<p>Before you dive in, review these essentials.</p>
+	
+	<!-- URI Structure -->
+	
+	<h3>URI Structure</h3>
+	
+	<p>All Tumblr API requests start with <code>api.tumblr.com</code>. The next segment of the URI path depends on the type of request:</p>
+	
+	<ul>
+	    <li>
+	        <strong>Blog:</strong> get blog data or write to a blog
+	        <p style="margin-top:5px;"><code>api.tumblr.com/v2/blog/{base-hostname}/...</code></p>
+	    </li>
+		<li>
+		    <strong>User:</strong> get user data or perform user actions
+		    <p style="margin-top:5px;"><code>api.tumblr.com/v2/user/...</code></p>
+		</li>
+	</ul>
+	
+	<p class="note" style="margin-top:25px;">See <a href="#blog_methods">Methods</a> below for complete details.</p>
+	
+	<!-- Blog Hostname -->
+	
+	<h3 id="hostname">Blog Hostname</h3>	
+	
+	<p>Each blog has a unique hostname. The hostname can be <strong>standard</strong> or <strong>custom.</strong></p>
+		
+	<ul>
+		<li>
+			<strong>Standard</strong> hostname: the blog short name + <code>.tumblr.com</code>.
+			<p style="margin-top:5px;"><span class="example">Example:</span> <code>greentype.tumblr.com</code></p>
+		</li>
+		<li>
+			<strong>Custom</strong> hostname: Anything at all, as determined by a DNS CNAME entry.
+			<p style="margin-top:5px;"><span class="example">Example:</span> <code>www.davidslog.com</code></p>
+		</li>
+	</ul>
+	
+	<p>You'll need the blog hostname anytime you work with a blog. When you see the placeholder <code>{base-hostname}</code> in the API docs, substitute the standard or custom hostname.</p>
+			
+	<!-- Response Format -->
+	
+	<h3 id="responses">Response Format</h3>
+	
+	<p>The API returns JSON-encoded objects (content-type: application/json). 
+        Responses vary according to the method used, but every response envelope includes these common parts:</p>
+	
+	<table>
+		<tbody>
+		    <tr>
+		        <th>meta</th>
+		        <td>
+		            The <code>meta</code> object matches the HTTP response message:
+		            
+		            <ul class="tight">
+		                <li><code>status</code>: the 3-digit HTTP Status-Code (e.g., <code>200</code>)</li>
+		                
+			            <li><code>msg</code>: the HTTP Reason-Phrase (e.g., <code>OK</code>)</li>
+			        </ul>
+			    </td>
+			</tr>
+		    <tr><th>response</th><td>API-specific results</td></tr>
+	    </tbody>
+	</table>
+		
+	<h4 style="margin-bottom:-5px;">Example</h4>
+		
+	<pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: { ... }
+}</pre>
+    <p>
+      All requests made with HTTP GET are <a href="http://en.wikipedia.org/wiki/JSONP">JSONP</a>-enabled. To use JSONP, append <code>jsonp=</code> and the name of your callback function to the request.
+      JSONP requests will always return an HTTP status code of 200 but will reflect the real status code in the <code>meta</code> field of the JSON response.
+    </p>
+		
+	<!-- About the API Documentation -->
+		
+	<h3>About the API Documentation</h3>
+	
+	<p>The docs include some working examples. Please click them to your heart's content, but don't use the embedded API key for your own nefarious purposes. <a href="http://www.tumblr.com/oauth/apps">Register your application</a> to get your own API key (your OAuth Consumer Key).</p>
+	
+	<!-- URI Conventions -->
+	
+	<h4>URI Conventions</h4>
+	
+	<table>
+	    <tbody>
+	        <tr class="header">
+	            <th>Notation</th>
+	            <th>Meaning</th>
+	            <th>Example</th>
+	        </tr>
+		    <tr>
+		        <th>Curly brackets {&nbsp;}</th>
+		        <td>Required item</td>
+		        <td>
+		            <code>api.tumblr.com/v2/blog/<br>{base-hostname}/posts</code><br/>
+		            <div class="note">The blog hostname is required.</div>
+                </td>
+            </tr>
+		    <tr>
+		        <th>Square&nbsp;brackets&nbsp;[&nbsp;]</th>
+		        <td>Optional item</td>
+		        <td>
+		            <code>api.tumblr.com/v2/blog/<br>{base-hostname}/posts[/type]</code><br/>
+		            <div class="note">Specifying a post type is optional.</div>
+		        </td>
+		    </tr>
+		</tbody>
+	</table>
+	
+	<!-- AUTHENTICATION -->
+		
+	<h2 id="auth">Authentication</h2>
+	
+	<p>The API uses three different levels of authentication, depending on the method.</p>
+	
+	<ol>
+		<li><strong>None:</strong> No authentication. Anybody can query the method.</li>
+		
+		<li>
+		    <strong>API key:</strong> Requires an API key. Use your OAuth Consumer Key as your <code>api_key</code>.
+			
+			<ul>
+			    <li><span class="example">Example:</span> <code>api_key=PyezS3Q4Smivb24d9SzZGYSuh--IaMfAkE</code></li>
+			    <li>Get an OAuth key: <a href="http://www.tumblr.com/oauth/apps">register an application</a></li>
+			</ul>
+		</li>
+		
+		<li><strong>OAuth:</strong> Requires a signed request that meets the <a href="http://oauth.net/" title="OAuth Core 1.0">OAuth 1.0a Protocol</a>.</li>
+	</ol>
+	
+	<p>Each <a href="#blog_methods">method description</a> includes a note about the authentication level.</p>
+	
+	<h3 id="oauth">OAuth</h3>
+	
+	<p>
+	    The API supports the <a href="http://oauth.net/">OAuth 1.0a Protocol</a>, accepting parameters via the <code>Authorization</code> header, with the <code>HMAC-SHA1</code> signature method only. There's probably already an <a href="http://oauth.net/code/">OAuth client library</a> for your platform.
+	</p>
+	
+	<h4 style="margin-bottom:-5px;">Endpoints</h4>
+	
+	<table>
+		<tbody>
+		    <tr>
+		        <th>Request-token URL</th>
+		        <td><code>http://www.tumblr.com/oauth/request_token</code></td>
+			</tr>
+		    <tr>
+		        <th>Authorize URL</th>
+		        <td><code>http://www.tumblr.com/oauth/authorize</code></td>
+			</tr>
+		    <tr>
+		        <th>Access-token URL</th>
+		        <td><code>http://www.tumblr.com/oauth/access_token</code></td>
+			</tr>
+	    </tbody>
+	</table>
+		
+	<!-- BLOG METHODS -->
+	
+	<h2 id="blog_methods">Blog Methods</h2>
+
+    <!-- /info -->
+
+	<h3 id="blog-info" class="method" style="margin-top:25px;"><span>/info</span> — Retrieve Blog Info</h3>
+	
+	<p>This method returns general information about the blog, such as the title, number of posts, and other high-level data.</p>
+	
+	<h4>Examples</h4>
+	
+	<ul class="tight">
+		<li><code><a href="http://api.tumblr.com/v2/blog/scipsy.tumblr.com/info?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/scipsy.tumblr.com/info</a></code></li>
+		
+		<li><code><a href="http://api.tumblr.com/v2/blog/good.tumblr.com/info?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/good.tumblr.com/info</a></code></li>
+	</ul>
+
+	<h3>Method</h3>
+	
+	<table>
+		<tbody>
+		    <tr class="header">
+		        <th>URI</th>
+		        <th>HTTP&nbsp;Method</th>
+		        <th>Authentication</th>
+		    </tr>
+			<tr>
+				<td><code>api.tumblr.com/v2/blog/{base-hostname}/info?api_key={key}</code></td>
+				<td>GET</td><td><a href="#auth">API key</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3>Request Parameters</h3>
+	
+	<table>
+		<tbody>
+		    <tr class="header">
+		        <th>Parameter</th>
+		        <th>Type</th>
+		        <th>Description</th>
+		        <th>Default</th>
+		        <th>Required?</th>
+		    </tr>
+			<tr>
+			    <th style="white-space:nowrap;">base-hostname</th>
+			    <td>String</td>
+			    <td>
+			        The standard or custom blog hostname
+			        <div class="note">See the <a href="#hostname">Overview</a> for more details.</div>
+			    </td>
+			    <td>N/A</td>
+			    <td>Yes</td>
+			</tr>
+			<tr>
+			    <th>api_key</th>
+			    <td>String</td>
+			    <td>
+			        Your OAuth Consumer Key
+			        <div class="note">See <a href="#auth">Authentication</a> for more details.</div>
+			    </td>
+			    <td>N/A</td>
+			    <td>Yes</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3>Responses</h3>
+	
+	<table>
+	    <tbody>
+	        <tr class="header">
+	            <th>Response&nbsp;Field</th>
+	            <th>Type</th>
+	            <th>Description</th>
+	            <th>Notes</th>
+	        </tr>
+			<tr>
+			    <th>title</th>
+			    <td>String</td>
+			    <td>The display title of the blog</td>
+			    <td>Compare <code>name</code></td>
+			</tr>
+			<tr>
+			    <th>posts</th>
+			    <td>Number</td>
+                <td>The total number of posts to this blog</td>
+                <td>&nbsp;</td>
+			</tr>
+			<tr>
+			    <th>name</th>
+                    <td>String</td>
+                    <td>The short blog name that appears before tumblr.com in a standard blog hostname (and before the domain in a custom blog hostname)</td>
+                    <td>Compare <code>title</code></td>
+			</tr>
+			<tr>
+			    <th>updated</th>
+                <td>Number</td>
+                <td>The time of the most recent post, in seconds since the epoch</td>
+                <td>&nbsp;</td>
+			</tr>
+			<tr>
+			    <th>description</th>
+                <td>String</td>
+                <td>You guessed it! The blog's description</td>
+                <td>&nbsp;</td>
+			</tr>
+			<tr>
+			    <th>ask</th>
+                <td>Boolean</td>
+                <td>Indicates whether the blog allows questions</td>
+                <td>&nbsp;</td>
+			</tr>
+			<tr>
+			    <th>ask_anon</th>
+                <td>Boolean</td>
+                <td>Indicates whether the blog allows anonymous questions</td>
+                <td>Returned only if <code>ask</code> is true</td>
+			</tr>
+			<tr>
+			    <th>likes</th>
+                <td>Number</td>
+                <td>Number of likes for this user</td>
+                <td>Returned only if this is the user's primary blog and sharing of likes is enabled</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4 style="margin-bottom:10px;">Example</h4>
+	
+	<div class="request"><a href="http://api.tumblr.com/v2/blog/david.tumblr.com/info?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/david.tumblr.com/info?api_key={key}</a></div>
+
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"blog"</span>: {
+         <span class="string">"title"</span>: <span class="string">"David's Log"</span>,
+         <span class="string">"posts"</span>: <span class="number">3456</span>,
+         <span class="string">"name"</span>: <span class="string">"david"</span>,
+         <span class="string">"url"</span>: <span class="string">"http:\/\/david.tumblr.com\/"</span>,
+         <span class="string">"updated"</span>: <span class="number">1308953007</span>,
+         <span class="string">"description"</span>: <span class="string">"&lt;p>&lt;strong>Mr. Karp&lt;\/strong> is tall and skinny, with
+            unflinching blue eyes a mop of brown hair.\r\n
+            He speaks incredibly fast and in complete paragraphs.&lt;/p>"</span>,
+         <span class="string">"ask"</span>: true,
+         <span class="string">"ask_anon"</span>: false,
+         <span class="string">"likes"</span>: <span class="number">12345</span>
+      }
+   }
+}</pre>
+
+    <!-- /avatar -->
+
+	<h3 id="blog-avatar" class="method"><span>/avatar</span> — Retrieve a Blog Avatar</h3>
+	
+	<p>You can get a blog's avatar in 9 different sizes. The default size is 64x64.</p>
+	
+	<h4>Examples</h4>
+	
+	<ul class="tight">
+		<li><code><a href="http://api.tumblr.com/v2/blog/david.tumblr.com/avatar/512">http://api.tumblr.com/v2/blog/david.tumblr.com/avatar/512</a></code></li>
+		
+		<li><code><a href="http://api.tumblr.com/v2/blog/david.tumblr.com/avatar" title="">http:/api.tumblr.com/v2/blog/david.tumblr.com/avatar</a></code></li>
+    </ul>
+
+	<h3>Method</h3>
+	
+	<table>
+		<tbody>
+		    <tr class="header">
+		        <th>URI</th>
+		        <th>HTTP Method</th>
+		        <th>Authentication</th>
+		    </tr>
+			<tr>
+				<td><code>api.tumblr.com/v2/blog/{base-hostname}/avatar[/size]</code></td>
+				<td>GET</td><td>None</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3>Request Parameters</h3>
+	
+	<table>
+		<tbody>
+		    <tr class="header">
+		        <th class="top">Parameter</th>
+		        <th class="top">Type</th>
+		        <th class="top">Description</th>
+		        <th class="top">Default</th>
+		        <th class="top">Required?</th>
+		    </tr>
+			<tr>
+			    <th style="white-space:nowrap;">base-hostname</th>
+			    <td>String</td>
+			    <td>
+			        The standard or custom blog hostname
+			        <div class="note">See the <a href="#hostname">Overview</a> for more details.</div>
+			    </td>
+			    <td>N/A</td>
+			    <td>Yes</td>
+			</tr>
+			<tr>
+			    <th>size</th>
+			    <td>Number</td>
+			    <td>
+			        The size of the avatar (square, one value for both length and width).
+                    Must be one of the values:<br/>
+                    <code>16, 24, 30, 40, 48, 64, 96, 128, 512</code>
+			    </td>
+			    <td>64</td>
+			    <td>No</td>
+			</tr>
+	    </tbody>
+	</table>
+
+	<h3>Responses</h3>
+
+    <table>
+		<tbody>
+		    <tr class="header">
+		        <th>Response&nbsp;Field</th>
+		        <th>Type</th>
+		        <th>Description</th>
+		        <th>Notes</th>
+		    </tr>
+			<tr>
+			    <th>avatar_url</th>
+			    <td>String</td>
+			    <td>The URL of the avatar image. This is also returned in the <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30" title="HTTP/1.1: Header Field Definitions">Location HTTP header field</a> (see note).</td>
+			    <td>An <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30" title="HTTP/1.1: Header Field Definitions">HTTP Location header field</a> is returned — the response points to the avatar image. That means you can embed this method in an <code>img</code> tag in HTML.</td>
+			</tr>
+		</tbody>
+	</table>
+
+    <!-- /followers -->
+
+    <h3 id="blog-followers" class="method"><span>/followers</span> — Retrieve a Blog's Followers</h3>
+
+	<h3>Method</h3>
+	
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/blog/{base-hostname}/followers</code></td>
+                <td>GET</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th style="white-space:nowrap;">base-hostname</th>
+                <td>String</td>
+                <td>
+                    The standard or custom blog hostname
+                    <div class="note">See the <a href="#hostname">Overview</a> for more details.</div>
+                </td>
+                <td>N/A</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>limit</th>
+                <td>Number</td>
+                <td>The number of results to return: <code>1–20</code>, inclusive</td>
+                <td>20</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>offset</th>
+                <td>Number</td>
+                <td>Result to start at</td>
+                <td style="white-space:nowrap;">0 (first follower)</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <p>These fields are wrapped in a <code>users</code> object:</p>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>total_users</th>
+                <td>Number</td>
+                <td>The number of users currently following the blog</td>
+            </tr>
+            <tr>
+                <th>users</th>
+                <td>Array</td>
+                <td>Each item is a follower, containing these fields:</td>
+            </tr>
+            <tr>
+                <th>name</th>
+                <td>String</td>
+                <td>The user's name on tumblr</td>
+            </tr>
+            <tr>
+                <th>url</th>
+                <td>String</td>
+                <td>The URL of the user's primary blog</td>
+            </tr>
+
+            <tr>
+                <th>updated</th>
+                <td>Number</td>
+                <td>The time of the user's most recent post, in seconds since the epoch</td>
+            </tr>
+        </tbody>
+    </table>
+
+	<h4 style="margin-bottom:-5px;">Example</h4>
+		
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"total_users"</span>: <span class="number">2684</span>,
+      <span class="string">"users"</span>:  [
+            {
+               <span class="string">"name"</span>: <span class="string">"david"</span>,
+               <span class="string">"url"</span>: <span class="string">"http:\/\/www.davidslog.com"</span>,
+               <span class="string">"updated"</span>: <span class="number">1308781073</span>
+            },
+            {
+               <span class="string">"name"</span>: <span class="string">"ben"</span>,
+               <span class="string">"url"</span>: <span class="string">"http:\/\/bengold.tv"</span>,
+               <span class="string">"updated"</span>: <span class="number">1308841333</span>
+            },
+            ...
+         ]
+   }
+}</pre>
+
+    <!-- /posts -->
+
+    <h3 id="posts" class="method"><span>/posts</span> – Retrieve Published Posts</h3>
+
+    <h4>Examples</h4>
+    
+    <ul class="tight">
+        <li><code><a href="http://api.tumblr.com/v2/blog/peacecorps.tumblr.com/posts/text?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt&amp;notes_info">http://api.tumblr.com/v2/blog/peacecorps.tumblr.com/text?notes_info</a></code></li>
+
+        <li><code><a href="http://api.tumblr.com/v2/blog/pitchersandpoets.tumblr.com/posts/photo?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt&amp;tag=new+york+yankees">http://api.tumblr.com/v2/blog/pitchersandpoets.tumblr.com/posts/photo?tag=new+york+yankees</a></code></li>
+    </ul>
+
+    <h3>Method</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/blog/{base-hostname}/posts[/type]?api_key={key}&amp;[optional-params=]</code></td>
+                <td>GET</td>
+                <td><a href="#auth">API key</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <table id="post-params">
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th style="white-space:nowrap;">base-hostname</th>
+                <td>String</td>
+                <td>
+                    The standard or custom blog hostname
+                    <div class="note">See the <a href="#hostname">Overview</a> for more details.</div>
+                </td>
+                <td>N/A</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>api_key</th>
+                <td>String</td>
+                <td>
+                    Your OAuth Consumer Key
+                    <div class="note">See <a href="#auth">Authentication</a> for more details.</div>
+                </td>
+                <td>N/A</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>type</th>
+                <td>String</td>
+                <td>
+                    The type of post to return. Specify one of the following:&nbsp;
+                    <code> text, quote, link, answer, video, audio, photo</code>
+                </td>
+                <td>None – return all types</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>id</th>
+                <td>Number</td>
+                <td>
+                    A specific post ID.
+                    Returns the single post specified or (if not found) a 404 error.
+                </td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>tag</th>
+                <td>String</td>
+                <td>Limits the response to posts with the specified tag</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>limit</th>
+                <td>Number</td>
+                <td>The number of posts to return: <code>1–20</code>, inclusive</td>
+                <td>20</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>offset</th>
+                <td>Number</td>
+                <td>Post number to start at</td>
+                <td style="white-space:nowrap;">0 (first post)</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>reblog_info</th>
+                <td>Boolean</td>
+                <td>
+                    Indicates whether to return reblog information
+                    (specify <code>true</code> or <code>false</code>).
+                    Returns the various <code>reblogged_</code> fields.
+                    </td>
+                <td>False</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>notes_info</th>
+                <td>Boolean</td>
+                <td>
+                    Indicates whether to return notes information
+                    (specify <code>true</code> or <code>false</code>).
+                    Returns note count and note metadata.
+                </td>
+                <td>False</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>format</th>
+                <td>String</td>
+                <td>
+                    Specifies the post format to return, other than HTML:
+                    <ul>
+                        <li><code>text</code> – Plain text, no HTML</li>
+                        <li><code>raw</code> – As entered by the user (no post-processing); if the user writes in Markdown, the Markdown will be returned rather than HTML</li>
+                    </ul>
+                </td>
+                <td>None (HTML)</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p class="note">
+        <code>reblog_info</code> and <code>notes_info</code> are false by default
+        because of the server impact involved in retrieving the data.
+    </p>
+
+    <h3 id="m-posts-responses">Responses</h3>
+
+    <p>Each response includes a <code>blog</code> object that is the equivalent of an <a href="#m-info"><code>/info</code> response</a>. Posts are returned as an array attached to the <code>posts</code> field.</p>
+
+    <!-- <p>Jump to post type: <a href="#text-posts">Text</a>, <a href="#quote-posts">Quote</a>, <a href="#link-posts">Link</a>, <a href="#pt-answer">Answer</a>, <a href="#video-posts">Video</a>, <a href="#audio-posts">Audio</a>, <a href="#photo-posts">Photo</a></p> -->
+
+    <h4>All Post Types</h4>
+
+    <table id="common-fields">
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th style="width:120px;">Notes</th>
+            </tr>
+            <tr>
+                <th>blog_name</th>
+                <td>String</td>
+                <td>The short name used to uniquely identify a blog</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th>id</th>
+                <td>Number</td>
+                <td>The post's unique ID</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th>post _url</th>
+                <td>String</td>
+                <td>The location of the post</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th>type</th>
+                <td>String</td>
+                <td>The type of post</td>
+                <td>See the <a href="#post-params"><code>type</code> request parameter</a></td>
+            </tr>
+            <tr>
+                <th>timestamp</th>
+                <td>Number</td>
+                <td>The time of the post, in seconds since the epoch</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th>date</th>
+                <td>String</td>
+                <td>The GMT date and time of the post, as a string</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th>format</th>
+                <td>String</td>
+                <td>The post format: <code>html</code> or <code>markdown</code></td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th>reblog_key</th>
+                <td>String</td>
+                <td>The key used to reblog this post</td>
+                <td>See the <a href="#m-reblog"><code>/reblog</code> method</a></td>
+            </tr>
+            <tr>
+                <th>tags</th>
+                <td>Array (string)</td>
+                <td>Tags applied to the post</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th>bookmarklet</th>
+                <td>Boolean</td>
+                <td>Indicates whether the post was created via the <a href="http://www.tumblr.com/goodies" title="Tumblr bookmarklet">Tumblr bookmarklet</a></td>
+                <td>Exists only if true</td>
+            </tr>
+            <tr>
+                <th>mobile</th>
+                <td>Boolean</td>
+                <td>Indicates whether the post was created via <a href="http://www.tumblr.com/docs/en/email_publishing" title="Mobile + Email Publishing | Tumblr">mobile/email publishing</a></td>
+                <td>Exists only if true</td>
+            </tr>
+            <tr>
+                <th>source_url</th>
+                <td>String</td>
+                <td>The URL for the source of the content (for quotes, reblogs, etc.)</td>
+                <td>Exists only if there's a content source</td>
+            </tr>
+            <tr>
+                <th>source_title</th>
+                <td>String</td>
+                <td>The title of the source site</td>
+                <td>Exists only if there's a content source</td>
+            </tr>
+            <tr>
+                <th>total_posts</th>
+                <td>Number</td>
+                <td>The total number of post available for this request, useful for paginating through results</td>
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <!-- Text Posts -->
+
+    <h4 id="text-posts" style="margin-top:25px; margin-bottom:-5px;">Text Posts</h4>
+    
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>title</th>
+                <td>String</td>
+                <td>The optional title of the post</td>
+            </tr>
+            <tr>
+                <th>body</th>
+                <td>String</td>
+                <td>The full post body</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="request" style="margin-top:25px;"><a href="http://api.tumblr.com/v2/blog/citriccomics.tumblr.com/posts/text?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/citriccomics.tumblr.com/posts/text?api_key={key}</a></div>
+    
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"blog"</span>: { ... },
+      <span class="string">"posts"</span>: [
+         {
+            <span class="string">"blog_name"</span>: <span class="string">"citriccomics"</span>,
+            <span class="string">"id"</span>: <span class="number">3507845453</span>,
+            <span class="string">"post_url"</span>: <span class="string">"http:\/\/citriccomics.tumblr.com\/post\/3507845453"</span>,
+            <span class="string">"type"</span>: <span class="string">"text"</span>,
+            <span class="string">"date"</span>: <span class="string">"2011-02-25 20:27:00 GMT"</span>,
+            <span class="string">"timestamp"</span>: <span class="number">1298665620</span>,
+            <span class="string">"format"</span>: <span class="string">"html"</span>,
+            <span class="string">"reblog_key"</span>: <span class="string">"b0baQtsl"</span>,
+            <span class="string">"tags"</span>: [
+               <span class="string">"tumblrize"</span>,
+               <span class="string">"milky dog"</span>,
+               <span class="string">"mini comic"</span>
+            ],
+            <span class="string">"note_count"</span>: <span class="number">14</span>,
+            <span class="string">"title"</span>: <span class="string">"Milky Dog"</span>,
+            <span class="string">"body"</span>: <span class="string">"&lt;p&gt;&lt;img src=\"http:\/\/media.tumblr.com\
+               /tumblr_lh6x8d7LBB1qa6gy3.jpg\"\/&gt;&lt;a href=\"http:\/\
+               /citriccomics.com\/blog\/?p=487\" target=\"_blank\"&gt;TO READ 
+               THE REST CLICK HERE&lt;\/a&gt;&lt;br\/&gt;\n\nMilky Dog was inspired by
+               something &lt;a href=\"http:\/\/gunadie.com\/naomi\"
+               target=\"_blank\"&gt;Naomi Gee&lt;\/a&gt; wrote on twitter, I really 
+               liked the hash tag &lt;a href=\"http:\/\/twitter.com\/
+               search?q=%23MILKYDOG\" target=\"_blank\"&gt;#milkydog&lt;\/a&gt;
+               and quickly came up with a little comic about it. You can 
+               (and should) follow Naomi on twitter &lt;a href=\"http:\/\
+               /twitter.com\/ngun\" target=\"_blank\"&gt;@ngun&lt;\/a&gt; I'm on
+               twitter as well &lt;a href=\"http:\/\/twitter.com\
+               /weflewairplanes\"target=\"_blank\"&gt;@weflewairplanes&lt;\/a&gt;
+               &lt;\/p&gt;\n\nAlso, if youâ€™re a Reddit user (or even if 
+               you're not) I submitted this there, if you could up vote 
+               it I'd be super grateful just &lt;a href=\"http:\/\
+               /tinyurl.com\/5wj3tqz\" target=\"_blank\"&gt;CLICK HERE&lt;\/a&gt;"</span>
+         },
+         ...
+      ],
+      <span class="string">"total_posts"</span>: <span class="number">3</span>
+   }
+}</pre>
+
+    <!-- Photo Posts -->
+
+    <h4 id="photo-posts" style="margin-top:25px; margin-bottom:-5px;">Photo Posts</h4>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>photos</th>
+                <td>Array</td>
+                <td>
+                    Photo objects with properties:
+                    <ul>
+                        <li><code>caption</code> – string: user supplied caption for the individual photo <em>(Photosets only)</em></li>
+                        <li>
+                            <code>alt_sizes</code> – array: alternate photo sizes, each with:
+                            <ul>
+                                <li><code>width</code> – number: width of the photo, in pixels</li>
+                                <li><code>height</code> – number: height of the photo, in pixels</li>
+                                <li><code>url</code> – string: Location of the photo file <em style="white-space:nowrap;">(either a JPG, GIF, or PNG)</em></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>caption</th>
+                <td>String</td>
+                <td>The user-supplied caption</td>
+            </tr>
+            <tr>
+                <th>width</th>
+                <td>Number</td>
+                <td>The width of the photo or photoset</td>
+            </tr>
+            <tr>
+                <th>height</th>
+                <td>Number</td>
+                <td>The height of the photo or photoset</td>
+            </tr>
+        </tbody>
+    </table>
+        
+    <p class="note" style="margin-top:25px;">Multi-photo Photo posts, called <strong>Photosets</strong>, will send return multiple photo objects in the <code>photos</code> array.</p>
+    
+    <div class="request" style="margin-top:25px;"><a href="http://api.tumblr.com/v2/blog/derekg.org/posts?id=7431599279&amp;api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/derekg.org/posts?id=7431599279&amp;api_key={key}</a></div>
+    
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"blog"</span>: { ... },
+      <span class="string">"posts"</span>: [
+         {
+            <span class="string">"blog_name"</span>: <span class="string">"derekg"</span>,
+            <span class="string">"id"</span>: <span class="number">7431599279</span>,
+            <span class="string">"post_url"</span>: <span class="string">"http:\/\/derekg.org\/post\/7431599279"</span>,
+            <span class="string">"type"</span>: <span class="string">"photo"</span>,
+            <span class="string">"date"</span>: <span class="string">"2011-07-09 22:09:47 GMT"</span>,
+            <span class="string">"timestamp"</span>: <span class="number">1310249387</span>,
+            <span class="string">"format"</span>: <span class="string">"html"</span>,
+            <span class="string">"reblog_key"</span>: <span class="string">"749amggU"</span>,
+            <span class="string">"tags"</span>: [],
+            <span class="string">"note_count"</span>: <span class="number">18</span>,
+            <span class="string">"caption"</span>: <span class="string">"&lt;p>my arm is getting tired.&lt;\/p>"</span>,
+            <span class="string">"photos"</span>: [
+               {
+                  <span class="string">"caption"</span>: <span class="string">""</span>,
+                  <span class="string">"alt_sizes"</span>: [
+                     {
+                        <span class="string">"width"</span>: <span class="number">1280</span>,
+                        <span class="string">"height"</span>: <span class="number">722</span>,
+                        <span class="string">"url"</span>: <span class="string">"http:\/\/derekg.org\/photo\/1280\/7431599279\/1\/
+                           tumblr_lo36wbWqqq1qanqww"</span>
+                     },
+                     {
+                        <span class="string">"width"</span>: <span class="number">500</span>,
+                        <span class="string">"height"</span>: <span class="number">282</span>,
+                        <span class="string">"url"</span>: <span class="string">"http:\/\/30.media.tumblr.com\/
+                           tumblr_lo36wbWqqq1qanqwwo1_500.jpg"</span>
+                     },
+                     {
+                        <span class="string">"width"</span>: <span class="number">400</span>,
+                        <span class="string">"height"</span>: <span class="number">225</span>,
+                        <span class="string">"url"</span>: <span class="string">"http:\/\/29.media.tumblr.com\/
+                           tumblr_lo36wbWqqq1qanqwwo1_400.jpg"</span>
+                     },
+                     {
+                        <span class="string">"width"</span>: <span class="number">250</span>,
+                        <span class="string">"height"</span>: <span class="number">141</span>,
+                        <span class="string">"url"</span>: <span class="string">"http:\/\/26.media.tumblr.com\/
+                           tumblr_lo36wbWqqq1qanqwwo1_250.jpg"</span>
+                     },
+                     {
+                        <span class="string">"width"</span>: <span class="number">100</span>,
+                        <span class="string">"height"</span>: <span class="number">56</span>,
+                        <span class="string">"url"</span>: <span class="string">"http:\/\/24.media.tumblr.com\/
+                           tumblr_lo36wbWqqq1qanqwwo1_100.jpg"</span>
+                     },
+                     {
+                        <span class="string">"width"</span>: <span class="number">75</span>,
+                        <span class="string">"height"</span>: <span class="number">75</span>,
+                        <span class="string">"url"</span>: <span class="string">"http:\/\/30.media.tumblr.com\/
+                           tumblr_lo36wbWqqq1qanqwwo1_75sq.jpg"</span>
+                     }
+                  ]
+               }
+            ]
+         }
+      ],
+      <span class="string">"total_posts"</span>: <span class="number">1</span>
+   }
+}</pre>
+
+    <!-- Quote Posts -->
+
+    <h4 id="quote-posts" style="margin-top:25px; margin-bottom:-5px;">Quote Posts</h4>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th style="width:120px;">Notes</th>
+            </tr>
+            <tr>
+                <th>text</th>
+                <td>String</td>
+                <td>The text of the quote (can be modified by the user when posting)</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th>source</th>
+                <td>String</td>
+                <td>
+                    Full HTML for the source of the quote
+                    <div class="note">Example: <code>&lt;a href="...">Steve Jobs&lt/a></code></div>
+                </td>
+                <td>See also the table of <a href="#common-fields">common response fields</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="request" style="margin-top:25px;"><a href="http://api.tumblr.com/v2/blog/museumsandstuff.tumblr.com/posts/quote?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/museumsandstuff.tumblr.com/posts/quote?api_key={key}</a></div>
+    
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"blog"</span>: { ... },
+      <span class="string">"posts":</span> [
+         {
+            <span class="string">"blog_name"</span>: <span class="string">"museumsandstuff"</span>,
+            <span class="string">"id"</span>: <span class="number">4742980381</span>,
+            <span class="string">"post_url"</span>: <span class="string">"http:\/\/museumsandstuff.tumblr.com\/post\/4742980381"</span>,
+            <span class="string">"type"</span>: <span class="string">"quote"</span>,
+            <span class="string">"date"</span>: <span class="string">"2011-04-19 08:52:34 GMT"</span>,
+            <span class="string">"timestamp"</span>: <span class="number">1303203154</span>,
+            <span class="string">"format"</span>: <span class="string">"html"</span>,
+            <span class="string">"reblog_key"</span>: <span class="string">"KLA85e6c"</span>,
+            <span class="string">"tags"</span>: [],
+            <span class="string">"note_count"</span>: <span class="number">23</span>,
+            <span class="string">"source_url"</span>: <span class="string">"http:\/\/museumtwo.blogspot.com\/2011\/04\/
+               guest-post-convivial-museum-photo-essay.html"</span>,
+            <span class="string">"source_title"</span>: <span class="string">"museumtwo.blogspot.com"</span>,
+            <span class="string">"text"</span>: <span class="string">"Why do visitors still report discomfort, confusion, 
+               elitism, exclusion?"</span>,
+            <span class="string">"source"</span>: <span class="string">"&lt;a href=\"http:\/\/museumtwo.blogspot.com\/2011\/04\/
+               guest-post-convivial-museum-photo-essay.html\"
+               target=\"_blank\"&gt;Museum 2.0: Guest Post: The Convivial 
+               Museum Photo Essay&lt;\/a&gt; (via &lt;a href=\"http:\/\/
+               www.joshrobinson.org\/\"target=\"_blank\"&gt;joshrobinsonblog
+               &lt;\/a&gt;)"</span>
+         },
+         ...
+      ],
+      <span class="string">"total_posts"</span>: <span class="number">9</span>
+   }
+}</pre>
+
+    <!-- Link Posts -->
+
+    <h4 id="link-posts" style="margin-top:25px; margin-bottom:-5px;">Link Posts</h4>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>title</th>
+                <td>String</td>
+                <td>The title of the page the link points to</td>
+            </tr>
+            <tr>
+                <th>url</th>
+                <td>String</td>
+                <td>The link</td>
+            </tr>
+            <tr>
+                <th>description</th>
+                <td>String</td>
+                <td>A user-supplied description</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="request" style="margin-top:25px;"><a href="http://api.tumblr.com/v2/blog/travellingcameraclub.com/posts/link?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/travellingcameraclub.com/posts/link?api_key={key}</a></div>
+
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"blog"</span>: { ... },
+      <span class="string">"posts"</span>: [
+         {
+            <span class="string">"blog_name"</span>: <span class="string">"travellingcameraclub"</span>,
+            <span class="string">"id"</span>: <span class="number">688472164</span>,
+            <span class="string">"post_url"</span>: <span class="string">"http:\/\/travellingcameraclub.com\/post\/688472164"</span>,
+            <span class="string">"type"</span>: <span class="string">"link"</span>,
+            <span class="string">"date"</span>: <span class="string">"2010-06-11 23:17:08 GMT"</span>,
+            <span class="string">"timestamp"</span>: <span class="number">1276298228</span>,
+            <span class="string">"format"</span>: <span class="string">"html"</span>,
+            <span class="string">"reblog_key"</span>: <span class="string">"RWhJJWia"</span>,
+            <span class="string">"tags"</span>: [],
+            <span class="string">"note_count"</span>: <span class="number">9</span>,
+            <span class="string">"title"</span>: <span class="string">"Esther Aarts Illustration | News and Blog: Faq: How do 
+               you make those marker doodles?"</span>,
+            <span class="string">"url"</span>: <span class="string">"http:\/\/blog.estadiezijn.nl\/post\/
+               459075181\/faq-how-do-you-make-those-marker-doodles"</span>,
+            <span class="string">"description"</span>: <span class="string">"&lt;blockquote&gt;\n&lt;p&gt;On my Ipad, of course!&lt;\/p&gt; 
+                &lt;p&gt;Nothing better than the latest technology to get the job done.
+                Look at all my apps!&lt;\/p&gt; &lt;p&gt;&lt;img height=\"555\" width=\"500\"
+                src=\"http:\/\/farm5.static.flickr.com\/4006\/
+                4445161463_31da0327c2_o.jpg\" alt=\"my iPad\"\/&gt;&lt;\/p&gt; 
+                &lt;p&gt;My favourite markers are an Edding 400, a Sharpie and a 
+                Copic Ciao. The white gouache is from Dr Martins and does a
+                decent job covering up whatever needs to be covered up, and
+                flows.&lt;\/p&gt;&lt;\/blockquote&gt;"</span>
+         }
+         ...
+      ],
+      <span class="string">"total_posts"</span>: <span class="number">7</span>
+   }
+}</pre>
+
+    <!-- Chat Posts -->
+
+    <h4 id="chat-posts" style="margin-top:25px; margin-bottom:-5px;">Chat Posts</h4>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>title</th>
+                <td>String</td>
+                <td>The optional title of the post</td>
+            </tr>
+            <tr>
+                <th>body</th>
+                <td>String</td>
+                <td>The full chat body</td>
+            </tr>
+            <tr>
+                <th>dialogue</th>
+                <td>Array</td>
+                <td> 
+                    Array of objects with the following properties:
+                    <ul>
+                        <li><code>name</code> – string: name of the speaker</li>
+                        <li><code>label</code> – string: label of the speaker</li>
+                        <li><code>phrase</code> – string: text</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="request" style="margin-top:25px;"><a href="http://api.tumblr.com/v2/blog/www.davidslog.com/posts/chat?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/www.davidslog.com/posts/chat?api_key={key}</a></div>
+
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"blog"</span>: { ... },
+      <span class="string">"posts"</span>: [
+         {
+            <span class="string">"blog_name"</span>: <span class="string">"david"</span>,
+            <span class="string">"id"</span>: <span class="number">5845345725</span>,
+            <span class="string">"post_url"</span>: <span class="string">"http:\/\/www.davidslog.com\/5845345725\/
+            if-youre-okay-with-it-destroying-tumblr</span>,
+            <span class="string">"type"</span>: <span class="string">"chat"</span>,
+            <span class="string">"date"</span>: <span class="string">"2011-05-25 22:32:00 GMT"</span>,
+            <span class="string">"timestamp"</span>: <span class="number">1306362720</span>,
+            <span class="string">"format"</span>: <span class="string">"html"</span>,
+            <span class="string">"reblog_key"</span>: <span class="string">"wlxAsElf"</span>,
+            <span class="string">"tags"</span>: [],
+            <span class="string">"note_count"</span>: <span class="number">114</span>,
+            <span class="string">"title"</span>: null,
+            <span class="string">"body"</span>: <span class="string">"David: http://staff.tumblr.com/post/5845153911
+                [draft] Topherchris: are you freaking serious\r\n
+                David: If you're okay with it - I'd love to :)\r\n
+                Topherchris: i'm okay with it, if you're okay with
+                it destroying tumblr"</span>, 
+            <span class="string">"dialogue"</span>: [
+                {
+                   <span class="string">"label"</span>: <span class="string">"David:"</span>, 
+                   <span class="string">"name"</span>: <span class="string">"David"</span>, 
+                   <span class="string">"phrase"</span>: <span class="string">"http://staff.tumblr.com/post/5845153911 [draft]\r"</span>, 
+                },
+                {
+                   <span class="string">"label"</span>: <span class="string">"Topherchris:"</span>, 
+                   <span class="string">"name"</span>: <span class="string">"Topherchris"</span>, 
+                   <span class="string">"phrase"</span>:<span class="string">"are you freaking serious\r"</span>
+                },
+                {
+                   <span class="string">"label"</span>: <span class="string">"David:"</span>, 
+                   <span class="string">"name"</span>: <span class="string">"David"</span>, 
+                   <span class="string">"phrase"</span>: <span class="string">"If you're okay with it - I'd love to :)"</span>
+                },
+                {
+                   <span class="string">"label"</span>: <span class="string">"Topherchris:"</span>, 
+                   <span class="string">"name"</span>: <span class="string">"Topherchris"</span>, 
+                   <span class="string">"phrase"</span>: <span class="string">"i'm okay with it, if you're okay with it 
+                      destroying tumblr"</span>, 
+                }
+            ]
+         }
+         ...
+      ],
+      <span class="string">"total_posts"</span>: <span class="number">7</span>
+   }
+}</pre>
+
+    <!-- Audio Posts -->
+
+    <h4 id="audio-posts" style="margin-top:25px; margin-bottom:-5px;">Audio Posts</h4>
+
+    <table>
+        <tbody>
+            <tr>
+                <th class="top">Response Field</th>
+                <th class="top">Type</th>
+                <th class="top">Description</th>
+            </tr>
+            <tr>
+                <th>caption</th>
+                <td>String</td>
+                <td>The user-supplied caption</td>
+            </tr>
+            <tr>
+                <th>player</th>
+                <td>String</td>
+                <td>HTML for embedding the audio player</td>
+            </tr>
+            <tr>
+                <th>plays</th>
+                <td>Number</td>
+                <td>Number of times the audio post has been played</td>
+            </tr>
+            <tr>
+                <th>album_art</th>
+                <td>String</td>
+                <td>Location of the audio file's ID3 album art image</td>
+            </tr>
+            <tr>
+                <th>artist</th>
+                <td>String</td>
+                <td>The audio file's ID3 <code>artist</code> value</td>
+            </tr>
+            <tr>
+                <th>album</th>
+                <td>String</td>
+                <td>The audio file's ID3 <code>album</code> value</td>
+            </tr>
+            <tr>
+                <th>track_name</th>
+                <td>String</td>
+                <td>The audio file's ID3 <code>title</code> value</td>
+            </tr>
+            <tr>
+                <th>track_number</th>
+                <td>Number</td>
+                <td>The audio file's ID3 <code>track</code> value</td>
+            </tr>
+            <tr>
+                <th>year</th>
+                <td>Number</td>
+                <td>The audio file's ID3 <code>year</code> value</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="request" style="margin-top:25px;"><a href="http://api.tumblr.com/v2/blog/derekg.org/posts?id=5578378101&api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/derekg.org/posts?id=5578378101&api_key={key}</a></div>
+
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"blog"</span>: { ... },
+      <span class="string">"posts"</span>: [
+         {
+            <span class="string">"blog_name"</span>: <span class="string">"derekg"</span>,
+            <span class="string">"id"</span>: <span class="number">5578378101</span>,
+            <span class="string">"post_url"</span>: <span class="string">"http:\/\/derekg.org\/post\/5578378101/otis-redding"</span>,
+            <span class="string">"type"</span>: <span class="string">"audio"</span>,
+            <span class="string">"date"</span>: <span class="string">"2011-05-17 16:21:05 GMT"</span>,
+            <span class="string">"timestamp"</span>: <span class="number">1305649265</span>,
+            <span class="string">"format"</span>: <span class="string">"html"</span>,
+            <span class="string">"reblog_key"</span>: <span class="string">"Wa65rR5l"</span>,
+            <span class="string">"tags"</span>: [],
+            <span class="string">"note_count"</span>: <span class="number">3</span>,
+            <span class="string">"source_url"</span>: <span class="string">"http:\/\/soundcloud.com\/mariam-cabal\/otis-redding"</span>,
+            <span class="string">"source_title"</span>: <span class="string">"SoundCloud \/ Mariam Caballero"</span>,
+            <span class="string">"id3_title"</span>: <span class="string">"Otis Redding - Cigarettes And Coffee"</span>,
+            <span class="string">"caption"</span>: <span class="string">"&lt;p>Otis Redding never fails me.\u00a0&lt;\/p>"</span>,
+            <span class="string">"player"</span>: <span class="string">"&lt;embed type=\"application\/x-shockwave-flash\" 
+                src=\"http:\/\/assets.tumblr.com\/swf\/audio_player.swf?
+                audio_file=http:\/\/www.tumblr.com\/audio_file\/5578378101\/
+                tumblr_llclf5oDKZ1qanqww&color=FFFFFF&logo=soundcloud\"
+                height=\"27\" width=\"207\" quality=\"best\">&lt;\/embed>"</span>,
+            <span class="string">"plays"</span>: <span class="number">1576</span>
+         }
+      ],
+      <span class="string">"total_posts"</span>: <span class="number">1</span>
+   }
+}</pre>
+
+    <!-- Video Posts -->
+
+    <h4 id="video-posts" style="margin-top:25px; margin-bottom:-5px;">Video Posts</h4>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Notes</th>
+            </tr>
+            <tr>
+                <th>caption</th>
+                <td>String</td>
+                <td>The user-supplied caption</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th>player</th>
+                <td>Array of embed objects</td>
+                <td>
+                    Object fields within the array:
+                    <ul>
+                        <li><code>width</code> – number: width of video player, in pixels</li>
+                        <li><code>embed_code</code> – string: HTML for embedding the video player</li>
+                    </ul>
+                </td>
+                <td>Values vary by video source</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="request" style="margin-top:25px;"><a href="http://api.tumblr.com/v2/blog/john.io/posts/video?api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/john.io/posts/video?api_key={key}</a></div>
+    
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"blog"</span>: { ... },
+      <span class="string">"posts"</span>: [
+         {
+            <span class="string">"blog_name"</span>: <span class="string">"john"</span>,
+            <span class="string">"id"</span>: <span class="number">6522991678</span>,
+            <span class="string">"post_url"</span>: <span class="string">"http:\/\/john.io\/post\/6522991678"</span>,
+            <span class="string">"type"</span>: <span class="string">"video"</span>,
+            <span class="string">"date"</span>: <span class="string">"2011-06-14 15:51:21 GMT"</span>,
+            <span class="string">"timestamp"</span>: <span class="number">1308066681</span>,
+            <span class="string">"format"</span>: <span class="string">"html"</span>,
+            <span class="string">"reblog_key"</span>: <span class="string">"sWRdVJrI"</span>,
+            <span class="string">"tags"</span>: [],
+            <span class="string">"note_count"</span>: <span class="number">17</span>,
+            <span class="string">"source_url"</span>: <span class="string">"http:\/\/www.WatchMojo.com"</span>,
+            <span class="string">"source_title"</span>: <span class="string">"WatchMojo.com"</span>,
+            <span class="string">"caption"</span>: <span class="string">"&lt;p&gt;&lt;a href=\"http:\/\/foreverneilyoung.tumblr.com\/
+               post\/6522738445\" target=\"_blank\"&gt;foreverneilyoung&lt;\/a&gt;:
+               &lt;\/p&gt;\n&lt;blockquote&gt;\n&lt;p&gt;&lt;a href=\"http:\/\/watchmojo.tumblr.com\/
+               post\/6521201320\" target=\"_blank\"&gt;watchmojo&lt;\/a&gt;:&lt;\/p&gt;\n
+               &lt;blockquote&gt;\n&lt;p&gt;Neil Young\u2019s live album \u201cA Treasure\
+               u201d is available today. To celebrate, we take a look at the 
+               life and career of the Canadian singer-songwriter.
+               &lt;\/p&gt;\n&lt;\/blockquote&gt;\n&lt;p&gt;Neil 101 for you new fans out
+               there.&lt;\/p&gt;\n&lt;\/blockquote&gt;\n&lt;p&gt;&lt;strong&gt;If you don't
+               know\/appreciate Neil Young's impressive body of work, 
+               this will help&lt;\/strong&gt;&lt;\/p&gt;"</span>,
+            <span class="string">"player"</span>: [
+               {
+                  <span class="string">"width"</span>: <span class="number">250</span>,
+                  <span class="string">"embed_code"</span>: <span class="string">"&lt;object width=\"248\" height=\"169\"&gt;&lt;param
+                     name=\"movie\" value=\"http:\/\/www.youtube.com\/
+                     v\/4Q1aI7xPo0Y&amp;rel=0&amp;egm=0&amp;
+                     showinfo=0&amp;fs=1\"&gt;&lt;\/param&gt;&lt;param name=\"wmode\"
+                     value=\"transparent\"&gt;&lt;\/param&gt;&lt;param name=\"
+                     allowFullScreen\" value=\"true\"&gt;&lt;\/param&gt;&lt;embed
+                     src=\"http:\/\/www.youtube.com\/v\/
+                     4Q1aI7xPo0Y&amp;rel=0&amp;egm=0&amp;showinfo=
+                     0&amp;fs=1\" type=\"application\/x-shockwave-flash\"
+                     width=\"248\" height=\"169\" allowFullScreen=\"true\"
+                     wmode=\"transparent\"&gt;&lt;\/embed&gt;&lt;\/object&gt;"</span>
+               },
+               {
+                  <span class="string">"width"</span>: <span class="number">400</span>,
+                  <span class="string">"embed_code"</span>: <span class="string">"&lt;object width=\"400\" height=\"251\"&gt;
+                     &lt;param name=\"movie\" value=\"http:\/\/www.youtube.com\/
+                     v\/4Q1aI7xPo0Y&amp;rel=0&amp;egm=0&amp;showinfo=0&amp;fs=1\"&gt;&lt;\/
+                     param&gt;&lt;param name=\"wmode\" value=\"transparent
+                     \"&gt;&lt;\/param&gt;&lt;param name=\"allowFullScreen\" value=
+                     \"true\"&gt;&lt;\/param&gt;&lt;embed src=\"http:\/\/www.youtube.com
+                     \/v\/4Q1aI7xPo0Y&amp;rel=0&amp;egm=0&amp;
+                     showinfo=0&amp;fs=1\" type=\"application\/
+                     x-shockwave-flash\" width=\"400\" height=\"251\"
+                     allowFullScreen=\"true\" wmode=\"transparent\"&gt;
+                     &lt;\/embed&gt;&lt;\/object&gt;"</span>
+               },
+               {
+                  <span class="string">"width"</span>: <span class="number">500</span>,
+                  <span class="string">"embed_code"</span>: <span class="string">"&lt;object width=\"500\" height=\"305\"&gt;&lt;param
+                     name=\"movie\" value=\"http:\/\/www.youtube.com\/
+                     v\/4Q1aI7xPo0Y&amp;rel=0&amp;egm=0&amp;
+                     showinfo=0&amp;fs=1\"&gt;&lt;\/param&gt;&lt;param name=\"wmode\"
+                     value=\"transparent\"&gt;&lt;\/param&gt;&lt;param name=\"
+                     allowFullScreen\" value=\"true\"&gt;&lt;\/param&gt;&lt;embed
+                     src=\"http:\/\/www.youtube.com\/v\/4Q1aI7xPo0Y&amp;
+                     rel=0&amp;egm=0&amp;showinfo=0&amp;fs=1\"
+                     type=\"application\/x-shockwave-flash\" width=\"500\"
+                     height=\"305\" allowFullScreen=\"true\"
+                     wmode=\"transparent\"&gt;&lt;\/embed&gt;&lt;\/object&gt;"</span>
+               }
+            ]
+         },
+         ...
+      ],
+      <span class="string">"total_posts"</span>: <span class="number">48</span>
+   }
+}</pre>
+
+    <!-- Answer Posts -->
+
+    <h4 id="answer-posts" style="margin-top:25px; margin-bottom:-5px;">Answer Posts</h4>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>asking_name</th>
+                <td>String</td>
+                <td>The blog name of the user asking the question</td>
+            </tr>
+            <tr>
+                <th>asking_url</th>
+                <td>String</td>
+                <td>The blog URL of the user asking the question</td>
+            </tr>
+            <tr>
+                <th>question</th>
+                <td>String</td>
+                <td>The question being asked</td>
+            </tr>
+            <tr>
+                <th>answer</th>
+                <td>String</td>
+                <td>The answer given</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="request" style="margin-top:25px;"><a href="http://api.tumblr.com/v2/blog/david.tumblr.com/posts?id=7504154594&amp;api_key=PyezS3Q4Smivb24d9SzZGYSuhMNPQUhMsVetMC9ksuGPkK1BTt">http://api.tumblr.com/v2/blog/david.tumblr.com/posts?id=7504154594&amp;api_key={key}</a></div>
+
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"blog"</span>: { ... },
+      <span class="string">"posts"</span>: [
+         {
+            <span class="string">"blog_name"</span>: <span class="string">"david"</span>,
+            <span class="string">"id"</span>: <span class="number">7504154594</span>,
+            <span class="string">"post_url"</span>: <span class="string">"http://www.davidslog.com/7504154594"</span>,
+            <span class="string">"type"</span>: <span class="string">"answer"</span>,
+            <span class="string">"date"</span>: <span class="string">"2011-07-11 20:24:14 GMT"</span>,
+            <span class="string">"timestamp"</span>: <span class="number">1310415854</span>,
+            <span class="string">"format"</span>: <span class="string">"html"</span>,
+            <span class="string">"reblog_key"</span>: <span class="string">"HNvqLd5G"</span>,
+            <span class="string">"tags"</span>: [],
+            <span class="string">"asking_name"</span>: <span class="string">"aperfectfacade"</span>,
+            <span class="string">"asking_url"</span>: <span class="string">"http://aperfectfacade.tumblr.com/"</span>,
+            <span class="string">"question"</span>: <span class="string">"I thought Tumblr started in 2007, yet you
+               have posts from 2006?"</span>,
+            <span class="string">"answer"</span>: <span class="string">"&lt;p>Good catch! Tumblr &lt;strong>launched&lt;/strong> in
+               February 2007. We were testing it for a few months before
+               then.&lt;/p>\n&lt;p>&lt;strong>Tumblr Trivia:&lt;/strong> Before Tumblr,
+               my blog (davidslog.com) was a manually edited, single page,
+               HTML tumblelog.&lt;/p>"</span>
+         }
+      ],
+      <span class="string">"total_posts"</span>: <span class="number">1</span>
+   }
+}</pre>
+
+    <!-- /posts/queue -->
+    
+	<h3 id="blog-queue" class="method"><span>/posts/queue</span> — Retrieve Queued Posts</h3>
+	
+	<h3>Method</h3>
+	
+	<table>
+	    <tbody>
+	        <tr class="header">
+	            <th>URI</th>
+	            <th>HTTP Method</th>
+	            <th>Authentication</th>
+	        </tr>
+			<tr>
+			    <td><code>api.tumblr.com/v2/blog/{base-hostname}/posts/queue</code></td>
+			    <td>GET</td>
+			    <td><a href="#auth">OAuth</a></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<h3>Responses</h3>
+	
+	<p>See the table of <a href="#common-fields">common response fields.</a></p>
+	
+	<p>The complete set of queued posts is returned (no pagination).</p>
+
+    <!-- /posts/draft -->
+
+	<h3 id="blog-drafts" class="method"><span>/posts/draft</span> — Retrieve Draft Posts</h3>
+
+	<h3>Method</h3>
+	
+	<table>
+	    <tbody>
+	        <tr class="header">
+	            <th>URI</th>
+	            <th>HTTP Method</th>
+	            <th>Authentication</th>
+	        </tr>
+			<tr>
+			    <td><code>api.tumblr.com/v2/blog/{base-hostname}/posts/draft</code></td>
+			    <td>GET</td><td><a href="#auth">OAuth</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3>Responses</h3>
+		
+	<p>See the table of <a href="#common-fields">common response fields.</a></p>
+		
+	<p>The complete set of draft posts is returned (no pagination).</p>
+
+    <!-- /posts/submission -->
+
+    <h3 id="blog-submissions" class="method"><span>/posts/submission</span> — Retrieve Submission Posts</h3>
+
+	<h3>Method</h3>
+			
+	<table>
+		<tbody>
+		    <tr class="header">
+		        <th>URI</th>
+		        <th>HTTP Method</th>
+		        <th>Authentication</th>
+		    </tr>
+			<tr>
+			    <td><code>api.tumblr.com/v2/blog/{base-hostname}/posts/submission</code></td>
+				<td>GET</td>
+				<td><a href="#auth">OAuth</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3>Responses</h3>
+	
+	<p>See the table of <a href="#common-fields">common response fields.</a></p>
+	
+	<p>The complete set of submission posts is returned (no pagination).</p>
+
+    <!-- /post -->
+
+	<h3 id="posting" class="method"><span>/post</span> — Create a New Blog Post</h3>
+	
+	<h3>Method</h3>
+	
+	<table>
+		<tbody>
+		    <tr class="header">
+		        <th>URI</th>
+		        <th>HTTP Method</th>
+		        <th>Authentication</th>
+		    </tr>
+			<tr>
+			    <td><code>api.tumblr.com/v2/blog/{base-hostname}/post</code></td>
+			    <td>POST</td>
+			    <td><a href="#auth">OAuth</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+    <h3>Request Parameters</h3>
+
+    <p>These parameters are used for <code>/post</code>, <code>/post/edit</code> and <code>/post/reblog</code> methods.</p>
+
+    <h4 id="ppt-all" style="margin-bottom:-5px;">All Post Types</h4>
+
+    <table id="post-params">
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>type</th>
+                <td>String</td>
+                <td>
+                    The type of post to create. Specify one of the following:&nbsp;
+                    <code> text, photo, quote, link, chat, audio, video</code>
+                </td>
+                <td>text</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>state</th>
+                <td>String</td>
+                <td>
+                    The state of the post. Specify one of the following:&nbsp;
+                    <code> published, draft, queue  </code>
+                </td>
+                <td>published</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>tags</th>
+                <td>String</td>
+                <td>Comma-separated tags for this post</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>tweet</th>
+                <td>String</td>
+                <td>Manages the autotweet (if enabled) for this post: set to <code>off</code> for no tweet, or enter text to override the default tweet</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>date</th>
+                <td>String</td>
+                <td>The GMT date and time of the post, as a string</td>
+                <td>The date and time of the POST request</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>markdown</th>
+                <td>Boolean</td>
+                <td>Indicates whether the post uses markdown syntax</td>
+                <td>False</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>slug</th>
+                <td>String</td>
+                <td>Add a short text summary to the end of the post URL</td>
+                <td>Dynamically generated if enabled on the blog</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 id="ptext-posts" style="margin-top:25px; margin-bottom:-5px;"><strong>Text Posts</strong></h4>
+
+    <table id="post-params">
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>title</th>
+                <td>String</td>
+                <td>The optional title of the post, HTML entities must be escaped</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>body</th>
+                <td>String</td>
+                <td>The full post body, HTML allowed</td>
+                <td>None</td>
+                <td>Yes</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h4 id="pphoto-posts" style="margin-top:25px; margin-bottom:-5px;"><strong>Photo Posts</strong></h4>
+
+    <table id="post-params">
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>caption</th>
+                <td>String</td>
+                <td>The user-supplied caption, HTML allowed</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>link</th>
+                <td>String</td>
+                <td>The "click-through URL" for the photo</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>source</th>
+                <td>String</td>
+                <td>The photo source URL</td>
+                <td>None</td>
+                <td>Yes, either <code>source</code> or <code>data</code></td>
+            </tr>
+            <tr>
+                <th>data</th>
+                <td>
+                    Array<br/>
+                    (URL-encoded binary contents)
+                    <div class="note">Limit: 5 MB</div>
+                </td>
+                <td>One or more image files (submit multiple times to create a slide show)</td>
+                <td>None</td>
+                <td>Yes, either <code>source</code> or <code>data</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 id="pquote-posts" style="margin-top:25px; margin-bottom:-5px;"><strong>Quote Posts</strong></h4>
+
+    <table id="post-params">
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>quote</th>
+                <td>String</td>
+                <td>The full text of the quote, HTML entities must be escpaed</td>
+                <td>None</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>source</th>
+                <td>String</td>
+                <td>Cited source, HTML allowed</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 id="plink-posts" style="margin-top:25px; margin-bottom:-5px;"><strong>Link Posts</strong></h4>
+    <table id="post-params">
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>title</th>
+                <td>String</td>
+                <td>The title of the page the link points to, HTML entities should be escaped</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>url</th>
+                <td>String</td>
+                <td>The link</td>
+                <td>None</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>description</th>
+                <td>String</td>
+                <td>A user-supplied description, HTML allowed</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 id="ppt-convo" style="margin-top:25px; margin-bottom:-5px;"><strong>Chat Posts</strong></h4>
+
+    <table id="post-params">
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>title</th>
+                <td>String</td>
+                <td>The title of the chat</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>conversation</th>
+                <td>String</td>
+                <td>The text of the conversation/chat, with dialogue labels (no HTML)</td>
+                <td>None</td>
+                <td>Yes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 id="paudio-posts" style="margin-top:25px; margin-bottom:-5px;"><strong>Audio Posts</strong></h4>
+
+    <table id="post-params">
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>caption</th>
+                <td>String</td>
+                <td>The user-supplied caption</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>external_url</th>
+                <td>String</td>
+                <td>The URL of the site that hosts the audio file (not tumblr)</td>
+                <td>None</td>
+                <td>Yes, either <code>external_url</code> or <code>data</code></td>
+            </tr>
+            <tr>
+                <th>data</th>
+                <td>
+                    String<br/>
+                    (URL-encoded binary contents)
+                    <div class="note">Limit: 5 MB</div>
+                </td>
+                <td>An audio file</td>
+                <td>None</td>
+                <td>Yes, either <code>external_url</code> or <code>data</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 id="pvideo-posts" style="margin-top:25px; margin-bottom:-5px;"><strong>Video Posts</strong></h4>
+
+    <table id="post-params">
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>caption</th>
+                <td>String</td>
+                <td>The user-supplied caption</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>embed</th>
+                <td>String</td>
+                <td>HTML embed code for the video</td>
+                <td>None</td>
+                <td>Yes, either <code>embed</code> or <code>data</code></td>
+            </tr>
+            <tr>
+                <th>data</th>
+                <td>
+                    String<br/>
+                    (URL-encoded binary contents)
+                    <div class="note">Limit: 5 MB</div>
+                </td>
+                <td>A video file</td>
+                <td>None</td>
+                <td>Yes, either <code>embed</code> or <code>data</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <p>Returns <code>201: Created</code> or an error code.</p>
+
+    <h3 id="editing" class="method"><span>/post/edit</span> – Edit a Blog Post</h3>
+
+    <h3>Method</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/blog/{base-hostname}/post/edit</code></td>
+                <td>POST</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <p>This parameter is in addition to the common parameters listed under <a href="#post-params"><code>/post</code></a>.</p>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>id</th>
+                <td>Number</td>
+                <td>The ID of the post to edit</td>
+                <td>None</td>
+                <td>Yes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <p>Returns <code>200: OK</code> (successfully edited) or an error code.</p>
+
+    <h3 id="reblogging" class="method"><span>/post/reblog</span> – Reblog a Post</h3>
+
+    <h3>Method</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/blog/{base-hostname}/post/reblog</code></td>
+                <td>POST</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <p>These parameters are in addition to the common parameters listed under <a href="#post-params"><code>/post</code></a>.</p>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>id</th>
+                <td>Number</td>
+                <td>The ID of the reblogged post on <code>tumblelog</code></td>
+                <td>Next available ID</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>reblog_key</th>
+                <td>Number</td>
+                <td>The reblog key for the reblogged post – get the reblog key with a <a href="#m-posts">/posts</a> request</td>
+                <td>None</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <th>comment</th>
+                <td>String</td>
+                <td>A comment added to the reblogged post</td>
+                <td>None</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <p>Returns <code>201: Created</code> or an error code.</p>
+
+    <h3 id="deleting-posts" class="method"><span>/post/delete</span> – Delete a Post</h3>
+
+    <h3>Method</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/blog/{base-hostname}/post/delete</code></td>
+                <td>POST</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>id</th>
+                <td>Number</td>
+                <td>The ID of the post to delete</td>
+                <td>None</td>
+                <td>Yes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <p>Returns <code>200: OK</code> (successfully deleted) or an error code.</p>
+
+    <h2 id="user-methods">User Methods</h2>
+
+    <!-- /user/info  -->
+
+    <h3 id="m-up-info" class="method"><span>/user/info</span> – Get a User's Information</h3>
+
+    <p>Use this method to retrieve the user's account information that matches the OAuth credentials submitted with the request.</p>
+
+    <h3>Method</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/user/info</code></td>
+                <td>POST</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>following</th>
+                <td>Number</td>
+                <td>The number of blogs the user is following</td>
+            </tr>
+            <tr>
+                <th>default_post_format</th>
+                <td>String</td>
+                <td>The default posting format - <code>html, markdown or raw</code></td>
+            </tr>
+            <tr>
+                <th>name</th>
+                <td>String</td>
+                <td>The user's tumblr short name</td>
+            </tr>
+            <tr>
+                <th>likes</th>
+                <td>Number</td>
+                <td>The total count of the user's likes</td>
+            </tr>
+            <tr>
+                <th>blogs</th>
+                <td>Array</td>
+                <td>
+                    Each item is a blog the user has permissions to post to, containing these fields:
+                    <ul>
+                        <li><code>name</code> – string: the short name of the blog</li>
+                        <li><code>url</code> – string: the URL of the blog </li>
+                        <li><code>title</code> – string: the title of the blog </li>
+                        <li><code>primary</code> – boolean: indicates if this the user's primary blog</li>
+                        <li><code>followers</code> – number: total count of followers for this blog</li>
+                        <li><code>tweet</code> – number: indicate if posts are tweeted <code>auto, Y, N</code></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+	<h4 style="margin-bottom:-5px;">Example</h4>
+    
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+     <span class="string">"user"</span>: {
+       <span class="string">"following"</span>: <span class="number">263</span>, 
+       <span class="string">"default_post_format"</span>: <span class="string">"html"</span>, 
+       <span class="string">"name"</span>: <span class="string">"derekg"</span>, 
+       <span class="string">"likes"</span>: <span class="number">606</span>,
+       <span class="string">"blogs"</span>: [
+          {
+           <span class="string">"name"</span>: <span class="string">"derekg"</span>, 
+           <span class="string">"title"</span>: <span class="string">"Derek Gottfrid"</span>, 
+           <span class="string">"url"</span>: <span class="string">"http://derekg.org/"</span>, 
+           <span class="string">"tweet"</span>: <span class="string">"auto"</span>, 
+           <span class="string">"primary"</span>: true, 
+           <span class="string">"followers"</span>: <span class="number">33004929</span>, 
+          }, 
+          {
+           <span class="string">"name"</span>: <span class="string">"ihatehipstrz"</span>, 
+           <span class="string">"title"</span>: <span class="string">"I Hate Hipstrz"</span>, 
+           ...
+          }
+        ]
+     }
+}</pre>
+
+
+    <!-- /user/dashboard -->
+
+    <h3 id="m-ug-dashboard" class="method"><span>/user/dashboard</span> – Retrieve a User's Dashboard</h3>
+
+    <p>Use this method to retrieve the dashboard that matches the OAuth credentials submitted with the request.</p>
+
+    <h3>Method</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/user/dashboard</code></td>
+                <td>GET</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>limit</th>
+                <td>Number</td>
+                <td>The number of results to return: <code>1–20</code>, inclusive</td>
+                <td>20</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>offset</th>
+                <td>Number</td>
+                <td>Post number to start at</td>
+                <td style="white-space:nowrap;">0 (first post)</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>type</th>
+                <td>String</td>
+                <td>
+                    The type of post to return. Specify one of the following:&nbsp;
+                    <code>text, photo, quote, link, chat, audio, video, question</code>
+                </td>
+                <td>None – return all types</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>since_id</th>
+                <td>Number</td>
+                <td>
+                    Return posts that have appeared after this ID
+                    <div class="note">
+                        Use this parameter to page through the results:
+                        first get a set of posts, and then get posts since
+                        the last ID of the previous set.
+                    </div>
+                </td>
+                <td>0</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>reblog_info</th>
+                <td>Boolean</td>
+                <td>
+                    Indicates whether to return reblog information
+                    (specify <code>true</code> or <code>false</code>).
+                    Returns the various <code>reblogged_</code> fields.
+                    </td>
+                <td>False</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>notes_info</th>
+                <td>Boolean</td>
+                <td>
+                    Indicates whether to return notes information
+                    (specify <code>true</code> or <code>false</code>).
+                    Returns note count and note metadata.
+                </td>
+                <td>False</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <p>Dashboard responses include the fields returned in <a href="#m-posts-responses"><code>/posts</code> responses</a> (with all the various type-specific fields), but without the <code>blog</code> object. Instead, a <code>blog_name</code> field identifies the blog for each post returned.</p>
+
+	<h4 style="margin-bottom:-5px;">Example</h4>
+    
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+      <span class="string">"posts"</span>: [
+         {
+            <span class="string">"blog_name"</span>: <span class="string">"laughingsquid"</span>,
+            <span class="string">"id"</span>: <span class="number">6828225215</span>,
+            <span class="string">"post_url"</span>: <span class="string">"http:\/\/links.laughingsquid.com\/post\/6828225215"</span>,
+            ...
+         }
+      ]
+   }
+}</pre>
+
+    <!-- /user/likes -->
+
+	<h3 id="m-ug-likes" class="method"><span>/user/likes</span> — Retrieve a User's Likes</h3>
+	
+	<p>Use this method to retrieve the liked posts that match the OAuth credentials submitted with the request.</p>
+	
+	<h3>Method</h3>
+	
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/user/likes</code></td>
+                <td>GET</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>limit</th>
+                <td>Number</td>
+                <td>The number of results to return: <code>1–20</code>, inclusive</td>
+                <td>20</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>offset</th>
+                <td>Number</td>
+                <td>Liked post number to start at</td>
+                <td style="white-space:nowrap;">0 (first post)</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>liked_post</th>
+                <td>Array</td>
+                <td>An array of post objects (posts liked by the user)</td>
+            </tr>
+            <tr>
+                <th>liked_count</th>
+                <td>Number</td>
+                <td>Total number of liked posts</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- /user/following -->
+
+    <h3 id="m-ug-following" class="method"><span>/user/following</span> – Retrieve the Blogs a User Is Following</h3>
+
+    <p>Use this method to retrieve the blogs followed by the user whose OAuth credentials are submitted with the request.</p>
+
+    <h3>Method</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/user/following</code></td>
+                <td>GET</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>limit</th>
+                <td>Number</td>
+                <td>The number of results to return: <code>1–20</code>, inclusive</td>
+                <td>20</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <th>offset</th>
+                <td>Number</td>
+                <td>Result number to start at</td>
+                <td style="white-space:nowrap;">0 (first followee)</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <p>These fields are wrapped in a <code>blog</code> object:</p>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Response Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>total_blogs</th>
+                <td>Number</td>
+                <td>The number of blogs the user is following</td>
+            </tr>
+            <tr>
+                <th>blogs</th>
+                <td>Array</td>
+                <td>
+                    Each item is a blog that's being followed, containing these fields:
+                    <ul>
+                        <li><code>name</code> – string: the user name attached to the blog that's being followed</li>
+                        <li><code>url</code> – string: the URL of the blog that's being followed</li>
+                        <li><code>updated</code> – number: the time of the most recent post, in seconds since the epoch</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</span></h4>
+
+    <pre>{
+   <span class="string">"meta"</span>: {
+      <span class="string">"status"</span>: <span class="number">200</span>,
+      <span class="string">"msg"</span>: <span class="string">"OK"</span>
+   },
+   <span class="string">"response"</span>: {
+       <span class="string">"total_blogs"</span>: <span class="number">259</span>,
+       <span class="string">"blogs"</span>: [
+          {
+             <span class="string">"name"</span>: <span class="string">"david"</span>,
+             <span class="string">"url"</span>: <span class="string">"http:\/\/www.davidslog.com"</span>,
+             <span class="string">"updated"</span>: <span class="number">1308781073</span>
+          },
+          {
+             <span class="string">"name"</span>: <span class="string">"matthew"</span>,
+             <span class="string">"url"</span>: <span class="string">"http:\/\/matthew.tumblr.com"</span>,
+             <span class="string">"updated"</span>: <span class="number">1306436424</span>
+          },
+          ...
+       ]
+   }
+}</pre>
+
+    <!-- /user/follow -->
+
+    <h3 id="m-up-follow" class="method"><span>/user/follow</span> – Follow a blog</h3>
+
+    <h3>Method</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/user/follow</code></td>
+                <td>POST</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>url</th>
+                <td>String</td>
+                <td>The URL of the blog to follow</td>
+                <td>None</td>
+                <td>Yes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <p>Returns <code>200: OK</code> (blog successfully followed) or a 404 (blog was not found)</p>
+
+    <!-- /user/unfollow -->
+
+    <h3 id="m-up-unfollow" class="method"><span>/user/unfollow</span> – Unfollow a blog</h3>
+
+    <h3>Method</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>URI</th>
+                <th>HTTP Method</th>
+                <th>Authentication</th>
+            </tr>
+            <tr>
+                <td><code>api.tumblr.com/v2/user/unfollow</code></td>
+                <td>POST</td>
+                <td><a href="#auth">OAuth</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Request Parameters</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Default</th>
+                <th>Required?</th>
+            </tr>
+            <tr>
+                <th>url</th>
+                <td>String</td>
+                <td>The URL of the blog to unfollow</td>
+                <td>None</td>
+                <td>Yes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Responses</h3>
+
+    <p>Returns <code>200: OK</code> (blog successfully unfollowed) or a 404 (blog was not found)</p>
+
+    </div>
+
+<div class="clear"></div>
+            </div>
+            
+            <img src="http://assets.tumblr.com/images/content_bottom.png?alpha" alt="" id="content_bottom"
+            />            
+            <div id="footer">
+                <div>
+                    <strong>&copy; Tumblr, Inc.</strong>
+                    <a href="/help">Help</a>
+                    <a href="/about">About</a>
+                                                                <a href="/developers">Developers</a>
+                                        <a href="/themes/" title="Tumblr Themes">Themes</a>
+                    <a href="/meetups">Meetups</a>
+                    <a href="/jobs" onclick="this.href = '/jobs?Tumblr+Footer';">Jobs</a>
+                    <a href="/policy">Policy</a>
+                </div>
+                            </div>
+        </div>
+        
+                
+                
+        <script type="text/javascript">
+                        
+            start_processing_image_queue();
+            
+            var default_search_text = 'Search Tumblr';
+                                    
+                    </script>
+        
+                    <script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>
+            <script type="text/javascript">            
+                var pageTracker = _gat._getTracker("UA-97144-8");       
+                pageTracker._trackPageview();
+            </script>
+        
+            <script type="text/javascript">
+                _qoptions = { qacct:"p-19UtqE8ngoZbM" };
+            </script>
+            <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+            <noscript>
+                <img src="http://pixel.quantserve.com/pixel/p-19UtqE8ngoZbM.gif"
+                style="display:none; border-width:0px; height:1px; width:1px;"/>
+            </noscript>            
+                 
+    </body>
+</html>
