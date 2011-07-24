@@ -117,6 +117,6 @@ let deleteOnOrBefore (date: System.DateTime) =
    
 
 // run
-deleteOnOrBefore (System.DateTime(2010,8,23)) |> ignore
+deleteOnOrBefore (System.DateTime(2011,4,23)) |> ignore
 
 
