@@ -26,6 +26,6 @@ then
 fi
 
 # build
-$FSC --warn:4 --nologo --optimize --out:"$EXE" HTTP.fs Tumblr.fs Ninlil.fs
+$FSC --standalone --warn:4 --nologo --optimize --out:"$EXE" HTTP.fs Tumblr.fs Ninlil.fs
 
 

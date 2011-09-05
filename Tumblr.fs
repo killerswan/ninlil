@@ -13,9 +13,9 @@
 // tortious action, arising out of or in connection with the use or 
 // performance of this software.
 
-module Ninlil.Tumblr
+module Tumblr
 
-open Ninlil.HTTP
+open HTTP
 open System.Collections.Generic
 open System.IO
 open System.Text.RegularExpressions

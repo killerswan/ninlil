@@ -1,6 +1,6 @@
 Ninlil
 Kevin Cantu <me@kevincantu.org>
-April 2011
+June 2012
 
 
 This F# tool to delete older Tumblr posts -- those whose context is
@@ -16,5 +16,11 @@ Tumblr.fs -- contains Ninlil.Tumblr, with Post and API types
 
 Ninlil.fs -- contains Ninlil.Main, with a program which finds all 
              posts older than a certain date and deletes them :D
+
+
+A note about compiling: after installing F# on Ubuntu (which required `mono-devel`),
+I found that now things work better when the compiler is given `--standalone`.  :D
+
+
 
 

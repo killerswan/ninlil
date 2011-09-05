@@ -13,7 +13,7 @@
 // tortious action, arising out of or in connection with the use or 
 // performance of this software.
 
-module Ninlil.HTTP
+module HTTP
 
 open System.Collections.Generic
 open System.Net

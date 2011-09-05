@@ -2,3 +2,8 @@
 run.bash
 *.exe
 *.old
+*.zip
+oauth
+oauth/
+
+

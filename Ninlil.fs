@@ -13,9 +13,9 @@
 // tortious action, arising out of or in connection with the use or 
 // performance of this software.
 
-module Ninlil.Main
+module Main
 
-open Ninlil.Tumblr
+open Tumblr
 
 
 // $
@@ -120,7 +120,7 @@ let deleteOnOrBefore (date: System.DateTime) =
 let now = System.DateTime.Now
 
 // delete from this many days back
-let daysToPreserve = System.TimeSpan.FromDays 90.0
+let daysToPreserve = System.TimeSpan.FromDays 30.0
 
 // run
 deleteOnOrBefore (now.Subtract daysToPreserve) |> ignore
