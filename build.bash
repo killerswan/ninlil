@@ -8,4 +8,4 @@ then
 fi
 
 #fsharpc --nologo --optimize --out:"$EXE" HTTP.fs Tumblr.fs Ninlil.fs
-fsc --nologo --optimize --out:"$EXE" HTTP.fs Tumblr.fs Ninlil.fs
+fsc --warn:4 --nologo --optimize --out:"$EXE" HTTP.fs Tumblr.fs Ninlil.fs

@@ -49,10 +49,11 @@ type Post(postxml: XmlNode) =
    member p.id : string             = postxml.Attributes.GetNamedItem("id").Value
    member p.rkey : string           = postxml.Attributes.GetNamedItem("reblog-key").Value
    member p.date : System.DateTime  = postxml.Attributes.GetNamedItem("date-gmt").Value |> processDate
-   member p.picURL : string         = postxml.ChildNodes.Item(1).InnerText
+//   member p.picURL : string         = postxml.ChildNodes.Item(1).InnerText
 
    member p.display : string        = 
-      sprintf "id: '%s', rkey: '%s', '%s'\n   %s" p.id p.rkey (p.date.ToString()) p.picURL
+//      sprintf "id: '%s', rkey: '%s', '%s'\n   %s" p.id p.rkey (p.date.ToString()) p.picURL
+      sprintf "id: '%s', rkey: '%s' \n   %s" p.id p.rkey (p.date.ToString())
 
 
 // API for a given account
@@ -67,8 +68,7 @@ type API(blog: string, email: string, password: string) =
    member public x.readXML (start: int) (num: int) : string = 
          let url  = "http://" + blog + ".tumblr.com/api/read"
          let data = Map.ofList [ "start", (sprintf "%d" start);
-                                 "num",   (sprintf "%d" num);
-                                 "type",  "photo" ]
+                                 "num",   (sprintf "%d" num) ]
 
          if debug then printfn "-> reading XML..."
          let xml = httpget url data
