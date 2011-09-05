@@ -18,6 +18,10 @@ module Ninlil.Main
 open Ninlil.Tumblr
 
 
+// $
+let inline (^<|) f a = f a
+
+
 // init
 let args = System.Environment.GetCommandLineArgs()
 if args.Length <> 4
@@ -102,18 +106,14 @@ let deleteOnOrBefore (date: System.DateTime) =
       let sleep secs = Async.RunSynchronously(Async.Sleep(secs * 1000)) |> ignore
 
       [newest..inc..oldest]
-      |> List.map (fun jj -> 
-            sleep 1
-            api.reads  jj  inc)
+      |> List.map ^<| fun jj -> 
+                        sleep 1
+                        api.reads jj inc
       |> List.concat  // condense our array of post arrays
-      |> List.map (fun post ->
-(*
-            sleep 1
-            api.reblog post.id post.rkey |> ignore
-*)
-            sleep 1
-            api.delete post.id)
-      |> (fun l -> printfn "Done deleting %d posts" l.Length) 
+      |> List.map ^<| fun post ->
+                        sleep 1
+                        api.delete post.id
+      |> fun l -> printfn "Done deleting %d posts" l.Length
    
 
 // run
