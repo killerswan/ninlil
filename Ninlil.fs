@@ -116,7 +116,13 @@ let deleteOnOrBefore (date: System.DateTime) =
       |> fun l -> printfn "Done deleting %d posts" l.Length
    
 
+// current time
+let now = System.DateTime.Now
+
+// delete from this many days back
+let daysToPreserve = System.TimeSpan.FromDays 90.0
+
 // run
-deleteOnOrBefore (System.DateTime(2011,6,1)) |> ignore
+deleteOnOrBefore (now.Subtract daysToPreserve) |> ignore
 
 
