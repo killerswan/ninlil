@@ -1,0 +1,895 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+                                         
+        .                                 .o8       oooo
+      .o8                                "888       `888
+    .o888oo oooo  oooo  ooo. .oo.  .oo.   888oooo.   888  oooo d8b
+      888   `888  `888  `888P"Y88bP"Y88b  d88' `88b  888  `888""8P
+      888    888   888   888   888   888  888   888  888   888
+      888 .  888   888   888   888   888  888   888  888   888    .o.
+      "888"  `V88V"V8P' o888o o888o o888o `Y8bod8P' o888o d888b   Y8P
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <script type="text/javascript">var tinyMCE,_sf_startpt=(new Date()).getTime();</script>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                        
+        <meta name="viewport" content="width=960"/>
+        
+        <meta http-equiv="x-dns-prefetch-control" content="off"/>
+        
+        <title>Tumblr API v1 | Tumblr</title>
+        
+                
+        <link rel="icon" href="http://assets.tumblr.com/images/favicon.gif?2" type="image/gif"/>
+        <link rel="apple-touch-icon" href="http://assets.tumblr.com/images/apple_touch_icon.png"/>
+        
+                
+        <link rel="stylesheet" type="text/css"
+        href="http://assets.tumblr.com/stylesheets/compressed/global.css?639"/>
+        
+                
+                    <link rel="stylesheet" type="text/css"
+            href="http://assets.tumblr.com/stylesheets/compressed/docs.css?639"/>
+                
+                
+                
+                
+        <script type="text/javascript" language="javascript"
+        src="http://assets.tumblr.com/languages/strings/en_US.js?639"></script>
+        
+                    <script type="text/javascript" language="javascript"
+            src="http://assets.tumblr.com/javascript/prototype_effects_application_tumblelog.js?639"></script>
+                
+                
+                
+                
+        
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-97144-8']);
+        _gaq.push(['_trackPageview']);
+        
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    </head>
+    <body id="main_doc_page"
+    class="
+                    "
+    onclick="click_body();"
+        onload="
+                            ">    
+    
+    
+        
+                
+                
+                    <noscript>
+                <div style="
+                    height: 45px;
+                    text-align: center;
+                    background: #31546f url('http://assets.tumblr.com/images/site_notice_bg.png') bottom repeat-x;
+                    color: #fff;
+                    font:normal 17px 'Lucida Grande',Verdana,sans-serif;
+                    line-height:45px;
+                ">
+                    <a href="https://www.google.com/adsense/support/bin/answer.py?hl=en&amp;answer=12654" style="color:#fff;text-decoration: none;border-bottom: solid 1px #5E809C;">Javascript</a> is required to view this site.                </div>
+            </noscript>
+                
+                
+                
+        <div id="container">
+            <div id="header_container">
+                <div id="header">
+                    
+                    <a href="/"><img
+                                            src="http://assets.tumblr.com/images/logo.png?alpha&6" width="196" height="44"
+                                        alt="Tumblr" id="logo"/></a>
+                    
+                    
+                                    <div id="nav">
+                <a href="http://staff.tumblr.com/" title="Tumblr Staff Blog" class="nav_item logged_out">
+                    <div>What's new</div>
+                    <div class="nav_item_nipple"><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                </a>
+                
+                                            
+                    <a href="/explore" class="nav_item logged_out ">
+                        <div>Explore</div>
+                        <div class="nav_item_nipple"><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                        class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                    </a>
+                                
+                <a href="/about" class="nav_item logged_out ">
+                    <div>About us</div>
+                    <div class="nav_item_nipple"><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                </a>
+                
+                <a href="https://www.tumblr.com/register" class="nav_item logged_out ">
+                    <div>Sign up</div>
+                    <div class="nav_item_nipple"><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                </a>
+                
+                <a href="https://www.tumblr.com/login" class="nav_item logged_out ">
+                    <div>Log in</div>
+                    <div class="nav_item_nipple"><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_1"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_2"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_3"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_4"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_5"></div><div 
+                    class="nav_item_nipple_pixel nav_item_nipple_pixel_6"></div></div>
+                </a>
+                </div>
+                
+                <div id="search_box">
+                    
+<form method="get" action="/search" id="search_form">
+    <input type="text" name="q" id="search_query" placeholder="Search Help" value=""/>
+            <input type="hidden" name="scope" id="search_scope" value="help_docs"/>
+    
+    <div id="search_controls_wrapper">
+        <div id="search_controls_button" onclick="just_clicked_search_menu = true;">▾</div>
+        <div id="search_controls" style="display:none;">
+            <a name="all_of_tumblr" class="first">
+                Search Tags                <span class="check" style="display:none"></span>
+            </a>
+                        <a name="help_docs" class="last">
+                Help Docs                <span class="check" style=""></span>
+            </a>
+            <div class="arrow"></div>
+        </div>
+    </div>
+</form>                </div>
+
+    
+        </div>
+    </div>
+            
+                        
+            <img src="http://assets.tumblr.com/images/content_top.png?alpha" alt="" id="content_top"
+            /><div id="content">
+                
+
+<div id="left_column" style="width:600px; float:left;">
+            <h1>Tumblr API v1</h1>
+        
+        
+    <div id="help_doc_body">
+                
+                
+        <p>The Tumblr API is implemented over standard HTTP requests.  This allows Tumblr to be integrated with just about any application that can connect to the web.</p>
+
+<h2>Contents</h2>
+<ul>
+    <li>
+        <a href="#api_read">/api/read</a>: Reading posts as XML or JSON
+        <ul>
+            <li><a href="#authenticated_read">Authenticated read</a>: Including private posts in <code>/api/read</code></li>
+            <li><a href="#api_dashboard">Dashboard read</a></li>
+            <ul>
+                <li><a href="#api_likes">Liked posts</a></li>
+                <li><a href="#api_liking">Liking, un-liking posts</a></li>
+            </ul>
+            <li><a href="#api_pages">Pages read</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#api_write">/api/write</a>: Creating posts
+        <ul>
+            <li><a href="#editing_posts">Editing posts</a></li>
+            <li><a href="#deleting_posts">Deleting posts</a></li>
+            <li><a href="#reblogging_posts">Reblogging posts</a></li>
+        </ul>
+    </li>
+    <li><a href="#authenticate">/api/authenticate</a>: Validating credentials and getting account information</li>
+    <li><a href="#iphone">iPhone access</a></li>
+</ul>
+
+<h2 id="api_read">/api/read</h2>
+
+<p>Reading Tumblr data is easy: just fetch the page at <code>http://<span class="example">(you)</span>.tumblr.com/api/read</code> and you'll get a structured XML version of your content in this format:</p>
+
+<pre>
+&lt;tumblr version=&quot;1.0&quot;&gt;
+    &lt;tumblelog ... &gt;
+        ...
+        &lt;feeds&gt;
+            &lt;feed ... /&gt;
+            &lt;feed ... /&gt;
+            ...
+        &lt;/feeds&gt;
+    &lt;/tumblelog&gt;
+    &lt;posts&gt;
+        &lt;post type=&quot;regular&quot; ... &gt;
+            &lt;regular-title&gt;...&lt;/regular-title&gt;
+            &lt;regular-body&gt;...&lt;/regular-body&gt;
+        &lt;/post&gt;
+        &lt;post type=&quot;link&quot; ... &gt;
+            &lt;link-text&gt;...&lt;/link-text&gt;
+            &lt;link-url&gt;...&lt;/link-url&gt;
+        &lt;/post&gt;
+        &lt;post type=&quot;quote&quot; ... &gt;
+            &lt;quote-text&gt;...&lt;/quote-text&gt;
+            &lt;quote-source&gt;...&lt;/quote-source&gt;
+        &lt;/post&gt;
+        &lt;post type=&quot;photo&quot; ... &gt;
+            &lt;photo-caption&gt;...&lt;/photo-caption&gt;
+            &lt;photo-url max-width=&quot;500&quot;&gt;...&lt;/photo-url&gt;
+            &lt;photo-url max-width=&quot;400&quot;&gt;...&lt;/photo-url&gt;
+            ...
+        &lt;/post&gt;
+        &lt;post type=&quot;conversation&quot; ... &gt;
+            &lt;conversation-title&gt;...&lt;/conversation-title&gt;
+            &lt;conversation-text&gt;...&lt;/conversation-text&gt;
+            &lt;conversation&gt;
+                &lt;line name="..." label="..."&gt;...&lt;/line&gt;
+                &lt;line name="..." label="..."&gt;...&lt;/line&gt;
+                ...
+            &lt;/conversation&gt;
+        &lt;/post&gt;
+        &lt;post type=&quot;video&quot; ... &gt;
+            &lt;video-caption&gt;...&lt;/video-caption&gt;
+            &lt;video-source&gt;...&lt;/video-source&gt;
+            &lt;video-player&gt;...&lt;/video-player&gt;
+        &lt;/post&gt;
+        &lt;post type=&quot;audio&quot; ... &gt;
+            &lt;audio-caption&gt;...&lt;/audio-caption&gt;
+            &lt;audio-player&gt;...&lt;/audio-player&gt;
+        &lt;/post&gt;
+        &lt;post type=&quot;answer&quot; ... &gt;
+            &lt;question&gt;...&lt;/question&gt;
+            &lt;answer&gt;...&lt;/answer&gt;
+        &lt;/post&gt;
+        ...
+    &lt;/posts&gt;
+&lt;/tumblr&gt;
+</pre>
+
+<p>The most recent 20 posts are included by default. You may pass these optional GET parameters:</p>
+    
+<ul>
+    <li><code>start</code> - The post offset to start from.  The default is 0.</li>
+
+    <li><code>num</code> - The number of posts to return.  The default is 20, and the maximum is 50.</li>
+    
+    <li><code>type</code> - The type of posts to return.  If unspecified or empty, all types of posts are returned.  Must be one of <code>text</code>, <code>quote</code>, <code>photo</code>, <code>link</code>, <code>chat</code>, <code>video</code>, or <code>audio</code>.</li>
+    
+    <li><code>id</code> - A specific post ID to return.  Use instead of <code>start</code>, <code>num</code>, or <code>type</code>.</li>
+
+    <li><code>filter</code> - Alternate filter to run on the text content. Allowed values:
+    <ul>
+        <li><code>text</code> - Plain text only. No HTML.</li>
+        <li><code>none</code> - No post-processing. Output exactly what the author entered. (Note: Some authors write in <a href="http://daringfireball.net/projects/markdown/">Markdown</a>, which will not be converted to HTML when this option is used.)</li>
+    </ul>
+
+    <li><code>tagged</code> - Return posts with this tag in reverse-chronological order (newest first). Optionally specify <code>chrono=1</code> to sort in chronological order (oldest first).</li>
+    <li><code>search</code> - Search for posts with this query.</li>
+    
+    <li>
+        <code>state</code> (<a href="#authenticated_read">Authenticated read</a> required) -
+        Specify one of the values <code>draft</code>, <code>queue</code>, or <code>submission</code>
+        to list posts in the respective state.
+    </li>
+</ul>
+    
+<p>For detailed example feeds, see the live Read API on <a href="http://derekg.org/api/read" rel="nofollow">derekg.org</a> or <a href="http://demo.tumblr.com/api/read" rel="nofollow">the demo blog</a>.  A browser that pretty-prints XML, such as Firefox, is recommended.</p>
+
+
+
+<h3>JSON output</h3>
+
+<p>By using <code>/api/read/json</code> instead of <code>/api/read</code> when calling the Read API, the output will be sent as <a href="http://json.org/">JSON</a> assigned to a Javascript variable named <code>tumblr_api_read</code>. All regular Read API parameters are accepted, plus:</p>
+
+<ul>
+
+    <li><code>callback</code> - A function name to call with the JSON object as its only parameter.  When set, the function will be called instead of the <code>tumblr_api_read</code> variable being set.</li>
+</ul>
+
+<p>Example:</p>
+
+<pre>&lt;script type="text/javascript" src="http://<b>(you)</b>.tumblr.com/api/read/json"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+    // The variable "tumblr_api_read" is now set.
+    document.write(
+        '&lt;a href="' + tumblr_api_read[1][0]['url'] + 
+        '"&gt;Most recent Tumblr post&lt;/a&gt;'
+    );
+&lt;/script&gt;</pre>
+
+
+<p>To view a human-readable map of the array's structure for easy reference, pass <code>debug=1</code> as a GET parameter.  The output will be like that of PHP's <a href="http://www.php.net/manual/en/function.print-r.php">print_r()</a> function.</p>
+
+
+<h3 id="authenticated_read">Authenticated read</h3>
+<p>
+    To include private posts in <code>/api/read</code>, use a POST request to 
+    <code>/api/read</code> and include the <code>email</code> and <code>password</code> 
+    parameters (see <code>/api/write</code> below) from an account authorized to 
+    view the blog's Dashboard.
+</p>
+<p>
+    Private posts are indicated in the resulting XML with the extra <code>private="true"</code> attribute
+    on their <code>&lt;post&gt;</code> nodes.
+</p>
+
+<h2 id="api_dashboard">Dashboard reading: /api/dashboard</h2>
+
+<p>
+	To read Dashboard posts, perform an <a href="#authenticated_read">authenticated read</a>
+	of <code>http://www.tumblr.com/api/dashboard</code> with the following parameters:
+	<ul>
+        <li><code>email</code> - Your account's email address.</li>
+        <li><code>password</code> - Your account's password.</li>
+        <li>
+            <code>start</code>, <code>num</code>, <code>type</code>, <code>filter</code> (optional) - Identical to <a href="#api_read">/api/read</a> above.
+            The maximum value of <code>start</code> is 250.
+        </li>
+        <li><code>likes</code> (optional) - 1 or 0, default 0. If 1, liked posts will have the <code>liked="true"</code> attribute.</li>
+    </ul>
+    The output is formatted like the <a href="#api_read">/api/read</a> XML.
+</p>
+<p>
+    Dashboard reads may return cached content.
+    Requests are rate-limited to one every 10 seconds.
+</p>
+<p>
+    If you have exceeded the rate limit or the service is under heavy load, you
+    may receive an HTTP 503 status code in the response. Please ensure that your
+    application handles these temporary failures gracefully.
+</p>
+
+<h3 id="api_likes">Liked posts</h3>
+<p>
+	To read liked posts, perform an <a href="#authenticated_read">authenticated read</a>
+	of <code>http://www.tumblr.com/api/likes</code> with the following parameters:
+	<ul>
+        <li><code>email</code> - Your account's email address.</li>
+        <li><code>password</code> - Your account's password.</li>
+        <li>
+            <code>start</code>, <code>num</code>, <code>filter</code> (optional) - Identical to <a href="#api_read">/api/read</a> above.
+            The maximum value of <code>start</code> is 1000.
+        </li>
+    </ul>
+    The output is formatted like the <a href="#api_read">/api/read</a> XML.
+</p>
+
+<h3 id="api_liking">Liking, un-liking posts</h3>
+<p>
+	To like a post, perform a POST request to
+	<code>http://www.tumblr.com/api/like</code> with the following parameters:
+	<ul>
+        <li><code>email</code> - Your account's email address.</li>
+        <li><code>password</code> - Your account's password.</li>
+        <li><code>post-id</code> - The numeric post ID to like.</li>
+        <li><code>reblog-key</code> - The <code>reblog-key</code> value for the specified post from its XML as returned by <a href="#api_read">/api/read</a> or <a href="#api_dashboard">/api/dashboard</a>.</li>
+    </ul>
+    To un-like a post, perform the same operation with the same parameters
+    to <code>http://www.tumblr.com/api/unlike</code> instead.
+    Both operations return an HTTP 200 status code on success, 
+    400 on invalid input data,
+    403 for authentication or permissions failures,
+    or 404 on a not-found post or an incorrect <code>reblog-key</code> value.
+</p>
+
+<h2 id="api_pages">Pages reading: /api/pages</h2>
+<p>
+	To read your tumblelog's Pages, fetch 
+	<code>http://<span class="example">(you)</span>.tumblr.com/api/pages</code> 
+	and you'll get a structured XML copy of all pages for which the
+	"Show a link to this page" option in the Customize screen is enabled.
+</p>
+<p>	
+	To include <b>all</b> pages regardless of the "Show a link to this page" option, 
+	perform an <a href="#authenticated_read">authenticated read</a> of
+	<code>http://<span class="example">(you)</span>.tumblr.com/api/pages</code> 
+	in the same manner.
+</p>
+<p>
+    Page reads may return cached content.
+    Requests are rate-limited to one every 10 seconds.
+</p>
+
+
+
+<h2 id="api_write">/api/write</h2>
+
+<p>The Write API is a very simple HTTP interface.  To create a post, send a POST request to <code>http://www.tumblr.com/api/write</code> with the following parameters:</p>
+
+<ul>
+    <li><code>email</code> - Your account's email address.</li>
+
+    <li><code>password</code> - Your account's password.</li>
+
+    <li><code>type</code> - The post type.</li>
+
+    <li><i>(content parameters)</i> - These vary by post type.</li>
+
+    <li><code>generator</code> (optional) - A short description of the application making the request for tracking and statistics, such as "John's Widget 1.0".  Must be 64 or fewer characters.</li>
+
+    <li><code>date</code> (optional) - The post date, if different from now, in the blog's timezone. Most unambiguous formats are accepted, such as '2007-12-01 14:50:02'.  Dates may not be in the future.</li>
+
+    <li><code>private</code> (optional) - 1 or 0. Whether the post is private. Private posts only appear in the Dashboard or with authenticated links, and do not appear on the blog's main page.</li>
+
+    <li><code>tags</code> (optional) - Comma-separated list of post tags.  You may optionally enclose tags in double-quotes.</li>
+
+    <li><code>format</code> (optional) - <code>html</code> or <code>markdown</code>.</li>
+
+    <li><code>group</code> (optional) - Post this to a secondary blog on your account, e.g. <code>mygroup.tumblr.com</code> (for public groups only)</li>
+
+    <li><code>slug</code> (optional) - A custom string to appear in the post's URL: <code>myblog.tumblr.com/post/123456/this-string-right-here</code>. URL-friendly formatting will be applied automatically. Maximum of 55 characters.</li>
+
+    <li>
+        <code>state</code> (optional) - One of the following values:
+        <ul>
+            <li><code>published</code> (default)</li>
+            <li><code>draft</code> - Save in the tumblelog's Drafts folder for later publishing.</li>
+            <li><code>submission</code> - Add to the tumblelog's Messages folder for consideration.</li>
+            <li>
+                <code>queue</code> - Add to the tumblelog's queue for automatic publishing in a few minutes or hours.
+                To publish at a specific time in the future instead, specify
+                an additional <code>publish-on</code> parameter with the date expression
+                in the tumblelog's local time (e.g. <code>publish-on=2010-01-01T13:34:00</code>).
+                If the date format cannot be understood, a 401 error will be returned and
+                the post will not be created.
+            </li>
+        </ul>
+        <p>
+            To change the state of an existing post, such as to switch from 
+            <code>draft</code> to <code>published</code>,
+            follow the <a href="#editing_posts">editing process</a>
+            and pass the new value as the <code>state</code> parameter.
+        </p>
+        <p>
+            <b>Note:</b>
+            If a post has previously been saved as a draft, queue, or submission post,
+            it will be assigned a new post ID the first time it enters the
+            <code>published</code> state.
+        </p>
+    </li>
+
+    <li>
+        <code>send-to-twitter</code> (optional, ignored on edits) - 
+        One of the following values, if the tumblelog has Twitter integration enabled:
+        <ul>
+            <li><code>no</code> (default) - Do not send this post to Twitter.</li>
+            <li><code>auto</code> - Send to Twitter with an automatically generated summary of the post.</li>
+            <li><code>(any other value)</code> - 
+                A custom message to send to Twitter for this post.
+                
+            </li>
+        </ul>
+        <p>
+            If this parameter is unspecified, API-created posts will be sent to
+            Twitter if the "Send my Tumblr posts to Twitter" checkbox in the Customize
+            screen is checked.
+        </p>
+    </li>
+
+</ul>
+
+<h3>Post types</h3>
+
+<p>These are the valid values for the <code>type</code> parameter, with the associated content parameters that each type supports:</p>
+
+<ul>
+    <li>
+        <code>regular</code> - Requires at least one:
+        <ul>
+            <li><code>title</code></li>
+            <li><code>body</code> (HTML allowed)</li>
+        </ul>
+    </li>
+
+    <li>
+        <code>photo</code> - Requires either <code>source</code> or <code>data</code>, but not both.  If both are specified, <code>source</code> is used.
+        <ul>
+            <li><code>source</code> - The URL of the photo to copy.  This must be a web-accessible URL, not a local file or intranet location.</li>
+            
+            <li><code>data</code> - An image file.  See <b>File uploads</b> below.</li>
+            
+            <li><code>caption</code> (optional, HTML allowed)</li>
+            
+            <li><code>click-through-url</code> (optional)</li>
+        </ul>
+    </li>
+    
+    <li>
+        <code>quote</code>
+        <ul>
+            <li><code>quote</code></li>
+            <li><code>source</code> (optional, HTML allowed)</li>
+        </ul>
+    </li>
+    
+    <li>
+        <code>link</code>
+        <ul>
+            <li><code>name</code> (optional)</li>
+            <li><code>url</code></li>
+            <li><code>description</code> (optional, HTML allowed)</li>
+        </ul>
+    </li>
+    
+    <li>
+        <code>conversation</code>
+        <ul>
+            <li><code>title</code> (optional)</li>
+            <li><code>conversation</code></li>
+        </ul>
+    </li>
+    <li>
+        <code>video</code> - Requires either <code>embed</code> or <code>data</code>, but not both.
+        <ul>
+            <li><code>embed</code> - Either the complete HTML code to embed the video, or the URL of a YouTube video page.</li>
+
+            <li><code>data</code> - A video file for a <a href="/vimeo">Vimeo upload</a>.  See <b>File uploads</b> below.</li>
+
+            <li><code>title</code> (optional) - Only applies to Vimeo uploads.</li>
+
+            <li><code>caption</code> (optional, HTML allowed)</li>
+        </ul>
+    </li>
+    <li>
+        <code>audio</code>
+        <ul>
+            <li><code>data</code> - An audio file. Must be MP3 or AIFF format. See <b>File uploads</b> below.</li>
+            <li><code>externally-hosted-url</code> (optional, replaces <code>data</code>) - Create a post that uses this externally hosted audio-file URL instead of having Tumblr copy and host an uploaded file. Must be MP3 format. No size or duration limits are imposed on externally hosted files.</li>
+            <li><code>caption</code> (optional, HTML allowed)</li>
+        </ul>
+    </li>
+</ul>
+
+
+<h3>File uploads</h3>
+
+<p>File uploads can be done in a <code>data</code> parameter where specified above.  You may use either of the common encoding methods:</p>
+
+<ul>
+    <li>
+        <code>multipart/form-data</code> method, like a file upload box in a web form.  Maximum size:
+        <ul>
+            <li>50 MB for videos</li>
+            <li>10 MB for photos</li>
+            <li>10 MB for audio</li>
+        </ul>
+        This is recommended since there's much less overhead.
+    </li>
+    <li>
+        Normal POST method, in which the file's entire binary contents are URL-encoded like any other POST variable.  Maximum size:
+        <ul>
+            <li>5 MB for videos</li>
+            <li>5 MB for photos</li>
+            <li>5 MB for audio</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Return values</h3>
+
+<p>We return standard HTTP status codes for each request, plus a plaintext response.</p>
+<ul>
+    <li><code>201 Created</code> - Success!  The newly created post's ID is returned.</li>
+
+    <li><code>403 Forbidden</code> - Your email address or password were incorrect.</li>
+
+    <li><code>400 Bad Request</code> - There was at least one error while trying to save your post.  Errors are sent in plain text, one per line.</li>
+</ul>
+
+
+<h3>Sample PHP code</h3>
+
+<pre>
+&lt;?php
+
+<b>// Authorization info</b>
+$tumblr_email    = 'info&#64;&#100;&#97;&#118;&#105;&#100;&#118;&#105;&#108;&#108;&#101;&#46;&#99;&#111;&#109;';
+$tumblr_password = 'secret';
+
+<b>// Data for new record</b>
+$post_type  = 'regular';
+$post_title = 'The post title';
+$post_body  = 'This is the body of the post.';
+
+<b>// Prepare POST request</b>
+$request_data = http_build_query(
+    array(
+        'email'     => $tumblr_email,
+        'password'  => $tumblr_password,
+        'type'      => $post_type,
+        'title'     => $post_title,
+        'body'      => $post_body,
+        'generator' => 'API example'
+    )
+);
+
+<b>// Send the POST request (with cURL)</b>
+$c = curl_init('http://www.tumblr.com/api/write');
+curl_setopt($c, CURLOPT_POST, true);
+curl_setopt($c, CURLOPT_POSTFIELDS, $request_data);
+curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+$result = curl_exec($c);
+$status = curl_getinfo($c, CURLINFO_HTTP_CODE);
+curl_close($c);
+
+<b>// Check for success</b>
+if ($status == 201) {
+    echo "Success! The new post ID is $result.\n";
+} else if ($status == 403) {
+    echo 'Bad email or password';
+} else {
+    echo "Error: $result\n";
+}
+
+?></pre>
+
+<p>If you have trouble, please ensure that you are properly encoding the POST parameters. If you have any other questions, please pass them along to <a href="mailto:&#115;&#117;&#112;p&#111;&#114;&#116;&#64;&#116;&#117;&#109;&#98;&#108;&#114;&#46;&#99;&#111;m">Tumblr Support</a>.</p>
+
+<h3 id="editing_posts">Editing posts</h3>
+<p>
+    To edit a post, create the <code>/api/write</code> request as described above,
+    and pass an additional POST parameter:
+</p>
+<ul>
+    <li><code>post-id</code> - The integer ID of the post you wish to edit.</li>
+</ul>
+<p>
+    Pass all other parameters normally as you would with <code>/api/write</code>,
+    specifying their new values, with the following exceptions:
+</p>
+<ul>
+    <li><code>type</code>, <code>private</code>, <code>format</code> - These are ignored and can be omitted. These values cannot be changed after post creation.</li>
+    <li><code>tags</code>, <code>generator</code>, <code>date</code> - These are optional. If specified, the new values will override the previous values. If omitted, the values are not changed.</li>
+</ul>
+<p>
+    You <b>must</b> pass all content parameters for the post's type (e.g. <code>title</code>, <code>body</code> for text posts) even if you are not changing their values.
+</p>
+
+<h3 id="deleting_posts">Deleting posts</h3>
+<p>
+    To delete a post, create the authenticated <code>/api/write</code> request as described above,
+    but POST to <code>http://www.tumblr.com/api/delete</code> instead, and pass an additional POST parameter:
+</p>
+<ul>
+    <li><code>post-id</code> - The integer ID of the post you wish to delete.</li>
+</ul>
+<p>
+    All content-related parameters will be ignored and can be omitted.
+    Only the authentication parameters and <code>post-id</code> are required.
+</p>
+
+<h3 id="reblogging_posts">Reblogging posts</h3>
+<p>
+    To reblog a post, create an HTTP POST request to <code>http://www.tumblr.com/api/reblog</code> and pass these POST parameters:
+</p>
+<ul>
+    <li><code>email</code> - Your account's email address.</li>
+    <li><code>password</code> - Your account's password.</li>
+    <li><code>post-id</code> - The integer ID of the post to reblog.</li>
+    <li><code>reblog-key</code> - The corresponding <code>reblog-key</code> value from the post's <code>/api/read</code> XML data.</li>
+    <li><code>comment</code> (optional) - Text, HTML, or Markdown string (see <code>format</code>) of the commentary added to the reblog. It will appear below the automatically generated reblogged-content structure. Up to 2000 characters allowed (as UTF-8 characters, not bytes). This field is not supported, and is ignored, for <code>chat</code> posts.</li>
+    <li><code>as</code> (optional) - Reblog as a different format from the original post. <code>text</code>, <code>link</code>, and <code>quote</code> are supported.</li>
+</ul>
+<p>
+    The <code>format</code> and <code>group</code> parameters from <code>/api/write</code> are also supported.
+</p>
+
+
+<h2 id="authenticate">/api/authenticate</h2>
+<p>
+    Send a POST request to <code>http://www.tumblr.com/api/authenticate</code>
+    with only the <code>email</code> and <code>password</code> parameters to
+    validate credentials and get account information, such as user limits
+    and blogs.
+</p>
+<p>
+    The output is XML. The root <code class="inline">&lt;tumblr&gt;</code> 
+    element contains one child <code class="inline">&lt;user&gt;</code> node,
+    plus one child <code class="inline">&lt;tumblelog&gt;</code> 
+    element per blog membership (including the user's default blog).
+</p>
+<p>
+    Attributes on <code class="inline">&lt;user&gt;</code>:
+</p>
+<ul>
+    <li>
+        <code class="inline">can-upload-audio</code>:
+        "<code>1</code>" if the user can currently upload an MP3 audio file.
+    </li>
+    <li>
+        <code class="inline">can-upload-aiff</code>:
+        "<code>1</code>" if the user can currently upload an AIFF audio file.
+    </li>
+    <li>
+        <code class="inline">can-upload-video</code>:
+        "<code>1</code>" if the user can currently upload video.
+        Requires the user to be logged into Vimeo through Tumblr.
+    </li>
+    <li>
+        <code class="inline">max-video-bytes-uploaded</code>:
+        Indicates the maximum number of bytes for the user's next video upload.
+        Requires the user to be logged into Vimeo through Tumblr.
+    </li>
+</ul>
+<p>
+    Attributes on <code class="inline">&lt;tumblelog&gt;</code>:
+</p>
+<ul>
+    <li>
+        <code class="inline">title</code>
+    </li>
+    <li>
+        <code class="inline">type</code>:
+        <code class="inline">public</code> or
+        <code class="inline">private</code>
+    </li>
+    <li>
+        <code class="inline">private-id</code> (private blogs only): 
+        The ID number for private blogs. Use this value for the
+        <code class="inline">group</code> parameter on 
+        <code class="inline">/api/write</code>.
+    </li>
+    <li>
+        <code class="inline">name</code> (public blogs only)
+    </li>
+    <li>
+        <code class="inline">url</code> (public blogs only)
+    </li>
+    <li>
+        <code class="inline">avatar-url</code> (public blogs only)
+    </li>
+    <li>
+        <code class="inline">is-primary</code>:
+        <code class="inline">yes</code> if this is the user's primary/default
+        blog
+    </li>
+</ul>
+<p>
+    You may optionally pass the <code>include-theme=1</code> parameter, which
+    will add these sub-elements to the <code class="inline">&lt;tumblelog&gt;</code> element:
+</p>
+<ul>
+    <li>
+        <code class="inline">&lt;description&gt;</code>: the Description value from the Customize screen.
+    </li>
+    <li>
+        <code class="inline">&lt;custom-css&gt;</code>: the Custom CSS value from the Customize screen.
+    </li>
+    <li>
+        <code class="inline">&lt;theme-source&gt;</code>: the Custom HTML value from the Customize screen if a custom theme is in use. This is useful for writing tools to back up your custom theme code.
+    </li>
+</ul>
+
+<h3>Deprecated</h3>
+<p>
+    The following values of <code>action</code> are deprecated and may be removed in the future.
+</p>
+<ul>
+    <li><code>list-tumblelogs</code></li>
+    <li><code>check-vimeo</code></li>
+    <li><code>check-audio</code></li>
+</ul>
+<p>
+    Their functionality is now included in <code class="inline">/api/authenticate</code>.
+</p>
+
+<h2 id="iphone">iPhone</h2>
+
+<p>For iPhone apps that want to display a user's Dashboard, Tumblr offers an iPhone-optimized view at <a href="http://www.tumblr.com/iphone">http://www.tumblr.com/iphone</a>.</p>
+
+<p>
+    To avoid making the user log into Tumblr separately if you already have their credentials, 
+    you can send an HTTP POST to <code class="inline">http://www.tumblr.com/login</code>
+    with these form-encoded parameters:
+</p>
+
+<ul>
+    <li><code class="inline">email</code></li>
+    <li><code class="inline">password</code></li>
+    <li><code class="inline">redirect_to</code>: the <b>relative</b> destination URL to open after a successful login</li>
+</ul>
+
+<p>Example Cocoa code:</p>
+
+<pre style="font-size: 11px;">NSString *email           = @"example@email.com";
+NSString *password        = @"password";
+NSString *destination_url = @"/iphone";
+
+NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+    initWithURL:[NSURL URLWithString:@"http://www.tumblr.com/login"]
+];
+[request setHTTPMethod:@"POST"];
+NSString *request_body = [NSString 
+    stringWithFormat:@"email=%@&password=%@&redirect_to=%@",
+    [email           stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+    [password        stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+    [destination_url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+];
+[request setHTTPBody:[request_body dataUsingEncoding:NSUTF8StringEncoding]];
+/* Load the request here with an NDA-covered iPhone component
+   that can view the web.
+*/
+[request release];</pre>        
+        <div class="clear"></div>     </div>
+</div>
+
+    <div id="right_column" style="width:210px; float:right;">
+            
+            </div>
+
+<div class="clear"></div>
+
+            </div>
+            
+            <img src="http://assets.tumblr.com/images/content_bottom.png?alpha" alt="" id="content_bottom"
+            />            
+            <div id="footer">
+                <div>
+                    <strong>&copy; Tumblr, Inc.</strong>
+                    <a href="/help">Help</a>
+                    <a href="/about">About</a>
+                                                                <a href="/developers">Developers</a>
+                                        <a href="/themes/" title="Tumblr Themes">Themes</a>
+                    <a href="/meetups">Meetups</a>
+                    <a href="/jobs" onclick="this.href = '/jobs?Tumblr+Footer';">Jobs</a>
+                    <a href="/policy">Terms</a>
+                    
+                                    </div>
+                            </div>
+        </div>
+        
+                
+                
+        <script type="text/javascript">
+                        
+            start_processing_image_queue();
+            
+            var default_search_text = 'Search Tumblr';
+                                    
+                    </script>
+        
+        
+
+    <script type="text/javascript">
+        _qoptions = { qacct: 'p-19UtqE8ngoZbM' };
+    </script>
+    <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+    <noscript>
+        <img src="http://pixel.quantserve.com/pixel/p-19UtqE8ngoZbM.gif"
+        style="display:none; border-width:0px; height:1px; width:1px;"/>
+    </noscript>
+        
+    </body>
+</html>
