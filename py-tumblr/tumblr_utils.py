@@ -4,6 +4,7 @@ import logging
 import os
 import os.path
 import requests
+import tempfile
 from tumblpy import Tumblpy, TumblpyError
 from zipfile import ZipFile, ZipInfo
 
@@ -46,23 +47,23 @@ def choose_photo_url(photo):
         return url
 
 
-def choose_download_prefix(type, blog_url, start_date, end_date):
+def show_date_range(start_date, end_date):
     '''
-    Given a start and end datetime, and a download type,
-    choose an archive name prefix.
+    Given a start and end datetime, show the days.
     '''
 
+    ymd = '%Y-%m-%d'
     if start_date is not None:
-        start_ts = start_date.timestamp()
+        start = start_date.strftime(ymd)
     else:
-        start_ts = 0
+        start = datetime.datetime.utcfromtimestamp(0).strftime(ymd)
 
     if end_date is not None:
-        end_ts = end_date.timestamp()
+        end = end_date.strftime(ymd)
     else:
-        end_ts = datetime.datetime.utcnow().timestamp()
+        end = datetime.datetime.utcnow().strftime(ymd)
 
-    return '%s_from_%s_dates_%s_to_%s' % (type, blog_url, start_ts, end_ts)
+    return '%s_to_%s' % (start, end)
 
 
 def save_photo_file(archive, prefix, url, id, timestamp):
@@ -114,14 +115,16 @@ class TumblrUtils:
         so the start and end dates will filter what the API returns naively.
         '''
 
+        logging.warning('Querying for posts in date range between %s and %s.' % (start_date, end_date))
         resp = self.api.posts(blog_url = self.blog_url, post_type = post_type)
         # TODO: add limit and offset to Tumblpy (or remove from Tumblpy docs)
+        logging.warning('Filtering from %s posts.' % (len(resp['posts']),))
         
         def in_range(post):
             post_date = datetime.datetime.utcfromtimestamp(post['timestamp'])
             return in_date_range(post_date, start_date, end_date)
-
         matching_posts = filter(in_range, resp['posts'])
+        logging.warning('Found %s posts.' % (len(list(matching_posts)),))
 
         #print(json.dumps(matching_posts, sort_keys=True, indent=3))
         return matching_posts
@@ -134,8 +137,12 @@ class TumblrUtils:
         Warning: the limit and offset properties aren't yet supported,
         so the start and end dates will filter what the API returns naively.
         '''
-        prefix = choose_download_prefix('photos', self.blog_url, start_date, end_date)
-        zipfile_name = '%s.zip' % (prefix,)
+
+        tmpdir = tempfile.mkdtemp(prefix='ninlil_')
+
+        zipfile_prefix = 'tumblr_photos_%s' % (show_date_range(start_date, end_date),)
+        zipfile_name = '%s.zip' % (zipfile_prefix,)
+        zipfile_path = os.path.join(tmpdir, zipfile_name)
 
         posts = self.query_posts(
                 post_type = 'photo',
@@ -143,13 +150,13 @@ class TumblrUtils:
                 end_date = end_date
             )
 
-        with ZipFile(zipfile_name, 'w') as archive:
+        with ZipFile(zipfile_path, 'w') as archive:
             for post in posts:
                 for photo in post['photos']:
                     url = choose_photo_url(photo)
-                    save_photo_file(archive, prefix, url, post['id'], post['timestamp'])
+                    save_photo_file(archive, zipfile_prefix, url, post['id'], post['timestamp'])
 
-        return zipfile_name
+        return zipfile_path
 
 
     def delete_post(self, id):
