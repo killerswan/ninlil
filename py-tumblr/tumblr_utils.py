@@ -144,13 +144,6 @@ class TumblrUtils:
         Warning: the limit and offset properties aren't yet supported,
         so the start and end dates will filter what the API returns naively.
         '''
-
-        tmpdir = tempfile.mkdtemp(prefix='ninlil_')
-
-        zipfile_prefix = 'tumblr_photos_%s' % (show_date_range(start_date, end_date),)
-        zipfile_name = '%s.zip' % (zipfile_prefix,)
-        zipfile_path = os.path.join(tmpdir, zipfile_name)
-
         posts = self.query_posts(
                 post_type = 'photo',
                 start_date = start_date,
@@ -158,6 +151,18 @@ class TumblrUtils:
             )
 
         logging.warning('About to download %s posts.' % len(posts))
+
+        if len(posts) == 0:
+            '''
+            If there are no posts to download, don't build a ZIP.
+            '''
+            return None
+
+        tmpdir = tempfile.mkdtemp(prefix='ninlil_')
+
+        zipfile_prefix = 'tumblr_photos_%s' % (show_date_range(start_date, end_date),)
+        zipfile_name = '%s.zip' % (zipfile_prefix,)
+        zipfile_path = os.path.join(tmpdir, zipfile_name)
 
         with ZipFile(zipfile_path, 'w') as archive:
             for post in posts:
