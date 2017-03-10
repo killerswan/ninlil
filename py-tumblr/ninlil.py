@@ -6,6 +6,8 @@
 
 from flask import Flask, render_template, request, session, redirect, url_for
 import iso8601
+import os
+import os.path
 import shutil
 
 from appconfig import read_config
@@ -118,12 +120,19 @@ def tumblr_save_confirm():
         session['tumblr_save__end_date']
     )
 
-    'Move the ZIP for downloading.'
-    # FIXME: delete or overwrite duplicates
-    zipfile = shutil.move(zipfile_tmp, 'static/downloads/')
+    try:
+        'Move the ZIP for downloading.'
+        target = os.path.join('static/downloads', os.path.basename(zipfile_tmp))
+        if os.path.lexists(target):
+            os.remove(target)
+        zipfile = shutil.move(zipfile_tmp, target)
 
-    'Update the session to reduce duplicate archiving.'
-    session['tumblr_save__zipfile'] = zipfile
+        'Update the session to reduce duplicate archiving.'
+        session['tumblr_save__zipfile'] = zipfile
+
+    except Exception:
+        raise Exception('Could not export the ZIP archive!')
+
 
     return render_template('tumblr_save_confirm.jinja.html', zipfile = zipfile)
 

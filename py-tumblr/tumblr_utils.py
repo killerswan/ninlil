@@ -1,5 +1,5 @@
 import datetime
-#import json
+import json
 import logging
 import os
 import os.path
@@ -15,10 +15,14 @@ def in_date_range(date, start = None, end = None):
     '''
     Check if a date is within a (possibly open) range.
     '''
+    logging.warning('Checking if date %s is between %s and %s' % (date, start, end))
+
     if end is not None and not date < end:
+        logging.warning('Date %s is after %s' % (date, end))
         return False
     
     if start is not None and not start <= date:
+        logging.warning('Date %s is before %s' % (date, start))
         return False
 
     return True
@@ -79,7 +83,9 @@ def save_photo_file(archive, prefix, url, id, timestamp):
         )
 
     'download it'
+    logging.warning('Attempting to download URL: %s' % url)
     photo_data = requests.get(url).content
+    logging.warning('Content found, length: %s' % len(photo_data))
 
     'save it in the archive'
     with archive.open(metadata, 'w') as dl:
@@ -120,14 +126,14 @@ class TumblrUtils:
         resp = self.api.posts(blog_url = self.blog_url, post_type = post_type)
         # TODO: add limit and offset to Tumblpy (or remove from Tumblpy docs)
         logging.warning('Filtering from %s posts.' % (len(resp['posts']),))
+        #logging.warning(json.dumps(resp['posts'], sort_keys=True, indent=3))
         
         def in_range(post):
             post_date = datetime.datetime.utcfromtimestamp(post['timestamp'])
             return in_date_range(post_date, start_date, end_date)
-        matching_posts = filter(in_range, resp['posts'])
-        logging.warning('Found %s posts.' % (len(list(matching_posts)),))
+        matching_posts = list(filter(in_range, resp['posts']))
 
-        #print(json.dumps(matching_posts, sort_keys=True, indent=3))
+        logging.warning('Found %s posts.' % (len(matching_posts),))
         return matching_posts
 
 
@@ -151,8 +157,12 @@ class TumblrUtils:
                 end_date = end_date
             )
 
+        logging.warning('About to download %s posts.' % len(posts))
+
         with ZipFile(zipfile_path, 'w') as archive:
             for post in posts:
+                logging.warning('About to download %s photos.' % len(list(post['photos'])))
+
                 for photo in post['photos']:
                     url = choose_photo_url(photo)
                     save_photo_file(archive, zipfile_prefix, url, post['id'], post['timestamp'])
