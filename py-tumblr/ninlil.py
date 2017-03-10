@@ -119,6 +119,7 @@ def tumblr_save_confirm():
     )
 
     'Move the ZIP for downloading.'
+    # FIXME: delete or overwrite duplicates
     zipfile = shutil.move(zipfile_tmp, 'static/downloads/')
 
     'Update the session to reduce duplicate archiving.'

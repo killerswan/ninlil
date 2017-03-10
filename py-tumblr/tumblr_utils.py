@@ -111,8 +111,9 @@ class TumblrUtils:
 
         Possible types: text, quote, link, answer, video, audio, photo, chat.
 
-        Warning: the limit and offset properties aren't yet supported,
+        FIXME: the limit and offset properties aren't yet supported,
         so the start and end dates will filter what the API returns naively.
+        Apparently only the latest 20 posts, by default!!!
         '''
 
         logging.warning('Querying for posts in date range between %s and %s.' % (start_date, end_date))
