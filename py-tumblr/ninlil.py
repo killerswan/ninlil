@@ -5,10 +5,11 @@
 # * page for deletions
 
 from flask import Flask, render_template, request, session, redirect, url_for
+import iso8601
 
 from appconfig import read_config
-
 import tumblr_auth
+from tumblr_utils import TumblrUtils
 
 
 conf = read_config()
@@ -37,8 +38,9 @@ def tumblr_save_auth():
     '''
     session['tumblr_save__blog_url'] = request.values.get('blog_url')
     session['tumblr_save__email'] = request.values.get('email')
-    session['tumblr_save__start_date'] = request.values.get('start_date')
-    session['tumblr_save__end_date'] = request.values.get('end_date')
+    session['tumblr_save__start_date'] = iso8601.parse_date(request.values.get('start_date'))
+    session['tumblr_save__end_date'] = iso8601.parse_date(request.values.get('end_date'))
+    # note: to go back from datetime to ISO 8601: dt.isoformat()
 
     'Set up an auth URL which will redirect back to another of our routes.'
     next_route = url_for('tumblr_save_confirm', _external = True)
@@ -71,6 +73,19 @@ def tumblr_save_confirm():
     session['tumblr_save__final_oauth_token_secret'] = final_oauth_token_secret
 
     'Download photos.'
+    tu = TumblrUtils(
+        final_oauth_token,
+        final_oauth_token_secret,
+        session['tumblr_save__blog_url'],
+    )
+    zipfile_name = tu.save_photos(
+        session['tumblr_save__start_date'],
+        session['tumblr_save__end_date']
+    )
+
+    'Move the ZIP for downloading.'
+    # TODO
+    print zipfile_name
     
     return render_template('tumblr_save_confirm.jinja.html')
 
