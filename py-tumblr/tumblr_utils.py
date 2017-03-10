@@ -10,10 +10,13 @@ from tumblr_auth import read_config
 
 
 def in_date_range(date, start = None, end = None):
-    if start is not None and end <= date:
+    '''
+    Check if a date is within a (possibly open) range.
+    '''
+    if end is not None and not date < end:
         return False
     
-    if end is not None and date < start:
+    if start is not None and not start <= date:
         return False
 
     return True
@@ -138,11 +141,13 @@ class TumblrUtils:
         Warning: the limit and offset properties aren't yet supported,
         so the start and end dates will filter what the API returns naively.
         '''
-        posts = self.query_posts(
+        posts = list(self.query_posts(
                 post_type = post_type,
                 start_date = start_date,
                 end_date = end_date
-            )
+            ))
+
+        logging.warning('deleting %s posts in date range between %s and %s' % (len(posts), start_date, end_date))
 
         for post in posts:
             self.delete_post(post['id'])
