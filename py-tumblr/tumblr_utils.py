@@ -5,7 +5,7 @@ import os
 import os.path
 import requests
 from tumblpy import Tumblpy, TumblpyError
-from zipfile import ZipFile
+from zipfile import ZipFile, ZipInfo
 
 from tumblr_auth import read_config
 
@@ -23,19 +23,24 @@ def in_date_range(date, start = None, end = None):
     return True
 
 
-def save_photo_file(archive, prefix, url, id):
+def save_photo_file(archive, prefix, url, id, timestamp):
     '''
     Given a photo URL, download and save it.
     '''
-    download_name = '%s/%s_%s' % (
-            prefix,
-            id,
-            os.path.basename(url),
+
+    '''derive it's name and date'''
+    date = datetime.datetime.utcfromtimestamp(timestamp)
+    metadata = ZipInfo(
+            filename = '%s/%s_%s' % (prefix, id, os.path.basename(url)),
+            date_time = (date.year, date.month, date.day, date.hour, date.minute, date.second),
         )
+
+    'download it'
     photo_data = requests.get(url).content
-    with archive.open(download_name, 'w') as dl:
+
+    'save it in the archive'
+    with archive.open(metadata, 'w') as dl:
         dl.write(photo_data)
-    return download_name
 
 
 class TumblrUtils:
@@ -113,7 +118,7 @@ class TumblrUtils:
                     try:
                         'maybe the original is available'
                         url = photo['original_size']['url']
-                        save_photo_file(archive, prefix, url, post['id'])
+                        save_photo_file(archive, prefix, url, post['id'], post['timestamp'])
 
                     except KeyError:
                         'find the biggest alternate'
@@ -124,7 +129,7 @@ class TumblrUtils:
                             if max_height < alt['height']:
                                 max_height = alt['height']
                                 url = alt['url']
-                        save_photo_file(archive, prefix, url, post['id'])
+                        save_photo_file(archive, prefix, url, post['id'], post['timestamp'])
 
         
 
