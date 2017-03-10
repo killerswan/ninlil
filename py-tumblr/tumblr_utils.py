@@ -5,6 +5,7 @@ import os
 import os.path
 import requests
 from tumblpy import Tumblpy, TumblpyError
+from zipfile import ZipFile
 
 from tumblr_auth import read_config
 
@@ -22,21 +23,19 @@ def in_date_range(date, start = None, end = None):
     return True
 
 
-def save_photo_file(url, blog_name, id):
+def save_photo_file(archive, prefix, url, id):
     '''
     Given a photo URL, download and save it.
     '''
-    download_name = 'dl_%s_%s_%s' % (
-            blog_name,
+    download_name = '%s/%s_%s' % (
+            prefix,
             id,
             os.path.basename(url),
         )
     photo_data = requests.get(url).content
-    with open(download_name, 'wb') as dl:
-        #print('Saving %s as %s.' % (url, download_name))
+    with archive.open(download_name, 'w') as dl:
         dl.write(photo_data)
     return download_name
-
 
 
 class TumblrUtils:
@@ -94,27 +93,40 @@ class TumblrUtils:
                 end_date = end_date
             )
 
-        photo_files = []
+        if start_date is not None:
+            start_ts = start_date.timestamp()
+        else:
+            start_ts = 0
 
-        for post in posts:
+        if end_date is not None:
+            end_ts = end_date.timestamp()
+        else:
+            end_ts = datetime.datetime.utcnow().timestamp()
 
-            for photo in post['photos']:
-                try:
-                    'maybe the original is available'
-                    url = photo['original_size']['url']
-                    photo_files.append(save_photo_file(url, post['blog_name'], post['id']))
+        prefix = 'photos_from_%s_dates_%s_to_%s' % (self.blog_url, start_ts, end_ts)
 
-                except KeyError:
-                    'find the biggest alternate'
-                    max_height = 0
-                    url = None
+        with ZipFile('%s.zip' % (prefix,), 'w') as archive:
 
-                    for alt in photo['alt_sizes']:
-                        if max_height < alt['height']:
-                            max_height = alt['height']
-                            url = alt['url']
-                    save_photo_file(url)
-                    photo_files.append(save_photo_file(url, post['blog_name'], post['id']))
+            for post in posts:
+
+                for photo in post['photos']:
+                    try:
+                        'maybe the original is available'
+                        url = photo['original_size']['url']
+                        save_photo_file(archive, prefix, url, post['id'])
+
+                    except KeyError:
+                        'find the biggest alternate'
+                        max_height = 0
+                        url = None
+
+                        for alt in photo['alt_sizes']:
+                            if max_height < alt['height']:
+                                max_height = alt['height']
+                                url = alt['url']
+                        save_photo_file(archive, prefix, url, post['id'])
+
+        
 
 
     def delete_post(self, id):
