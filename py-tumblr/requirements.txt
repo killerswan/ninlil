@@ -1,0 +1,3 @@
+python-tumblpy
+Flask
+gunicorn

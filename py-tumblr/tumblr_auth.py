@@ -1,16 +1,7 @@
 import os
 import os.path
 from tumblpy import Tumblpy, TumblpyError
-
-
-def read_config():
-    '''
-    Read the consumer key and secret from configuration.
-    '''
-    return {
-        'consumer_key': os.environ['TUMBLR_CONSUMER_KEY'],
-        'consumer_secret': os.environ['TUMBLR_CONSUMER_SECRET'],
-    }
+from appconfig import read_config
 
 
 def oauth_initial_auth(callback_url):

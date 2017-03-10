@@ -7,7 +7,7 @@ import requests
 from tumblpy import Tumblpy, TumblpyError
 from zipfile import ZipFile, ZipInfo
 
-from tumblr_auth import read_config
+from appconfig import read_config
 
 
 def in_date_range(date, start = None, end = None):
@@ -135,6 +135,7 @@ class TumblrUtils:
         so the start and end dates will filter what the API returns naively.
         '''
         prefix = choose_download_prefix('photos', self.blog_url, start_date, end_date)
+        zipfile_name = '%s.zip' % (prefix,)
 
         posts = self.query_posts(
                 post_type = 'photo',
@@ -142,11 +143,13 @@ class TumblrUtils:
                 end_date = end_date
             )
 
-        with ZipFile('%s.zip' % (prefix,), 'w') as archive:
+        with ZipFile(zipfile_name, 'w') as archive:
             for post in posts:
                 for photo in post['photos']:
                     url = choose_photo_url(photo)
                     save_photo_file(archive, prefix, url, post['id'], post['timestamp'])
+
+        return zipfile_name
 
 
     def delete_post(self, id):
@@ -179,7 +182,7 @@ class TumblrUtils:
                 end_date = end_date
             ))
 
-        logging.warning('deleting %s posts in date range between %s and %s' % (len(posts), start_date, end_date))
+        logging.warning('Deleting %s posts in date range between %s and %s' % (len(posts), start_date, end_date))
 
         for post in posts:
             self.delete_post(post['id'])
