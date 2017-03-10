@@ -85,7 +85,7 @@ def tumblr_save_confirm():
 
     'Move the ZIP for downloading.'
     # TODO
-    print zipfile_name
+    print(zipfile_name)
     
     return render_template('tumblr_save_confirm.jinja.html')
 
