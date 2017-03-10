@@ -126,11 +126,11 @@ class TumblrUtils:
             return self.api.post(
                     blog_url = self.blog_url,
                     endpoint = 'post/delete',
-                    params = { 'id': 158169280796 }
+                    params = { 'id': id }
                 )
         except TumblpyError as ex:
             # TODO: put msg and error_code in the Tumblpy docs
-            logging.error('Error %s deleting a post: %s' % (ex.error_code, ex.msg))
+            logging.error('Error %s deleting a post (id %s): %s' % (ex.error_code, id, ex.msg))
             return None
 
 
