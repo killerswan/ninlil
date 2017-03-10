@@ -23,6 +23,48 @@ def in_date_range(date, start = None, end = None):
     return True
 
 
+def choose_photo_url(photo):
+    '''
+    Given a Tumblr photo post,
+    look at the "original_size" and "alt_sizes"
+    to choose the largest file's URL.
+    '''
+    try:
+        'maybe the original is available'
+        url = photo['original_size']['url']
+        return url
+
+    except KeyError:
+        'find the biggest alternate'
+        max_height = 0
+        url = None
+
+        for alt in photo['alt_sizes']:
+            if max_height < alt['height']:
+                max_height = alt['height']
+                url = alt['url']
+        return url
+
+
+def choose_download_prefix(type, blog_url, start_date, end_date):
+    '''
+    Given a start and end datetime, and a download type,
+    choose an archive name prefix.
+    '''
+
+    if start_date is not None:
+        start_ts = start_date.timestamp()
+    else:
+        start_ts = 0
+
+    if end_date is not None:
+        end_ts = end_date.timestamp()
+    else:
+        end_ts = datetime.datetime.utcnow().timestamp()
+
+    return '%s_from_%s_dates_%s_to_%s' % (type, blog_url, start_ts, end_ts)
+
+
 def save_photo_file(archive, prefix, url, id, timestamp):
     '''
     Given a photo URL, download and save it.
@@ -92,46 +134,19 @@ class TumblrUtils:
         Warning: the limit and offset properties aren't yet supported,
         so the start and end dates will filter what the API returns naively.
         '''
+        prefix = choose_download_prefix('photos', self.blog_url, start_date, end_date)
+
         posts = self.query_posts(
                 post_type = 'photo',
                 start_date = start_date,
                 end_date = end_date
             )
 
-        if start_date is not None:
-            start_ts = start_date.timestamp()
-        else:
-            start_ts = 0
-
-        if end_date is not None:
-            end_ts = end_date.timestamp()
-        else:
-            end_ts = datetime.datetime.utcnow().timestamp()
-
-        prefix = 'photos_from_%s_dates_%s_to_%s' % (self.blog_url, start_ts, end_ts)
-
         with ZipFile('%s.zip' % (prefix,), 'w') as archive:
-
             for post in posts:
-
                 for photo in post['photos']:
-                    try:
-                        'maybe the original is available'
-                        url = photo['original_size']['url']
-                        save_photo_file(archive, prefix, url, post['id'], post['timestamp'])
-
-                    except KeyError:
-                        'find the biggest alternate'
-                        max_height = 0
-                        url = None
-
-                        for alt in photo['alt_sizes']:
-                            if max_height < alt['height']:
-                                max_height = alt['height']
-                                url = alt['url']
-                        save_photo_file(archive, prefix, url, post['id'], post['timestamp'])
-
-        
+                    url = choose_photo_url(photo)
+                    save_photo_file(archive, prefix, url, post['id'], post['timestamp'])
 
 
     def delete_post(self, id):
