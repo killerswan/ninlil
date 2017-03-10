@@ -123,8 +123,15 @@ class TumblrUtils:
         '''
 
         logging.warning('Querying for posts in date range between %s and %s.' % (start_date, end_date))
-        resp = self.api.posts(blog_url = self.blog_url, post_type = post_type)
-        # TODO: add limit and offset to Tumblpy (or remove from Tumblpy docs)
+        resp = self.api.posts(
+            blog_url = self.blog_url,
+            post_type = post_type,
+            kwargs = { 'limit':40, 'offset':10000 }
+        )
+
+        # TODO: fix Tumblpy's confusion about keyword arguments
+        # TODO: cycle through many queries to get ~ALL the posts so we can filter by date
+
         logging.warning('Filtering from %s posts.' % (len(resp['posts']),))
         #logging.warning(json.dumps(resp['posts'], sort_keys=True, indent=3))
         
@@ -170,7 +177,7 @@ class TumblrUtils:
 
                 for photo in post['photos']:
                     url = choose_photo_url(photo)
-                    save_photo_file(archive, zipfile_prefix, url, post['id'], post['timestamp'])
+                    #save_photo_file(archive, zipfile_prefix, url, post['id'], post['timestamp'])
 
         return zipfile_path
 
