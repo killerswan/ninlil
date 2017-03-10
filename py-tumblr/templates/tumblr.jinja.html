@@ -1,0 +1,62 @@
+<html>
+<body>
+    <h1>Ninlil</h1>
+
+    <h2>Tumblr archiving</h2>
+
+    <p>To archive a portion of your old photo posts
+        (non-photo archiving is in development), click below.
+        You'll then be redirected to a Tumblr page to authorize
+        this app to read your posts, and back here
+        to a page which will provide a download ZIP!
+
+    <form action='/tumblr_save_auth' method='POST'>
+        Tumblr blog:<br>
+        <input type='text' name='blog_url' size=50 value='<your-blog>.tumblr.com'>
+        <br>
+        <br>
+        Email address (optional):<br>
+        <input type='email' name='email' size=50>
+        <br>
+        <br>
+        Start date:<br>
+        <input type='datetime-local' name='start_date' value='2011-01-01T00:00:01'>
+        <br>
+        <br>
+        End date:<br>
+        <input type='datetime-local' name='end_date' value='2019-12-31T23:59:59'>
+        <br>
+        <br>
+        <input type='submit' value='Archive photos' title='Create a ZIP archive of photos from image posts'>
+        </form> 
+
+
+    <h2>Tumblr cleanup</h2>
+
+    <p>To delete all kinds of old posts, click below!
+       Please archive photos (and otherwise backup other posts) first!!
+
+    <form action='/tumblr_delete_auth' method='POST'>
+        Tumblr blog:<br>
+        <input type='text' name='blog_url' size=50 value='<your-blog>.tumblr.com'>
+        <br>
+        <br>
+        Email address (optional):<br>
+        <input type='email' name='email' size=50>
+        <br>
+        <br>
+        Start date:<br>
+        <input type='datetime-local' name='start_date' value='2011-01-01T00:00:01'>
+        <br>
+        <br>
+        End date:<br>
+        <input type='datetime-local' name='end_date' value='2019-12-31T23:59:59'>
+        <br>
+        <br>
+        <input type='submit' value='Delete photos' title='Not yet implemented' disabled>
+        </form> 
+
+
+
+</body>
+</html>
